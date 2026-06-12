@@ -72,6 +72,15 @@ npm test
 
 The threat engine is fully covered: distances, track projection, every level boundary, multi-storm worst-case selection, and missing-data fallbacks.
 
+## CI/CD
+
+Two workflows in `.github/workflows/`:
+
+- **CI** (every PR and push): unit tests, then the real thing — builds the image, boots it in replay mode, and asserts the threat ladder actually climbs to IMMINENT and returns to ALL CLEAR via the API, plus a Trivy scan that fails the build on HIGH/CRITICAL vulnerabilities.
+- **Release** (push to main): always publishes the image to GHCR (`ghcr.io/christophercorbin/hurricane-ready`). When the AWS repo variables are set, it additionally assumes a role via OIDC (no stored keys), pushes to ECR, and force-redeploys the ECS service.
+
+To wire an AWS account: `cd infra && tofu apply` there, then set the outputs as GitHub repo variables (`AWS_DEPLOY_ROLE_ARN`, `ECR_REPOSITORY`, and later `ECS_CLUSTER`/`ECS_SERVICE`). Until then the pipeline is fully functional against GHCR — anyone can `docker run ghcr.io/christophercorbin/hurricane-ready`.
+
 ## Limitations & roadmap
 
 - Track projection is dead reckoning from current motion, not the official NHC forecast cone — good for a personal alerting layer, not a replacement for official products. Parsing the NHC GIS cone is the headline roadmap item.

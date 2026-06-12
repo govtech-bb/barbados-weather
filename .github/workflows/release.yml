@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write   # GHCR
+  id-token: write   # AWS OIDC (used only when AWS vars are set)
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: |
+          docker build \
+            -t hurricane-ready:${GITHUB_SHA::12} \
+            -t hurricane-ready:latest .
+
+      # ---------- GHCR (always; no cloud account needed) ----------
+
+      - name: Push to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          GHCR="ghcr.io/${GITHUB_REPOSITORY,,}"
+          docker tag hurricane-ready:latest "$GHCR:latest"
+          docker tag hurricane-ready:latest "$GHCR:${GITHUB_SHA::12}"
+          docker push "$GHCR:latest"
+          docker push "$GHCR:${GITHUB_SHA::12}"
+
+      # ---------- AWS (activates when AWS_DEPLOY_ROLE_ARN repo variable is set) ----------
+
+      - name: Assume AWS role via OIDC
+        if: vars.AWS_DEPLOY_ROLE_ARN != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Push to ECR
+        if: vars.AWS_DEPLOY_ROLE_ARN != ''
+        run: |
+          aws ecr get-login-password --region "$AWS_REGION" \
+            | docker login --username AWS --password-stdin "${{ vars.ECR_REPOSITORY }}"
+          docker tag hurricane-ready:latest "${{ vars.ECR_REPOSITORY }}:latest"
+          docker tag hurricane-ready:latest "${{ vars.ECR_REPOSITORY }}:${GITHUB_SHA::12}"
+          docker push "${{ vars.ECR_REPOSITORY }}:latest"
+          docker push "${{ vars.ECR_REPOSITORY }}:${GITHUB_SHA::12}"
+
+      - name: Redeploy ECS service
+        if: vars.AWS_DEPLOY_ROLE_ARN != '' && vars.ECS_CLUSTER != '' && vars.ECS_SERVICE != ''
+        run: |
+          aws ecs update-service \
+            --cluster "${{ vars.ECS_CLUSTER }}" \
+            --service "${{ vars.ECS_SERVICE }}" \
+            --force-new-deployment \
+            --region "$AWS_REGION"
+          aws ecs wait services-stable \
+            --cluster "${{ vars.ECS_CLUSTER }}" \
+            --services "${{ vars.ECS_SERVICE }}" \
+            --region "$AWS_REGION"

@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Syntax check all modules
+        run: |
+          for f in src/*.mjs test/*.mjs; do node --check "$f"; done
+
+      - name: Unit tests (threat engine)
+        run: npm test
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t hurricane-ready:ci .
+
+      - name: Boot in replay mode and verify the threat ladder
+        run: |
+          docker run -d --name hr \
+            -e REPLAY=1 -e DISABLE_AI=1 -e REPLAY_INTERVAL_SECONDS=1 \
+            -p 8080:8080 hurricane-ready:ci
+
+          # healthcheck comes up
+          for i in $(seq 1 15); do
+            curl -sf http://localhost:8080/healthz && break
+            sleep 1
+          done
+          curl -sf http://localhost:8080/healthz
+
+          # replay must reach IMMINENT and return to ALL_CLEAR
+          sleep 14
+          STATUS=$(curl -sf http://localhost:8080/api/status)
+          echo "$STATUS" | jq -e '.history | map(.to) | index("IMMINENT") != null' \
+            || (echo "Replay never reached IMMINENT"; echo "$STATUS" | jq .history; exit 1)
+          echo "$STATUS" | jq -e '.level == "ALL_CLEAR"' \
+            || (echo "Replay did not return to ALL_CLEAR"; exit 1)
+
+          # dashboard serves
+          curl -sf http://localhost:8080/ | grep -q "Hurricane-Ready"
+
+      - name: Container logs (on failure)
+        if: failure()
+        run: docker logs hr
+
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t hurricane-ready:scan .
+
+      - name: Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: hurricane-ready:scan
+          format: table
+          exit-code: "1"
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
