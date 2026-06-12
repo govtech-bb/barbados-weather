@@ -2,7 +2,7 @@ services:
   hurricane-ready:
     build: .
     ports:
-      - "8080:8080"
+      - "${HOST_PORT:-8080}:8080"
     environment:
       # --- Island (defaults: Barbados) ---
       ISLAND_NAME: ${ISLAND_NAME:-Barbados}
