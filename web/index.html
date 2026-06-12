@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hurricane-Ready | Barbados Storm Watch</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --all-clear: #16a34a;
+      --watch: #eab308;
+      --warning: #f97316;
+      --imminent: #dc2626;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+    }
+    header { padding: 1rem 1.5rem; display: flex; align-items: baseline; gap: 0.75rem; }
+    header h1 { font-size: 1.15rem; }
+    header .mode { font-size: 0.75rem; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 0.15rem 0.5rem; }
+
+    .banner {
+      margin: 0 1.5rem 1rem; border-radius: 14px; padding: 1.1rem 1.4rem;
+      font-size: 1.3rem; font-weight: 800; letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .banner small { font-size: 0.8rem; font-weight: 500; opacity: 0.9; }
+    .ALL_CLEAR { background: var(--all-clear); }
+    .WATCH     { background: var(--watch); color: #1c1917; }
+    .WARNING   { background: var(--warning); color: #1c1917; }
+    .IMMINENT  { background: var(--imminent); animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.25); } }
+
+    main {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem;
+      padding: 0 1.5rem 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+    @media (max-width: 880px) { main { grid-template-columns: 1fr; } }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .card h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 0.8rem 1rem 0.4rem; }
+    #map { height: 380px; }
+
+    .briefing { padding: 0.4rem 1rem 1rem; white-space: pre-wrap; line-height: 1.6; font-size: 0.92rem; }
+    .briefing-source { font-size: 0.72rem; color: var(--muted); padding: 0 1rem 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { text-align: left; padding: 0.5rem 1rem; border-top: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; }
+
+    .history { padding: 0.3rem 1rem 1rem; font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+    .replay-label { padding: 0 1rem 0.8rem; font-size: 0.8rem; color: var(--muted); font-style: italic; }
+
+    footer { text-align: center; font-size: 0.75rem; color: var(--muted); padding: 0 1.5rem 1.5rem; line-height: 1.6; }
+    footer strong { color: #fca5a5; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌀 Hurricane-Ready</h1>
+    <span id="island"></span>
+    <span class="mode" id="mode"></span>
+    <span class="mode" id="updated"></span>
+  </header>
+
+  <div id="banner" class="banner ALL_CLEAR">Loading…</div>
+
+  <main>
+    <section class="card">
+      <h2>Storm map</h2>
+      <div id="map"></div>
+    </section>
+
+    <section class="card">
+      <h2>Briefing</h2>
+      <p id="replay-label" class="replay-label"></p>
+      <div id="briefing" class="briefing">Loading…</div>
+      <p id="briefing-source" class="briefing-source"></p>
+    </section>
+
+    <section class="card" style="grid-column: 1 / -1;">
+      <h2>Active systems</h2>
+      <table>
+        <thead>
+          <tr><th>Storm</th><th>Class</th><th>Winds</th><th>Distance now</th><th>Closest approach</th><th>Level</th></tr>
+        </thead>
+        <tbody id="storms"><tr><td colspan="6">No active systems</td></tr></tbody>
+      </table>
+      <h2>Level history</h2>
+      <div id="history" class="history">—</div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Unofficial project.</strong> Threat levels are computed automatically and may be wrong.
+    Always follow official guidance from <a href="https://www.barbadosweather.org" style="color:#93c5fd">Barbados Meteorological Services</a>
+    and the Department of Emergency Management. · Built by <a href="https://christophercorbin.cloud" style="color:#93c5fd">Christopher Corbin</a>
+  </footer>
+
+  <script>
+    const LEVEL_TEXT = {
+      ALL_CLEAR: "ALL CLEAR",
+      WATCH: "WATCH — system active in the basin",
+      WARNING: "WARNING — prepare now",
+      IMMINENT: "IMMINENT — finish preparations, be ready to shelter",
+    };
+
+    let map, layerGroup;
+
+    function initMap(island) {
+      map = L.map("map", { zoomControl: false }).setView([island.lat, island.lon], 5);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+      layerGroup = L.layerGroup().addTo(map);
+    }
+
+    function render(s) {
+      document.getElementById("island").textContent = s.island.name;
+      document.getElementById("mode").textContent = s.mode === "replay" ? "REPLAY: Beryl 2024" : "LIVE: NHC feed";
+      document.getElementById("updated").textContent = s.updatedAt ? new Date(s.updatedAt).toUTCString().slice(5, 22) + " UTC" : "";
+
+      const banner = document.getElementById("banner");
+      banner.className = "banner " + s.level;
+      banner.innerHTML = LEVEL_TEXT[s.level] + (s.storms.length ? ` <small>${s.storms.map(x => x.name).join(", ")}</small>` : "");
+
+      document.getElementById("briefing").textContent = s.briefing ?? "—";
+      document.getElementById("briefing-source").textContent =
+        s.briefingSource === "claude" ? "Briefing written by Claude on Amazon Bedrock (level decided by deterministic engine)" :
+        s.briefingSource === "template" ? "Template briefing (AI unavailable); level decided by deterministic engine" : "";
+      document.getElementById("replay-label").textContent = s.replayLabel ?? "";
+
+      const rows = s.storms.map(st => `
+        <tr>
+          <td>${st.name}</td>
+          <td>${st.classification}</td>
+          <td>${st.intensityKt} kt</td>
+          <td>${st.assessment.distanceNowKm} km</td>
+          <td>${st.assessment.closestApproachKm} km in ~${st.assessment.closestApproachInHours}h</td>
+          <td>${st.assessment.level.replace("_", " ")}</td>
+        </tr>`).join("");
+      document.getElementById("storms").innerHTML = rows || '<tr><td colspan="6">No active systems</td></tr>';
+
+      document.getElementById("history").innerHTML = (s.history ?? []).slice(-8).reverse()
+        .map(h => `${new Date(h.at).toUTCString().slice(5, 22)} UTC — ${h.from.replace("_"," ")} → ${h.to.replace("_"," ")}`)
+        .join("<br>") || "No level changes yet";
+
+      if (!map) initMap(s.island);
+      layerGroup.clearLayers();
+      L.circleMarker([s.island.lat, s.island.lon], { radius: 7, color: "#93c5fd", fillOpacity: 0.9 })
+        .bindTooltip(s.island.name, { permanent: true, direction: "bottom" }).addTo(layerGroup);
+      for (const st of s.storms) {
+        L.circleMarker([st.lat, st.lon], { radius: 10, color: "#f87171", fillColor: "#dc2626", fillOpacity: 0.8 })
+          .bindTooltip(`${st.name} (${st.intensityKt} kt)`, { permanent: true, direction: "top" }).addTo(layerGroup);
+        L.polyline([[st.lat, st.lon], [s.island.lat, s.island.lon]], { color: "#475569", dashArray: "6 6", weight: 1 }).addTo(layerGroup);
+      }
+    }
+
+    async function refresh() {
+      try {
+        const res = await fetch("/api/status");
+        render(await res.json());
+      } catch { /* transient */ }
+    }
+
+    const start = () => { refresh(); setInterval(refresh, 5000); };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  </script>
+</body>
+</html>

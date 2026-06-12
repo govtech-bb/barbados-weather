@@ -1,0 +1,100 @@
+[
+  {
+    "label": "Invest develops in the central Atlantic",
+    "timestamp": "2024-06-28T18:00:00Z",
+    "storms": []
+  },
+  {
+    "label": "TD Two forms, far out in the Atlantic",
+    "timestamp": "2024-06-28T21:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Two", "classification": "TD",
+        "lat": 9.0, "lon": -42.0, "movementDir": 275, "movementSpeedKt": 18,
+        "intensityKt": 30, "pressureMb": 1006, "advisoryNum": "1"
+      }
+    ]
+  },
+  {
+    "label": "Tropical Storm Beryl named",
+    "timestamp": "2024-06-29T09:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Beryl", "classification": "TS",
+        "lat": 9.4, "lon": -45.5, "movementDir": 275, "movementSpeedKt": 18,
+        "intensityKt": 50, "pressureMb": 1000, "advisoryNum": "3"
+      }
+    ]
+  },
+  {
+    "label": "Beryl becomes a hurricane, still well east",
+    "timestamp": "2024-06-29T21:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Beryl", "classification": "HU",
+        "lat": 9.9, "lon": -48.5, "movementDir": 275, "movementSpeedKt": 18,
+        "intensityKt": 65, "pressureMb": 990, "advisoryNum": "5"
+      }
+    ]
+  },
+  {
+    "label": "Rapid intensification: Category 3",
+    "timestamp": "2024-06-30T09:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Beryl", "classification": "MH",
+        "lat": 10.3, "lon": -51.5, "movementDir": 275, "movementSpeedKt": 18,
+        "intensityKt": 100, "pressureMb": 970, "advisoryNum": "7"
+      }
+    ]
+  },
+  {
+    "label": "Category 4, approaching the Windwards",
+    "timestamp": "2024-06-30T21:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Beryl", "classification": "MH",
+        "lat": 10.6, "lon": -54.5, "movementDir": 275, "movementSpeedKt": 18,
+        "intensityKt": 115, "pressureMb": 954, "advisoryNum": "9"
+      }
+    ]
+  },
+  {
+    "label": "Hurricane warning conditions: closest approach window",
+    "timestamp": "2024-07-01T09:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Beryl", "classification": "MH",
+        "lat": 11.95, "lon": -59.1, "movementDir": 280, "movementSpeedKt": 20,
+        "intensityKt": 120, "pressureMb": 950, "advisoryNum": "11"
+      }
+    ]
+  },
+  {
+    "label": "Beryl passes south of Barbados into the Caribbean",
+    "timestamp": "2024-07-01T21:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Beryl", "classification": "MH",
+        "lat": 11.4, "lon": -61.0, "movementDir": 282, "movementSpeedKt": 20,
+        "intensityKt": 130, "pressureMb": 938, "advisoryNum": "13"
+      }
+    ]
+  },
+  {
+    "label": "Beryl moves deep into the Caribbean",
+    "timestamp": "2024-07-02T21:00:00Z",
+    "storms": [
+      {
+        "id": "al022024", "name": "Beryl", "classification": "MH",
+        "lat": 12.5, "lon": -66.5, "movementDir": 285, "movementSpeedKt": 19,
+        "intensityKt": 140, "pressureMb": 935, "advisoryNum": "17"
+      }
+    ]
+  },
+  {
+    "label": "System clear of the eastern Caribbean",
+    "timestamp": "2024-07-04T09:00:00Z",
+    "storms": []
+  }
+]

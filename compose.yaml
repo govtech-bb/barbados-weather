@@ -1,0 +1,41 @@
+services:
+  hurricane-ready:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # --- Island (defaults: Barbados) ---
+      ISLAND_NAME: ${ISLAND_NAME:-Barbados}
+      ISLAND_LAT: ${ISLAND_LAT:-13.19}
+      ISLAND_LON: ${ISLAND_LON:--59.54}
+
+      # --- Mode ---
+      # REPLAY=1 replays Hurricane Beryl (2024) for demos
+      REPLAY: ${REPLAY:-0}
+      POLL_MINUTES: ${POLL_MINUTES:-15}
+
+      # --- AI briefings (optional; template fallback without) ---
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      MODEL_ID: ${MODEL_ID:-us.anthropic.claude-haiku-4-5-20251001-v1:0}
+      DISABLE_AI: ${DISABLE_AI:-0}
+
+      # --- Alert channels (all optional) ---
+      # SENDER_EMAIL must be SES-verified; ALERT_PHONES in E.164 (+1246...)
+      ALERT_EMAILS: ${ALERT_EMAILS:-}
+      SENDER_EMAIL: ${SENDER_EMAIL:-}
+      ALERT_PHONES: ${ALERT_PHONES:-}
+      WEBHOOK_URL: ${WEBHOOK_URL:-}
+    volumes:
+      - hurricane-state:/data
+      # Read-only AWS credentials for Bedrock/SES/SNS
+      - ~/.aws:/home/node/.aws:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  hurricane-state:
