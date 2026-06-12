@@ -11,6 +11,16 @@ data "aws_vpc" "default" {
   default = true
 }
 
+# CloudFront auto-creates this SG ("CloudFront-VPCOrigins-Service-SG") when
+# the first VPC origin is provisioned in the account. We allow inbound from
+# this SG so traffic only flows ALB-ward from CloudFront-managed ENIs.
+data "aws_security_group" "cloudfront_vpc_origins" {
+  filter {
+    name   = "group-name"
+    values = ["CloudFront-VPCOrigins-Service-SG"]
+  }
+}
+
 data "aws_subnets" "default" {
   filter {
     name   = "vpc-id"
@@ -19,6 +29,13 @@ data "aws_subnets" "default" {
   filter {
     name   = "default-for-az"
     values = ["true"]
+  }
+  # CloudFront VPC Origins doesn't support us-east-1e (legacy AZ with reduced
+  # service availability). Excluding it here so the ALB only lives in AZs the
+  # VPC origin can attach to.
+  filter {
+    name   = "availability-zone"
+    values = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1f"]
   }
 }
 
@@ -68,19 +85,24 @@ resource "aws_iam_role" "task" {
 # ---------- Security groups ----------
 
 resource "aws_security_group" "alb" {
-  name        = "hurricane-ready-alb"
-  description = "ALB ingress restricted to CloudFront VPC origin"
+  name = "hurricane-ready-alb"
+  # NOTE: aws_security_group.description is ForceNew. Keep this in sync with
+  # whatever AWS currently has — changing it triggers a destroy+create, and
+  # ELB-related SG deletes can hang on internal AWS bookkeeping for 15+ min.
+  description = "Public HTTP for hurricane-ready ALB"
   vpc_id      = data.aws_vpc.default.id
 
-  # The CloudFront VPC origin's managed ENI sits inside this VPC; allowing
-  # the VPC CIDR is the simplest correct path. Nothing else lives in the
-  # default VPC in this account, so the blast radius is the same as a SG-ref.
+  # CloudFront-managed ENIs for the VPC origin belong to a CloudFront-owned
+  # security group; allowing that SG by ID is the proper least-privilege
+  # source. VPC CIDR alone wasn't sufficient empirically — the connection's
+  # observed source identity differs from the ENI's IP. The SG ID is looked
+  # up dynamically so it's not hardcoded across recreations.
   ingress {
-    description = "From CloudFront VPC origin (in-VPC)"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [data.aws_vpc.default.cidr_block]
+    description     = "From CloudFront VPC origin"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [data.aws_security_group.cloudfront_vpc_origins.id]
   }
 
   egress {
