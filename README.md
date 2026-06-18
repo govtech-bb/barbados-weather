@@ -1,10 +1,24 @@
 # Hurricane-Ready 🇧🇧
 
-Hurricane preparedness alerts for Barbados (or any Caribbean island), in one hardened Docker container. Watches the National Hurricane Center feed, computes the threat deterministically, has Claude explain it calmly, and alerts by SMS, email, and webhook the moment the level changes.
+An easy-to-read Barbados weather dashboard **and** a hurricane preparedness alerter, in one hardened Docker container. It gives locals the everyday forecast in plain language, watches the National Hurricane Center feed, computes the storm threat deterministically, has Claude explain it calmly, and alerts by SMS, email, and webhook the moment the level changes.
 
-> **Unofficial project.** Threat levels are computed automatically and may be wrong. Always follow official guidance from Barbados Meteorological Services and the Department of Emergency Management.
+> **Unofficial project.** Forecasts and threat levels are generated automatically and may be wrong. Always follow official guidance from Barbados Meteorological Services and the Department of Emergency Management.
 
-**Stack:** Node 22 · NOAA/NHC public feed · Claude on Amazon Bedrock · SNS (SMS) · SES (email) · Leaflet · Docker
+**Stack:** Node 22 · NOAA/NHC public feeds · Open-Meteo (forecast + marine) · RainViewer radar · NOAA GOES satellite · Claude on Amazon Bedrock · SNS (SMS) · SES (email) · Leaflet · Docker
+
+## Dashboard
+
+A single scrolling page (sticky section nav) built for a general audience, with everything in plain language:
+
+- **Right now** — current conditions plus a one-line "today at a glance" summary.
+- **7-day** — daily forecast cards (icon, high/low, rain chance).
+- **Rain & wind** — next-24h outlook in words, with an hourly strip.
+- **Beach & sea** — sea state, wave height, UV, and **sun & moon** (sunrise/sunset, day length, moon phase).
+- **Radar** — live RainViewer rain radar on a Leaflet map (with a play/pause loop), plus a NOAA GOES-East satellite still.
+- **Storms & tropics** — active-system threat table, the **NHC Atlantic Tropical Weather Outlook** (areas to watch + 7-day formation chances, parsed from the public TWO feed), this season's **storm-name list** (active/used/next highlighted), the threat-level legend, and level history.
+- **Get ready** — a plain-language hurricane-prep checklist (before the season / watch / warning) and an **official-sources hub** linking straight to Barbados Met Services products, DEM, and NHC.
+
+Everyday weather comes from the free [Open-Meteo](https://open-meteo.com) forecast and marine APIs (no key). Tropical data comes from NOAA/NHC public products. Each section degrades gracefully — if a source is unavailable, that panel simply hides.
 
 ## The design rule
 

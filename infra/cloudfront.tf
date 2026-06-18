@@ -23,6 +23,50 @@ resource "aws_cloudfront_vpc_origin" "alb" {
   }
 }
 
+# ---------- Security response headers ----------
+# Adds HSTS, a content-security policy, and the usual hardening headers to
+# every response. CSP allows the inline <script>/<style> the dashboard relies
+# on plus the Leaflet CDN and CARTO basemap tiles; the API the browser calls
+# (/api/status) is same-origin, so connect-src 'self' is sufficient.
+
+resource "aws_cloudfront_response_headers_policy" "security" {
+  name = "hurricane-ready-security-headers"
+
+  security_headers_config {
+    strict_transport_security {
+      access_control_max_age_sec = 63072000 # 2 years
+      include_subdomains         = true
+      preload                    = true
+      override                   = true
+    }
+    content_type_options {
+      override = true
+    }
+    frame_options {
+      frame_option = "DENY"
+      override     = true
+    }
+    referrer_policy {
+      referrer_policy = "strict-origin-when-cross-origin"
+      override        = true
+    }
+    content_security_policy {
+      override = true
+      content_security_policy = join("; ", [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+        "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+        "img-src 'self' data: https://*.basemaps.cartocdn.com https://*.rainviewer.com https://cdn.star.nesdis.noaa.gov",
+        "connect-src 'self' https://api.rainviewer.com",
+        "font-src 'self'",
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ])
+    }
+  }
+}
+
 # ---------- CloudFront distribution ----------
 
 resource "aws_cloudfront_distribution" "app" {
@@ -50,8 +94,9 @@ resource "aws_cloudfront_distribution" "app" {
     # Managed policies: CachingDisabled + AllViewer.
     # The app is dynamic (/api/status polled by the UI); caching here would
     # just create staleness with no real upside. Trade simple for correct.
-    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # CachingDisabled
-    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" # AllViewer
+    cache_policy_id            = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # CachingDisabled
+    origin_request_policy_id   = "216adef6-5c7f-47e4-b989-5492eafa07d3" # AllViewer
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
   }
 
   viewer_certificate {

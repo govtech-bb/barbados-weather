@@ -17,6 +17,29 @@ const WMO = {
 const COMPASS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 const compass = (deg) => COMPASS[Math.round(((deg % 360) / 22.5)) % 16];
 
+const UA = "hurricane-ready (github.com/christophercorbin/hurricane-ready)";
+const round1 = (n) => (n == null ? null : Math.round(n * 10) / 10);
+
+const MOON_NAMES = [
+  "New moon", "Waxing crescent", "First quarter", "Waxing gibbous",
+  "Full moon", "Waning gibbous", "Last quarter", "Waning crescent",
+];
+
+// Moon phase from date alone (location-independent). Uses the mean synodic
+// month measured from a known new moon (2000-01-06 18:14 UTC).
+function moonPhase(date = new Date()) {
+  const synodic = 29.530588853;
+  const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14) / 86400000;
+  const days = date.getTime() / 86400000;
+  const age = (((days - knownNewMoon) % synodic) + synodic) % synodic;
+  const frac = age / synodic; // 0..1 through the cycle
+  return {
+    phase: MOON_NAMES[Math.floor(frac * 8 + 0.5) % 8],
+    illumination: Math.round(((1 - Math.cos(2 * Math.PI * frac)) / 2) * 100),
+    ageDays: Math.round(age * 10) / 10,
+  };
+}
+
 export async function fetchCurrentWeather(island) {
   const url =
     `https://api.open-meteo.com/v1/forecast?latitude=${island.lat}&longitude=${island.lon}` +
@@ -47,6 +70,102 @@ export async function fetchCurrentWeather(island) {
     };
   } catch (err) {
     console.warn(`Weather unavailable (${err.message})`);
+    return null;
+  }
+}
+
+/**
+ * Everyday outlook for the friendly dashboard sections: a 7-day daily
+ * forecast, the next 24 hours of rain/wind/UV, and marine wave conditions.
+ * All from the free Open-Meteo API (no key). Wind is returned in km/h for a
+ * general audience (the storm panels use knots). Returns null on failure so
+ * the dashboard simply hides the everyday sections rather than breaking.
+ */
+export async function fetchOutlook(island) {
+  const base = `latitude=${island.lat}&longitude=${island.lon}&timezone=auto`;
+  const forecastUrl =
+    `https://api.open-meteo.com/v1/forecast?${base}&forecast_days=7` +
+    `&daily=weather_code,temperature_2m_max,temperature_2m_min,` +
+    `precipitation_probability_max,wind_speed_10m_max,uv_index_max,` +
+    `sunrise,sunset,daylight_duration` +
+    `&hourly=precipitation_probability,precipitation,wind_speed_10m,` +
+    `wind_gusts_10m,weather_code,uv_index`;
+  const marineUrl =
+    `https://marine-api.open-meteo.com/v1/marine?${base}` +
+    `&hourly=wave_height,wave_period&daily=wave_height_max&forecast_days=2`;
+  const opts = {
+    headers: { "User-Agent": UA },
+    signal: AbortSignal.timeout(8000),
+  };
+
+  const fetchJson = (url) =>
+    fetch(url, opts).then((r) =>
+      r.ok ? r.json() : Promise.reject(new Error(`${r.status}`))
+    );
+
+  try {
+    const [fc, marineRes] = await Promise.allSettled([
+      fetchJson(forecastUrl),
+      fetchJson(marineUrl),
+    ]);
+    if (fc.status !== "fulfilled") throw new Error("forecast unavailable");
+    const f = fc.value;
+
+    const daily = f.daily.time.map((date, i) => ({
+      date,
+      code: f.daily.weather_code[i],
+      description: WMO[f.daily.weather_code[i]] ?? "—",
+      maxC: Math.round(f.daily.temperature_2m_max[i]),
+      minC: Math.round(f.daily.temperature_2m_min[i]),
+      rainProb: f.daily.precipitation_probability_max[i] ?? null,
+      windMaxKmh: Math.round(f.daily.wind_speed_10m_max[i]),
+      uvMax: f.daily.uv_index_max[i] != null ? Math.round(f.daily.uv_index_max[i]) : null,
+    }));
+
+    // Next 24 hours starting from the current hour.
+    const now = Date.now();
+    const times = f.hourly.time;
+    let start = times.findIndex((t) => new Date(t).getTime() >= now);
+    if (start < 0) start = 0;
+    const hourly = [];
+    for (let i = start; i < Math.min(start + 24, times.length); i++) {
+      hourly.push({
+        time: times[i],
+        rainProb: f.hourly.precipitation_probability[i] ?? null,
+        precipMm: f.hourly.precipitation[i] ?? 0,
+        windKmh: Math.round(f.hourly.wind_speed_10m[i]),
+        gustKmh: Math.round(f.hourly.wind_gusts_10m[i]),
+        code: f.hourly.weather_code[i],
+        uv: f.hourly.uv_index[i] != null ? round1(f.hourly.uv_index[i]) : null,
+      });
+    }
+
+    let marine = null;
+    if (marineRes.status === "fulfilled" && marineRes.value.hourly) {
+      const m = marineRes.value;
+      const mt = m.hourly.time;
+      let mi = mt.findIndex((t) => new Date(t).getTime() >= now);
+      if (mi < 0) mi = 0;
+      marine = {
+        waveHeightM: round1(m.hourly.wave_height?.[mi]),
+        wavePeriodS: m.hourly.wave_period?.[mi] != null ? Math.round(m.hourly.wave_period[mi]) : null,
+        waveMaxTodayM: round1(m.daily?.wave_height_max?.[0]),
+        observedAt: mt[mi],
+      };
+    }
+
+    const moon = moonPhase();
+    const astro = {
+      sunrise: f.daily.sunrise?.[0] ?? null,
+      sunset: f.daily.sunset?.[0] ?? null,
+      daylightSeconds: f.daily.daylight_duration?.[0] ?? null,
+      moonPhase: moon.phase,
+      moonIllumination: moon.illumination,
+    };
+
+    return { generatedAt: new Date().toISOString(), daily, hourly, marine, astro };
+  } catch (err) {
+    console.warn(`Outlook unavailable (${err.message})`);
     return null;
   }
 }
