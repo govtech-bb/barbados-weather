@@ -10,13 +10,23 @@ import path from "node:path";
 import { config } from "./config.mjs";
 import { fetchLiveStorms, createReplaySource } from "./nhc.mjs";
 import { fetchAdvisory } from "./advisory.mjs";
-import { fetchCurrentWeather } from "./weather.mjs";
+import { fetchCurrentWeather, fetchOutlook } from "./weather.mjs";
+import { fetchTropicalOutlook, ATLANTIC_NAMES_2026, stormsSoFar } from "./tropical.mjs";
 import { assess } from "./threat.mjs";
 import { generateBriefing } from "./briefing.mjs";
 import { dispatchAlert } from "./notify.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dashboardHtml = readFileSync(path.join(here, "../web/index.html"), "utf-8");
+
+// Content types for static assets served out of web/ (favicon, OG image, …).
+const STATIC_TYPES = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
+  ".webp": "image/webp",
+};
 
 // ---------- State (JSON file on a volume) ----------
 
@@ -63,6 +73,10 @@ function saveState(current) {
 let status = {
   island: config.island,
   weather: null,
+  outlook: null,
+  tropical: null,
+  seasonNames: ATLANTIC_NAMES_2026,
+  stormsSoFar: 0,
   mode: config.replay ? "replay" : "live",
   level: state.level,
   storms: [],
@@ -170,14 +184,23 @@ async function tick() {
       saveState(state);
     }
 
-    const weather = await fetchCurrentWeather(config.island);
+    const [weather, outlook, tropical] = await Promise.all([
+      fetchCurrentWeather(config.island),
+      fetchOutlook(config.island),
+      // In replay mode the live Atlantic outlook is irrelevant to the demo.
+      config.replay ? Promise.resolve(null) : fetchTropicalOutlook(),
+    ]);
 
+    const cleanStorms = assessment.storms.map(({ advisoryExcerpt, ...s }) => s);
     status = {
       ...status,
       level: assessment.overall,
       // advisoryExcerpt feeds the briefing, not the API payload
-      storms: assessment.storms.map(({ advisoryExcerpt, ...s }) => s),
+      storms: cleanStorms,
+      stormsSoFar: stormsSoFar(cleanStorms) || status.stormsSoFar,
       weather: weather ?? status.weather,
+      outlook: outlook ?? status.outlook,
+      tropical: tropical ?? status.tropical,
       updatedAt: timestamp,
       replayLabel: label,
       history: state.history,
@@ -207,6 +230,20 @@ const server = createServer((req, res) => {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ status: "ok", mode: status.mode, level: status.level }));
     return;
+  }
+  // Static assets (favicon, social-share image, etc.) served from web/.
+  // Allowlisted extensions + basename-only lookup keeps this free of path
+  // traversal — there are no sub-directories of assets to reach.
+  if (req.method === "GET" && STATIC_TYPES[path.extname(req.url)]) {
+    const file = path.join(here, "../web", path.basename(req.url));
+    if (existsSync(file)) {
+      res.writeHead(200, {
+        "Content-Type": STATIC_TYPES[path.extname(req.url)],
+        "Cache-Control": "public, max-age=86400",
+      });
+      res.end(readFileSync(file));
+      return;
+    }
   }
   res.writeHead(404, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ error: "Not found" }));

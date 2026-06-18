@@ -3,6 +3,7 @@ data/
 .DS_Store
 *.log
 .playwright-mcp/
+previews/
 
 # Terraform / OpenTofu local state (use a remote backend for shared work)
 **/.terraform/
