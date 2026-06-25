@@ -81,3 +81,10 @@ test("near-black top utility strip is present", () => {
 test("full-bleed inner helper exists", () => {
   assert.match(html, /\.gov-bleed__inner\s*\{/, "missing .gov-bleed__inner helper");
 });
+
+test("white header has brand and Home/Services nav", () => {
+  assert.match(html, /class="gov-nav"/, "missing gov-nav");
+  assert.match(html, />\s*Home\s*</, "missing Home link");
+  assert.match(html, />\s*Services\s*</, "missing Services link");
+  assert.match(html, /Government of Barbados/, "missing wordmark");
+});

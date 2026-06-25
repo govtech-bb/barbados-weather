@@ -153,17 +153,22 @@
     section[id] { scroll-margin-top: 70px; }
 
     /* Government of Barbados full-bleed crest bar (gov.bb masthead). */
-    .gov-header { background: var(--navy); border-bottom: 3px solid var(--gold); }
+    .gov-header { background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 0 rgba(11,31,58,0.04); }
     .gov-bleed__inner { max-width: 920px; margin: 0 auto; padding: 0 1.1rem; }
     .gov-strip { background: var(--gov-black); color: rgba(255,255,255,0.85); font-size: 0.78rem; }
     .gov-strip .gov-bleed__inner { display: flex; align-items: center; gap: 0.4rem; padding-top: 0.3rem; padding-bottom: 0.3rem; }
-    .gov-header__inner { max-width: 920px; margin: 0 auto; display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1.1rem; }
-    .gov-crest { width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0; overflow: hidden; display: flex; box-shadow: 0 0 0 1px rgba(255,255,255,0.14); }
+    .gov-header__inner { display: flex; align-items: center; gap: 0.7rem; padding-top: 0.7rem; padding-bottom: 0.7rem; }
+    .gov-brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .gov-crest { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .gov-crest svg { width: 100%; height: 100%; display: block; }
-    .gov-wordmark { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; }
-    /* Service identity row beneath the crest bar. */
-    .gov-service-bar { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; padding: 1rem 0 0.4rem; border-bottom: 1px solid var(--border); margin-bottom: 1.1rem; }
-    .gov-service-bar__title h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; color: var(--heading); }
+    .gov-wordmark { color: var(--navy); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; }
+    .gov-nav { margin-left: auto; display: flex; align-items: center; gap: 1rem; }
+    .gov-nav a { color: var(--navy); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+    .gov-nav a:hover { text-decoration: underline; }
+    .gov-nav__icon { width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+    /* Service identity row — portal page-heading treatment on white. */
+    .gov-service-bar { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; padding: 1.4rem 0 0.6rem; border-bottom: 1px solid var(--border); margin-bottom: 1.1rem; }
+    .gov-service-bar__title h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.01em; color: var(--heading); }
     .gov-service-bar .island { font-size: 0.92rem; color: var(--muted); }
     .header-spacer { flex: 1; }
     .pill {
@@ -478,22 +483,31 @@
     </div>
   </div>
   <header class="gov-header">
-    <div class="gov-header__inner">
-      <span class="gov-crest" aria-hidden="true">
-        <svg viewBox="0 0 100 100" focusable="false" width="100%" height="100%">
-          <rect width="100" height="100" rx="24" fill="#0b2e6e"/>
-          <g stroke="#ffc726" stroke-width="4.5" stroke-linecap="round">
-            <line x1="32" y1="58" x2="24" y2="58"/><line x1="34.4" y1="49" x2="27.5" y2="45"/>
-            <line x1="41" y1="42.4" x2="37" y2="35.5"/><line x1="50" y1="40" x2="50" y2="32"/>
-            <line x1="59" y1="42.4" x2="63" y2="35.5"/><line x1="65.6" y1="49" x2="72.5" y2="45"/>
-            <line x1="68" y1="58" x2="76" y2="58"/>
-          </g>
-          <path d="M35 58 a15 15 0 0 1 30 0 z" fill="#ffc726"/>
-          <g stroke="#ffffff" stroke-width="5" stroke-linecap="round"><line x1="14" y1="58" x2="31" y2="58"/><line x1="69" y1="58" x2="86" y2="58"/></g>
-          <path d="M16 76 q9 -8 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#7fd6ea" stroke-width="5" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span class="gov-wordmark">Government of Barbados</span>
+    <div class="gov-bleed__inner gov-header__inner">
+      <a class="gov-brand" href="/">
+        <span class="gov-crest" aria-hidden="true">
+          <svg viewBox="0 0 100 100" focusable="false" width="100%" height="100%">
+            <rect width="100" height="100" rx="24" fill="#0b2e6e"/>
+            <g stroke="#ffc726" stroke-width="4.5" stroke-linecap="round">
+              <line x1="32" y1="58" x2="24" y2="58"/><line x1="34.4" y1="49" x2="27.5" y2="45"/>
+              <line x1="41" y1="42.4" x2="37" y2="35.5"/><line x1="50" y1="40" x2="50" y2="32"/>
+              <line x1="59" y1="42.4" x2="63" y2="35.5"/><line x1="65.6" y1="49" x2="72.5" y2="45"/>
+              <line x1="68" y1="58" x2="76" y2="58"/>
+            </g>
+            <path d="M35 58 a15 15 0 0 1 30 0 z" fill="#ffc726"/>
+            <g stroke="#ffffff" stroke-width="5" stroke-linecap="round"><line x1="14" y1="58" x2="31" y2="58"/><line x1="69" y1="58" x2="86" y2="58"/></g>
+            <path d="M16 76 q9 -8 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#7fd6ea" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="gov-wordmark">Government of Barbados</span>
+      </a>
+      <nav class="gov-nav" aria-label="Government of Barbados">
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <button class="gov-nav__icon" type="button" aria-label="Account">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </button>
+      </nav>
     </div>
   </header>
   <div class="wrap">
