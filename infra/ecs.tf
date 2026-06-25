@@ -11,10 +11,25 @@ data "aws_vpc" "default" {
   default = true
 }
 
+# Phase-2 toggle for a fresh account. AWS only creates the
+# "CloudFront-VPCOrigins-Service-SG" the first time a VPC origin is provisioned
+# in the account, so on the very first apply that SG does not exist yet and the
+# data lookup + ALB ingress below cannot resolve (a bootstrap cycle:
+# ALB-SG -> managed-SG -> VPC-origin -> ALB -> ALB-SG). First apply with this
+# false (creates the VPC origin, which makes the managed SG); then set true and
+# re-apply to wire the ALB's locked-down ingress. After the SG exists it is
+# permanent, so this stays true thereafter.
+variable "enable_cloudfront_origin_ingress" {
+  description = "Set true once the CloudFront-VPCOrigins-Service-SG exists (i.e. after the first apply created the VPC origin). Leave false for the first apply in a fresh account."
+  type        = bool
+  default     = false
+}
+
 # CloudFront auto-creates this SG ("CloudFront-VPCOrigins-Service-SG") when
 # the first VPC origin is provisioned in the account. We allow inbound from
 # this SG so traffic only flows ALB-ward from CloudFront-managed ENIs.
 data "aws_security_group" "cloudfront_vpc_origins" {
+  count = var.enable_cloudfront_origin_ingress ? 1 : 0
   filter {
     name   = "group-name"
     values = ["CloudFront-VPCOrigins-Service-SG"]
@@ -92,19 +107,6 @@ resource "aws_security_group" "alb" {
   description = "Public HTTP for barbados-weather ALB"
   vpc_id      = data.aws_vpc.default.id
 
-  # CloudFront-managed ENIs for the VPC origin belong to a CloudFront-owned
-  # security group; allowing that SG by ID is the proper least-privilege
-  # source. VPC CIDR alone wasn't sufficient empirically — the connection's
-  # observed source identity differs from the ENI's IP. The SG ID is looked
-  # up dynamically so it's not hardcoded across recreations.
-  ingress {
-    description     = "From CloudFront VPC origin"
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [data.aws_security_group.cloudfront_vpc_origins.id]
-  }
-
   egress {
     description = "ALB to tasks"
     from_port   = 0
@@ -112,6 +114,22 @@ resource "aws_security_group" "alb" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+# CloudFront-managed ENIs for the VPC origin belong to a CloudFront-owned
+# security group; allowing that SG by ID is the proper least-privilege source.
+# VPC CIDR alone wasn't sufficient empirically — the connection's observed
+# source identity differs from the ENI's IP. Split out of the ALB SG (and
+# gated on the toggle) so the first apply can create the VPC origin that makes
+# the managed SG before this rule references it.
+resource "aws_vpc_security_group_ingress_rule" "alb_from_cloudfront" {
+  count                        = var.enable_cloudfront_origin_ingress ? 1 : 0
+  security_group_id            = aws_security_group.alb.id
+  referenced_security_group_id = data.aws_security_group.cloudfront_vpc_origins[0].id
+  from_port                    = 80
+  to_port                      = 80
+  ip_protocol                  = "tcp"
+  description                  = "From CloudFront VPC origin"
 }
 
 resource "aws_security_group" "tasks" {
