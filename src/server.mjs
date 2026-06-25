@@ -1,5 +1,5 @@
 /**
- * Bim Weather (formerly Hurricane-Ready): single-container service.
+ * Barbados Weather (formerly Hurricane-Ready): single-container service.
  * Poll loop (live NHC or replay) -> deterministic threat engine ->
  * AI briefing -> alert dispatch on level change -> dashboard + JSON API.
  */

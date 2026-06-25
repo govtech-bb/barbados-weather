@@ -66,3 +66,9 @@ test("user-agent strings are gov-neutral", () => {
     assert.match(read(f), /gov\.bb/, `${f} user-agent not rebranded`);
   }
 });
+
+test("no stale Bim Weather brand in src/web shipped files", () => {
+  for (const f of ["../src/server.mjs", "../web/icon.svg", "../web/manifest.webmanifest", "../web/sw.js"]) {
+    assert.doesNotMatch(read(f), /Bim Weather/, `${f} still contains stale Bim Weather brand`);
+  }
+});
