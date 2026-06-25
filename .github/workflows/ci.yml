@@ -12,15 +12,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
+          cache: npm
+
+      # test/push.test.mjs imports src/push.mjs which imports web-push;
+      # without an install the require resolves to nothing and the file
+      # silently drops out of the run, leaving a phantom failure.
+      - name: Install dependencies (locked)
+        run: npm ci --no-audit --no-fund
 
       - name: Syntax check all modules
         run: |
           for f in src/*.mjs test/*.mjs; do node --check "$f"; done
+
+      - name: Audit production dependencies (block HIGH/CRITICAL)
+        run: npm audit --omit=dev --audit-level=high
 
       - name: Unit tests (threat engine)
         run: npm test
@@ -28,7 +38,7 @@ jobs:
   container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
       - name: Build image
         run: docker build -t hurricane-ready:ci .
@@ -61,13 +71,52 @@ jobs:
             fi
             sleep 1
           done
-          echo "$STATUS" | jq -e '.history | map(.to) | index("IMMINENT") != null' \
-            || (echo "Replay never reached IMMINENT"; echo "$STATUS" | jq .history; exit 1)
+
+          # Strengthen the assertions (issue #27): a regression that collapses
+          # the ladder, skips a level, or stops writing the briefing must fail.
+          echo "$STATUS" | jq .history
+          echo "--- assertions ---"
+
+          # The full ladder must be present: every level should appear at least
+          # once as a transition target during the Beryl cycle.
+          for lvl in WATCH WARNING IMMINENT ALL_CLEAR; do
+            echo "$STATUS" | jq -e --arg L "$lvl" '.history | map(.to) | index($L) != null' \
+              || (echo "Replay never transitioned to $lvl"; exit 1)
+          done
+
+          # End state is ALL_CLEAR and we recorded at least four transitions
+          # (rise into WATCH/WARNING/IMMINENT plus the return to ALL_CLEAR).
           echo "$STATUS" | jq -e '.level == "ALL_CLEAR"' \
             || (echo "Replay did not return to ALL_CLEAR (final level=$LEVEL)"; exit 1)
+          echo "$STATUS" | jq -e '(.history | length) >= 4' \
+            || (echo "Replay history is too short"; exit 1)
+
+          # Briefing must be populated and use the template fallback in CI
+          # (DISABLE_AI=1 means Bedrock is never called). A regression that
+          # accidentally re-enables Bedrock or stops writing the briefing
+          # would otherwise pass silently.
+          echo "$STATUS" | jq -e '.briefing != null and (.briefing | length) > 0' \
+            || (echo "Briefing missing or empty"; exit 1)
+          echo "$STATUS" | jq -e '.briefingSource == "template"' \
+            || (echo "Briefing source must be 'template' under DISABLE_AI=1 (got $(echo "$STATUS" | jq -r .briefingSource))"; exit 1)
+
+          # No no-op transitions (from == to would indicate a re-fire bug).
+          echo "$STATUS" | jq -e '(.history | map(select(.from != .to)) | length) == (.history | length)' \
+            || (echo "History contains no-op transitions (from == to)"; exit 1)
 
           # dashboard serves
-          curl -sf http://localhost:8080/ | grep -q "Hurricane-Ready"
+          curl -sf http://localhost:8080/ | grep -q "Bim Weather"
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Frontend smoke test (Playwright)
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+          BASE_URL=http://localhost:8080 npm run test:e2e
 
       - name: Container logs (on failure)
         if: failure()
@@ -76,13 +125,16 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
       - name: Build image
         run: docker build -t hurricane-ready:scan .
 
       - name: Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@master
+        # SHA-pinned (#36): floating @master shipped arbitrary upstream code
+        # into the runner; a SHA pin gives us a deterministic, reviewable
+        # reference. Bump via Dependabot's github-actions ecosystem.
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
         with:
           image-ref: hurricane-ready:scan
           format: table

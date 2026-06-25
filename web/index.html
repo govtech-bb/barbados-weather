@@ -1,343 +1,607 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hurricane-Ready | Government of Barbados (demo)</title>
-  <meta name="description" content="Demonstration Barbados weather and storm-threat dashboard in the style of the Government of Barbados services portal. Today's conditions, 7-day forecast, rain & wind outlook, beach & sea, rain radar, and tropical-storm threat levels from NOAA and Open-Meteo." />
-  <meta name="theme-color" content="#0b1a4a" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&display=swap" />
+  <title>Bim Weather | Barbados Weather &amp; Storm Watch</title>
+  <meta name="description" content="Live, easy-to-read Barbados weather: today's conditions, a 7-day forecast, rain & wind outlook, beach & sea conditions, rain radar, and tropical-storm threat levels built on NOAA and Open-Meteo data." />
+  <meta name="theme-color" content="#0b2e6e" />
   <link rel="canonical" href="https://d1a03jmlh4dne2.cloudfront.net/" />
 
   <!-- Icons -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='22'%20fill='%230b1220'/%3E%3Ctext%20x='50'%20y='50'%20font-size='62'%20text-anchor='middle'%20dominant-baseline='central'%3E%F0%9F%8C%80%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%20role%3D%22img%22%20aria-label%3D%22Bim%20Weather%22%3E%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2224%22%20fill%3D%22%230b2e6e%22%2F%3E%20%3C!--%20sun%20rays%20(upper%20hemisphere)%20--%3E%20%3Cg%20stroke%3D%22%23ffc726%22%20stroke-width%3D%224.5%22%20stroke-linecap%3D%22round%22%3E%20%3Cline%20x1%3D%2232%22%20y1%3D%2258%22%20x2%3D%2224%22%20y2%3D%2258%22%2F%3E%20%3Cline%20x1%3D%2234.4%22%20y1%3D%2249%22%20x2%3D%2227.5%22%20y2%3D%2245%22%2F%3E%20%3Cline%20x1%3D%2241%22%20y1%3D%2242.4%22%20x2%3D%2237%22%20y2%3D%2235.5%22%2F%3E%20%3Cline%20x1%3D%2250%22%20y1%3D%2240%22%20x2%3D%2250%22%20y2%3D%2232%22%2F%3E%20%3Cline%20x1%3D%2259%22%20y1%3D%2242.4%22%20x2%3D%2263%22%20y2%3D%2235.5%22%2F%3E%20%3Cline%20x1%3D%2265.6%22%20y1%3D%2249%22%20x2%3D%2272.5%22%20y2%3D%2245%22%2F%3E%20%3Cline%20x1%3D%2268%22%20y1%3D%2258%22%20x2%3D%2276%22%20y2%3D%2258%22%2F%3E%20%3C%2Fg%3E%20%3C!--%20sun%20rising%20over%20the%20horizon%20--%3E%20%3Cpath%20d%3D%22M35%2058%20a15%2015%200%200%201%2030%200%20z%22%20fill%3D%22%23ffc726%22%2F%3E%20%3C!--%20horizon%20%2F%20sea%20surface%20(sun%20sits%20on%20it)%20--%3E%20%3Cg%20stroke%3D%22%23ffffff%22%20stroke-width%3D%225%22%20stroke-linecap%3D%22round%22%3E%20%3Cline%20x1%3D%2214%22%20y1%3D%2258%22%20x2%3D%2231%22%20y2%3D%2258%22%2F%3E%20%3Cline%20x1%3D%2269%22%20y1%3D%2258%22%20x2%3D%2286%22%20y2%3D%2258%22%2F%3E%20%3C%2Fg%3E%20%3C!--%20sea%20wave%20--%3E%20%3Cpath%20d%3D%22M16%2076%20q9%20-8%2018%200%20t18%200%20t18%200%20t18%200%22%20fill%3D%22none%22%20stroke%3D%22%237fd6ea%22%20stroke-width%3D%225%22%20stroke-linecap%3D%22round%22%2F%3E%20%3C%2Fsvg%3E" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bim Weather" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Hurricane-Ready" />
-  <meta property="og:title" content="Hurricane-Ready | Barbados Storm Watch" />
+  <meta property="og:site_name" content="Bim Weather" />
+  <meta property="og:title" content="Bim Weather | Barbados Weather &amp; Storm Watch" />
   <meta property="og:description" content="Easy-to-read Barbados weather and tropical-storm tracking — today's conditions, 7-day forecast, rain & wind, beach & sea, radar, and storm threat levels." />
   <meta property="og:url" content="https://d1a03jmlh4dne2.cloudfront.net/" />
   <meta property="og:image" content="https://d1a03jmlh4dne2.cloudfront.net/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Hurricane-Ready — Barbados Storm Watch" />
+  <meta property="og:image:alt" content="Bim Weather — Barbados weather" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Hurricane-Ready | Barbados Storm Watch" />
+  <meta name="twitter:title" content="Bim Weather | Barbados Weather &amp; Storm Watch" />
   <meta name="twitter:description" content="Easy-to-read Barbados weather and tropical-storm tracking, built on NOAA and Open-Meteo data." />
   <meta name="twitter:image" content="https://d1a03jmlh4dne2.cloudfront.net/og-image.png" />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="dns-prefetch" href="https://a.basemaps.cartocdn.com" />
+  <link rel="dns-prefetch" href="https://tilecache.rainviewer.com" />
+  <link rel="dns-prefetch" href="https://cdn.star.nesdis.noaa.gov" />
+  <!-- Leaflet 1.9.4 from cdnjs, SRI-pinned (#29). A future CDN compromise
+       (or MITM despite HSTS) can't substitute different bytes; the browser
+       refuses to load anything whose hash doesn't match. -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+        integrity="sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script defer
+          src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"
+          integrity="sha384-NElt3Op+9NBMCYaef5HxeJmU4Xeard/Lku8ek6hoPTvYkQPh3zLIrJP7KiRocsxO"
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
+    /* Dark theme (toggle). Brand tokens: Barbados navy + teal + gold. */
     :root {
-      --bg: #ffffff;
-      --bg-alt: #f3f2f1;
-      --text: #0b0c0c;
-      --muted: #505a5f;
-      --border: #b1b4b6;
-      --brand-yellow: #ffd200;
-      --brand-yellow-soft: #fff4b5;
-      --brand-navy: #0b1a4a;
-      --brand-teal: #006c5b;
-      --brand-teal-hover: #00524a;
-      --all-clear: #00703c;   --all-clear-soft: #d6e9df;
-      --watch: #f47738;       --watch-soft: #fde2d2;
-      --warning: #d4351c;     --warning-soft: #f9d4cd;
-      --imminent: #d4351c;    --imminent-soft: #f4b8b0;
-      --accent: var(--brand-teal);
+      --bg: #0b1220;
+      --bg-grad: radial-gradient(1200px 600px at 80% -10%, #15233b 0%, #0b1220 60%);
+      --card: #131f33;
+      --card-2: #0f1a2c;
+      --border: #243349;
+      --text: #eaf1fb;
+      --muted: #93a4bd;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.12); --accent-line: rgba(56,189,248,0.4);
+      --navy: #0b2e6e; --navy-deep: #07235a; --on-navy: #eaf1fb; --gold: #ffc726;
+      --nav-bg: rgba(11,18,32,0.88);
+      --heading: #eaf1fb;
+      --hero-bg: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(56,189,248,0.03));
+      --card-shadow: none;
+      --all-clear: #16a34a; --all-clear-soft: rgba(22,163,74,0.14);
+      --watch: #eab308;     --watch-soft: rgba(234,179,8,0.14);
+      --warning: #f97316;   --warning-soft: rgba(249,115,22,0.15);
+      --imminent: #ef4444;  --imminent-soft: rgba(239,68,68,0.16);
+      --soft-text: #dbe6f5;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Light theme — DEFAULT — modelled on the alpha.gov.bb palette:
+       white surfaces, Barbados navy, teal accents, gold highlights. */
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --bg-grad: linear-gradient(180deg, #eef4fb 0%, #ffffff 240px);
+      --card: #ffffff;
+      --card-2: #f4f8fc;
+      --border: #e3eaf4;
+      --text: #0b1f3a;
+      --muted: #51617c;
+      --accent: #0e7490;
+      --accent-soft: rgba(14,116,144,0.10); --accent-line: rgba(14,116,144,0.45);
+      --navy: #0b2e6e; --navy-deep: #07235a; --on-navy: #ffffff; --gold: #ffc726;
+      --nav-bg: rgba(255,255,255,0.92);
+      --heading: #0b2e6e;
+      --hero-bg: linear-gradient(135deg, #e6f3f8 0%, #f7fbfd 72%);
+      --card-shadow: 0 1px 2px rgba(11,31,58,0.05), 0 6px 18px rgba(11,31,58,0.04);
+      --soft-text: #1f3760;
+      --all-clear-soft: rgba(22,163,74,0.12);
+      --watch-soft: rgba(234,179,8,0.18);
+      --warning-soft: rgba(249,115,22,0.14);
+      --imminent-soft: rgba(239,68,68,0.1);
+    }
+    /* Light-mode darker text for the otherwise-bright semantic colours. */
+    :root[data-theme="light"] .ALL_CLEAR .b-title, :root[data-theme="light"] .chip.ALL_CLEAR, :root[data-theme="light"] .chance.low { color: #15803d; }
+    :root[data-theme="light"] .WATCH .b-title, :root[data-theme="light"] .chip.WATCH, :root[data-theme="light"] .uv.moderate, :root[data-theme="light"] .chance.medium { color: #a16207; }
+    :root[data-theme="light"] .WARNING .b-title, :root[data-theme="light"] .chip.WARNING, :root[data-theme="light"] .uv.high { color: #c2410c; }
+    :root[data-theme="light"] .IMMINENT .b-title, :root[data-theme="light"] .chip.IMMINENT, :root[data-theme="light"] .chance.high, :root[data-theme="light"] .name-chip.active, :root[data-theme="light"] .emerg-num b { color: #b91c1c; }
+    :root[data-theme="light"] .civil-alert .ca-text, :root[data-theme="light"] .civil-alert .ca-arrow { color: #b91c1c; }
+    :root[data-theme="light"] .civil-alert .ca-text b { color: #7f1d1d; }
+    :root[data-theme="light"] .uv.low, :root[data-theme="light"] .chance.low { color: #14532d; }
+    :root[data-theme="light"] .disclaimer { color: #854d0e; }
+    :root[data-theme="light"] .name-chip.next { color: #0369a1; }
+
+    .settings-wrap { position: relative; }
+    .settings-btn { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); border-radius: 999px; width: 32px; height: 32px; font-size: 1rem; cursor: pointer; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
+    .settings-btn:hover { color: var(--text); border-color: var(--accent); }
+
+    /* Service-worker update prompt (#50). Shown when a new SW is installed
+       and waiting for an explicit refresh. */
+    .hr-update-toast {
+      position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%);
+      padding: 0.6rem 1rem; background: var(--accent); color: #0b1220;
+      border: 1px solid var(--accent); border-radius: 999px; font: inherit;
+      font-weight: 600; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      z-index: 9999;
+    }
+    .hr-update-toast:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+    .settings-panel { position: absolute; right: 0; top: 38px; z-index: 700; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; min-width: 170px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    .settings-panel label { font-size: 0.78rem; color: var(--muted); display: flex; flex-direction: column; gap: 0.25rem; }
+    .settings-panel select { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem 0.4rem; font-size: 0.85rem; }
+    * { box-sizing: border-box; margin: 0; }
+    /* The `hidden` attribute must win over component display rules (flex/grid). */
+    [hidden] { display: none !important; }
+    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--accent); color: #04263a; padding: 0.6rem 1rem; border-radius: 0 0 10px 0; font-weight: 700; font-size: 0.9rem; }
+    .skip-link:focus { left: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+    }
     body {
-      font-family: "Public Sans", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-      background: var(--bg); color: var(--text); line-height: 1.5; font-size: 18px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg); background-image: var(--bg-grad); background-attachment: fixed;
+      color: var(--text); min-height: 100vh; line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--brand-teal); text-decoration: underline; text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
-    a:hover { color: var(--brand-teal-hover); text-decoration-thickness: 3px; }
-    a:focus { background: var(--brand-yellow); color: var(--text); outline: 3px solid var(--brand-yellow); outline-offset: 0; text-decoration: none; box-shadow: 0 -2px var(--brand-yellow), 0 4px var(--text); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 1.1rem 1.1rem 2rem; }
+    a { color: var(--accent); }
+    /* Inline line-icons (Lucide). Size follows the container's font-size,
+       colour follows currentColor — so they inherit the theme automatically. */
+    svg.ic { width: 1em; height: 1em; display: inline-block; vertical-align: -0.14em; }
+    .ico { display: inline-flex; align-items: center; }
+    .sum-t .ico, .card h2 .ico { font-size: 1.18em; color: var(--accent); }
+    .nav-ico, .dv-ico, .todo-ico, .adv-ico, .ca-ico, .s-ico { display: inline-flex; align-items: center; justify-content: center; }
+    .todo-ico { color: var(--accent); }
     section[id] { scroll-margin-top: 70px; }
 
-    .alpha-banner { background: var(--bg-alt); border-bottom: 1px solid var(--border); padding: 0.55rem 0; }
-    .alpha-banner-inner { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; font-size: 0.95rem; }
-    .alpha-badge { background: var(--brand-navy); color: #fff; font-weight: 700; padding: 0.2rem 0.55rem; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.04em; }
+    /* Barbados navy masthead with a gold underline (alpha.gov.bb feel). */
+    header { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
+      background: var(--navy); color: var(--on-navy); border-radius: 14px;
+      border-bottom: 3px solid var(--gold); padding: 0.85rem 1.1rem; margin-bottom: 1.1rem; }
+    .logo {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.14);
+    }
+    .logo svg { width: 100%; height: 100%; display: block; }
+    header h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; color: var(--on-navy); }
+    header .island { font-size: 0.92rem; color: rgba(255,255,255,0.82); }
+    header .pill { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.1); }
+    header .settings-btn { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); }
+    header .settings-btn:hover { color: #fff; border-color: var(--gold); }
+    .header-spacer { flex: 1; }
+    .pill {
+      font-size: 0.72rem; color: var(--muted); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.28rem 0.7rem; white-space: nowrap; background: rgba(255,255,255,0.02);
+    }
+    .pill b { color: var(--text); font-weight: 600; }
 
-    .gov-header { background: var(--brand-yellow); border-bottom: 1px solid rgba(0,0,0,0.1); }
-    .gov-header-inner { max-width: 960px; margin: 0 auto; padding: 0.95rem 1.25rem; display: flex; gap: 1rem; align-items: center; }
-    .gov-coat { width: 38px; height: 38px; flex-shrink: 0; }
-    .gov-wordmark { font-weight: 700; font-size: 1.15rem; color: var(--text); }
-    .gov-section { margin-left: auto; font-weight: 700; color: var(--text); text-decoration: none; font-size: 0.95rem; }
-    .gov-section:hover { color: var(--text); text-decoration: underline; text-decoration-thickness: 3px; }
+    /* Status banner */
+    .banner {
+      border-radius: 18px; padding: 1.15rem 1.35rem; margin-bottom: 0.9rem;
+      display: flex; align-items: center; gap: 1.05rem; border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .banner .dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 5px rgba(255,255,255,0.08); }
+    .banner .b-title { font-size: 1.3rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.2; }
+    .banner .b-sub { font-size: 0.9rem; color: var(--muted); margin-top: 0.15rem; }
+    .banner .b-storms { margin-left: auto; text-align: right; font-size: 0.85rem; color: var(--muted); }
+    .banner .b-storms b { display: block; font-size: 1rem; color: var(--text); font-weight: 700; }
+    .ALL_CLEAR { background: var(--all-clear-soft); border-color: rgba(22,163,74,0.35); }
+    .ALL_CLEAR .dot { background: var(--all-clear); } .ALL_CLEAR .b-title { color: #4ade80; }
+    .WATCH { background: var(--watch-soft); border-color: rgba(234,179,8,0.35); }
+    .WATCH .dot { background: var(--watch); } .WATCH .b-title { color: #fde047; }
+    .WARNING { background: var(--warning-soft); border-color: rgba(249,115,22,0.4); }
+    .WARNING .dot { background: var(--warning); } .WARNING .b-title { color: #fdba74; }
+    .IMMINENT { background: var(--imminent-soft); border-color: rgba(239,68,68,0.5); }
+    .IMMINENT .dot { background: var(--imminent); animation: pulse 1.4s infinite; } .IMMINENT .b-title { color: #fca5a5; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); } 50% { box-shadow: 0 0 0 9px rgba(239,68,68,0); } }
 
-    .hero { background: var(--brand-navy); color: #fff; padding: 2.5rem 1.25rem 3rem; }
-    .hero-inner { max-width: 960px; margin: 0 auto; }
-    .hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.6rem; color: #fff; letter-spacing: -0.01em; }
-    .hero .lede { font-size: 1.1rem; line-height: 1.5; opacity: 0.95; max-width: 620px; }
+    /* Alerts opt-in + offline */
+    .alerts-bar { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.3); border-radius: 14px; padding: 0.7rem 1rem; margin-bottom: 0.9rem; }
+    .alerts-text { font-size: 0.88rem; color: var(--soft-text); flex: 1; min-width: 200px; }
+    .alerts-btn { background: var(--accent); color: #04263a; border: none; border-radius: 10px; padding: 0.5rem 0.95rem; font-size: 0.85rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .alerts-btn:hover { filter: brightness(1.08); }
+    .alerts-bar.on { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.35); }
+    .alerts-bar.on .alerts-btn { background: transparent; color: var(--muted); border: 1px solid var(--border); font-weight: 600; }
+    .alerts-prefs { display: flex; gap: 0.9rem; align-items: center; flex-wrap: wrap; width: 100%; font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+    .alerts-prefs select { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.2rem 0.4rem; font-size: 0.8rem; }
+    .alerts-prefs label { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .offline-note { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: #fde68a; border-radius: 12px; padding: 0.55rem 0.9rem; margin-bottom: 0.9rem; font-size: 0.85rem; }
+    .civil-alert { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; background: var(--imminent-soft); border: 1px solid rgba(239,68,68,0.55); border-radius: 14px; padding: 0.8rem 1rem; margin-bottom: 0.9rem; }
+    .civil-alert:hover { border-color: #f87171; }
+    .civil-alert .ca-ico { font-size: 1.3rem; flex-shrink: 0; }
+    .civil-alert .ca-text { font-size: 0.9rem; color: #fca5a5; flex: 1; line-height: 1.45; }
+    .civil-alert .ca-text b { color: #fecaca; }
+    .civil-alert .ca-arrow { color: #fca5a5; font-weight: 700; flex-shrink: 0; }
+    .advisory-link { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.9rem; margin-bottom: 0.9rem; }
+    .advisory-link:hover { border-color: var(--accent); }
+    .advisory-link .adv-ico { font-size: 1.1rem; flex-shrink: 0; }
+    .advisory-link .adv-text { font-size: 0.85rem; color: var(--soft-text); flex: 1; line-height: 1.45; }
+    .advisory-link .adv-text b { color: var(--text); }
+    .advisory-link .adv-arrow { color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
-    .banner { background: #fff; color: var(--text); border-top: 8px solid var(--all-clear); padding: 1.4rem 1.5rem; margin-top: 1.8rem; display: flex; gap: 1rem; align-items: flex-start; }
-    .banner.ALL_CLEAR { border-top-color: var(--all-clear); }
-    .banner.WATCH { border-top-color: var(--watch); }
-    .banner.WARNING { border-top-color: var(--warning); }
-    .banner.IMMINENT { border-top-color: var(--imminent); }
-    .banner .dot { width: 1rem; height: 1rem; border-radius: 999px; margin-top: 0.45rem; flex-shrink: 0; }
-    .banner.ALL_CLEAR .dot { background: var(--all-clear); }
-    .banner.WATCH .dot { background: var(--watch); }
-    .banner.WARNING .dot { background: var(--warning); }
-    .banner.IMMINENT .dot { background: var(--imminent); animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(212,53,28,0.55); } 50% { box-shadow: 0 0 0 9px rgba(212,53,28,0); } }
-    .b-title { font-weight: 700; font-size: 1.4rem; line-height: 1.1; color: var(--text); }
-    .b-sub { font-size: 1rem; line-height: 1.5; margin-top: 0.3rem; color: var(--muted); }
-    .b-storms { margin-left: auto; font-size: 0.92rem; color: var(--text); text-align: right; }
-    .b-storms b { display: block; font-weight: 700; font-size: 1.05rem; }
+    /* Section nav: horizontal scroller on phones, sticky vertical sidebar
+       rail on wider screens (weather.com-style left nav). */
+    .layout { display: block; }
+    .section-nav {
+      position: sticky; top: 0; z-index: 600; margin: 0 -1.1rem 1.1rem; padding: 0.5rem 1.1rem;
+      display: flex; gap: 0.4rem; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      background: var(--nav-bg); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .section-nav a {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: var(--muted); text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      padding: 0.35rem 0.75rem; border-radius: 999px; white-space: nowrap; border: 1px solid transparent;
+    }
+    .section-nav a:hover { color: var(--text); }
+    .section-nav a.active { color: var(--accent); background: var(--accent-soft); border-color: var(--accent-line); }
+    .section-nav .nav-ico { font-size: 0.95rem; line-height: 1; }
+    @media (min-width: 880px) {
+      .wrap { max-width: 1140px; }
+      .layout { display: grid; grid-template-columns: 198px minmax(0, 1fr); gap: 1.4rem; align-items: start; }
+      .section-nav {
+        position: sticky; top: 1rem; z-index: 1; flex-direction: column; gap: 0.2rem; overflow: visible;
+        margin: 0; padding: 0.5rem; background: var(--card); backdrop-filter: none;
+        border: 1px solid var(--border); border-radius: 14px;
+      }
+      .section-nav a { border-radius: 10px; padding: 0.58rem 0.7rem; font-size: 0.88rem; }
+      .section-nav .nav-ico { width: 1.25rem; text-align: center; font-size: 1.02rem; }
+    }
 
-    .wrap { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
-    main { padding: 0.5rem 0 0; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 1rem; box-shadow: var(--card-shadow); }
+    /* Collapsible cards (native <details>): one tap to open/close, nothing
+       hidden behind tabs. Key sections start open; the rest are tucked away. */
+    details.card > summary {
+      list-style: none; cursor: pointer; user-select: none;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+      font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--heading); font-weight: 800; padding: 0.95rem 1.1rem;
+    }
+    details.card > summary::-webkit-details-marker { display: none; }
+    details.card > summary::marker { content: ""; }
+    details.card > summary .sum-t { display: flex; align-items: center; gap: 0.45rem; }
+    details.card > summary .chev { flex: none; font-size: 0.8rem; color: var(--accent); transition: transform 0.2s ease; }
+    details.card[open] > summary .chev { transform: rotate(180deg); }
+    details.card[open] > summary { border-bottom: 1px solid var(--border); }
+    details.card > summary:hover { color: var(--text); background: var(--card-2); }
+    details.card > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 16px; }
+    @media (prefers-reduced-motion: reduce) { details.card > summary .chev { transition: none; } }
+    .card h2 {
+      font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--heading);
+      padding: 0.85rem 1.1rem 0.55rem; display: flex; align-items: center; gap: 0.45rem; font-weight: 800;
+    }
+    .summary { padding: 0.1rem 1.1rem 0.6rem; font-size: 0.98rem; color: var(--soft-text); line-height: 1.6; }
+    .summary .lead { color: var(--text); font-weight: 700; }
 
-    .section-nav { position: sticky; top: 0; z-index: 600; background: #fff; border-bottom: 1px solid var(--border); padding: 0.55rem 0; }
-    .section-nav-inner { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; display: flex; gap: 1.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .section-nav a { color: var(--brand-teal); font-weight: 600; text-decoration: none; padding: 0.4rem 0; font-size: 0.95rem; white-space: nowrap; }
-    .section-nav a:hover { text-decoration: underline; text-decoration-thickness: 3px; }
+    /* Now / current conditions */
+    /* Bold "right now" hero (weather.com-style): big temp + icon on a soft
+       sky-tinted panel, with today's high/low. */
+    .wx-now { display: flex; align-items: center; gap: 1rem; margin: 0.2rem 1.1rem 0.7rem; padding: 1.05rem 1.2rem; border-radius: 16px;
+      background: var(--hero-bg); border: 1px solid var(--border); }
+    .wx-ico { font-size: 3.2rem; line-height: 1; flex: none; }
+    .wx-temp { font-size: 3.6rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; flex: none; }
+    .wx-meta { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; }
+    .wx-desc { font-size: 1.05rem; color: var(--text); font-weight: 600; }
+    .wx-feels { font-size: 0.84rem; color: var(--muted); }
+    .wx-hilo { font-size: 0.84rem; color: var(--soft-text); margin-top: 0.12rem; }
+    .wx-hilo b { font-weight: 700; }
+    @media (max-width: 560px) { .wx-now { gap: 0.7rem; padding: 0.9rem 1rem; } .wx-temp { font-size: 3rem; } .wx-ico { font-size: 2.6rem; } }
+    /* Friendly "today at a glance" verdict (weather.com-style activity tip). */
+    .day-verdict { display: flex; align-items: center; gap: 0.6rem; margin: 0 1.1rem 0.7rem; padding: 0.65rem 0.9rem; border-radius: 12px;
+      background: var(--card-2); border: 1px solid var(--border); font-size: 0.94rem; color: var(--soft-text); line-height: 1.45; }
+    .day-verdict .dv-ico { font-size: 1.3rem; line-height: 1; flex: none; }
+    .day-verdict b { color: var(--text); font-weight: 700; }
+    /* Things to do in Barbados — weather-matched activity cards. */
+    .todo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.6rem; padding: 0.3rem 1.1rem 0.6rem; }
+    .todo-item { display: flex; gap: 0.65rem; align-items: flex-start; border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.8rem; background: var(--card-2); }
+    .todo-ico { font-size: 1.6rem; line-height: 1; flex: none; }
+    .todo-name { font-weight: 700; color: var(--text); font-size: 0.96rem; }
+    .todo-area { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin: 0.05rem 0 0.28rem; }
+    .todo-blurb { font-size: 0.84rem; color: var(--soft-text); line-height: 1.45; }
+    .wx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; padding: 0.3rem 1.1rem 1.1rem; }
+    .wx-tile { position: relative; border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.75rem; background: var(--card-2); }
+    .wx-tile .lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .wx-tile .val { font-size: 1.1rem; font-weight: 700; margin-top: 0.15rem; }
+    .tile-info { position: absolute; top: 6px; right: 6px; width: 19px; height: 19px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--muted); font-size: 0.72rem; font-weight: 700; line-height: 1; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
+    .tile-info:hover, .tile-info:focus-visible { color: var(--soft-text); border-color: var(--accent); }
+    .tile-note { margin-top: 0.45rem; font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+    .tile-note b { color: var(--soft-text); font-weight: 600; }
+    .wx-obs { font-size: 0.72rem; color: var(--muted); padding: 0 1.1rem 1.1rem; }
+    .panel-age { font-size: 0.7rem; color: var(--muted); padding: 0 1.1rem 1rem; }
+    .flood-note { font-size: 0.88rem; color: var(--soft-text); padding: 0 1.1rem 0.6rem; line-height: 1.5; }
+    .flood-note .chance, .arrival-note .chance { margin-right: 0.35rem; }
+    .arrival-note { font-size: 0.9rem; color: var(--soft-text); padding: 0.2rem 1.1rem 0.7rem; line-height: 1.5; }
+    .wave-note { font-size: 0.92rem; color: var(--soft-text); padding: 0 1.1rem 0.6rem; line-height: 1.55; }
+    .wave-note .lead { color: var(--text); font-weight: 700; }
 
-    .card { background: #fff; padding: 2rem 0 1.6rem; border-bottom: 1px solid var(--border); }
-    .card:last-child { border-bottom: 0; }
-    .card h2 { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 0.7rem; line-height: 1.2; letter-spacing: -0.01em; }
-    .card h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 1.2rem 0 0.5rem; }
-    .summary { font-size: 1.05rem; line-height: 1.5; margin-bottom: 1rem; color: var(--text); }
-    .summary .lead { font-weight: 700; }
-    .pill { display: none; }
+    /* 7-day forecast */
+    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; padding: 0.3rem 1.1rem 1.1rem; }
+    @media (max-width: 720px) { .days { grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); } }
+    .day { border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.35rem; text-align: center; background: var(--card-2); }
+    .day .dow { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .day .ico { font-size: 1.5rem; margin: 0.3rem 0; }
+    .day .hi { font-weight: 800; }
+    .day .lo { color: var(--muted); }
+    .day .rain { font-size: 0.72rem; color: var(--accent); margin-top: 0.25rem; }
 
-    .wx-now { display: flex; align-items: center; gap: 1.5rem; margin: 0.4rem 0 0.8rem; }
-    .wx-temp { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--text); }
-    .wx-desc { font-size: 1.1rem; font-weight: 700; color: var(--text); }
-    .wx-feels { font-size: 0.92rem; color: var(--muted); margin-top: 0.15rem; }
-    .wx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.7rem; margin-top: 0.8rem; }
-    .wx-tile { background: var(--bg-alt); padding: 0.7rem 0.9rem; border-left: 4px solid var(--brand-teal); }
-    .wx-tile .lbl { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-    .wx-tile .val { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-top: 0.18rem; }
-    .wx-obs { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
+    /* Hourly strip */
+    .strip-key { font-size: 0.75rem; color: var(--muted); padding: 0 1.1rem 0.45rem; line-height: 1.4; }
+    .strip-key b { color: var(--soft-text); font-weight: 600; }
+    .hours { display: flex; gap: 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0.3rem 1.1rem 1.1rem; }
+    .hr { flex: 0 0 auto; width: 66px; text-align: center; border: 1px solid var(--border); border-radius: 11px; padding: 0.5rem 0.3rem; background: var(--card-2); }
+    .hr .t { font-size: 0.72rem; color: var(--muted); }
+    .hr .ico { font-size: 1.15rem; margin: 0.2rem 0; }
+    .hr .r { font-size: 0.74rem; color: var(--accent); }
+    .hr .w { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
 
-    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.4rem; margin-top: 0.5rem; }
-    @media (max-width: 720px) { .days { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); } }
-    .day { background: var(--bg-alt); padding: 0.7rem 0.4rem; text-align: center; border-top: 4px solid var(--brand-teal); }
-    .day .dow { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
-    .day .ico { font-size: 1.6rem; margin: 0.3rem 0; }
-    .day .hi { font-weight: 700; font-size: 1rem; color: var(--text); }
-    .day .lo { color: var(--muted); font-size: 0.95rem; }
-    .day .rain { font-size: 0.8rem; color: var(--brand-teal); margin-top: 0.25rem; font-weight: 600; }
+    /* UV badge */
+    .uv { display: inline-block; border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 0.78rem; font-weight: 700; }
+    .uv.low { background: var(--all-clear-soft); color: #4ade80; }
+    .uv.moderate { background: var(--watch-soft); color: #fde047; }
+    .uv.high { background: var(--warning-soft); color: #fdba74; }
+    .uv.extreme { background: var(--imminent-soft); color: #fca5a5; }
 
-    .hours { display: flex; gap: 0.4rem; overflow-x: auto; padding: 0.5rem 0 0.2rem; }
-    .hr { flex: 0 0 auto; background: var(--bg-alt); padding: 0.5rem 0.35rem; text-align: center; min-width: 64px; border-top: 3px solid var(--brand-teal); }
-    .hr .t { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
-    .hr .ico { font-size: 1.2rem; margin: 0.2rem 0; }
-    .hr .r { font-size: 0.8rem; color: var(--brand-teal); font-weight: 600; }
-    .hr .w { font-size: 0.78rem; color: var(--text); margin-top: 0.1rem; }
+    /* Map / radar */
+    #map { height: 360px; background: var(--card-2); }
+    @media (max-width: 720px) { #map { height: 280px; } }
 
-    .uv { display: inline-block; padding: 0.18rem 0.55rem; font-size: 0.82rem; font-weight: 700; }
-    .uv.low { background: var(--all-clear-soft); color: var(--all-clear); }
-    .uv.moderate { background: var(--watch-soft); color: var(--watch); }
-    .uv.high { background: var(--warning-soft); color: var(--warning); }
-    .uv.extreme { background: var(--imminent-soft); color: var(--imminent); }
-
-    #map { height: 380px; border: 1px solid var(--border); margin-top: 0.5rem; }
-    @media (max-width: 720px) { #map { height: 300px; } }
-    .radar-bar { display: flex; gap: 0.7rem; align-items: center; padding: 0.55rem 0.7rem; background: var(--bg-alt); border: 1px solid var(--border); border-top: 0; font-size: 0.88rem; color: var(--text); flex-wrap: wrap; }
-    .radar-bar button, .sat-bar button { background: var(--brand-teal); color: #fff; border: 0; padding: 0.45rem 0.85rem; font-weight: 700; cursor: pointer; font-size: 0.85rem; }
-    .radar-bar button:hover, .sat-bar button:hover { background: var(--brand-teal-hover); }
-
-    .sat { margin-top: 1.5rem; }
-    .sat-frame { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--border); background: var(--bg-alt); }
+    /* Mobile: comfortable tap targets + a little more breathing room. */
+    @media (max-width: 560px) {
+      .wrap { padding: 0.9rem 0.8rem 2rem; }
+      .section-nav { margin: 0 -0.8rem 1.1rem; padding: 0.5rem 0.8rem; }
+      .section-nav a { padding: 0.55rem 0.7rem; }
+      .radar-bar button, .sat-bar button, .alerts-btn { min-height: 44px; }
+      .settings-btn { width: 40px; height: 40px; }
+      .shelter-pick select, .alerts-prefs select, .settings-panel select, .emerg-num { min-height: 44px; }
+      .source { min-height: 52px; }
+    }
+    .radar-bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 1.1rem; font-size: 0.8rem; color: var(--muted); flex-wrap: wrap; }
+    .radar-bar button {
+      background: var(--card-2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 9px; padding: 0.3rem 0.7rem; font-size: 0.8rem; cursor: pointer; font-weight: 600;
+    }
+    .radar-bar button:hover { border-color: var(--accent); }
+    .sat { padding: 0 1.1rem 1.1rem; }
+    .sat-frame { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--card-2); }
     .sat-scene { position: absolute; top: 0; left: 0; width: 100%; transform-origin: 0 0; transform: scale(2.1) translate(-36%, -52%); }
     .sat-scene img { width: 100%; display: block; }
-    .sat-pin { position: absolute; left: 63%; top: 44%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; color: #fff; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.9); white-space: nowrap; pointer-events: none; z-index: 2; }
-    .sat-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--brand-teal); border: 2px solid #fff; box-shadow: 0 0 0 2px rgba(0,108,91,0.6); margin-bottom: 2px; }
-    .sat-bar { display: flex; gap: 0.7rem; align-items: center; padding: 0.55rem 0.7rem; font-size: 0.88rem; background: var(--bg-alt); border: 1px solid var(--border); border-top: 0; flex-wrap: wrap; }
-    .sat .explain { margin-top: 0.6rem; }
+    .sat-pin { position: absolute; left: 63%; top: 44%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; font-size: 0.64rem; color: #fff; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.95); white-space: nowrap; pointer-events: none; z-index: 2; }
+    .sat-dot { width: 10px; height: 10px; border-radius: 50%; background: #38bdf8; border: 2px solid #fff; box-shadow: 0 0 0 2px rgba(56,189,248,0.6); margin-bottom: 2px; }
+    .sat-bar { display: flex; align-items: center; gap: 0.7rem; padding-top: 0.5rem; font-size: 0.78rem; color: var(--muted); flex-wrap: wrap; }
+    .sat-bar button { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 9px; padding: 0.3rem 0.7rem; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
+    .sat-bar button:hover { border-color: var(--accent); }
+    .sat .explain { margin: 0.6rem 0 0; }
 
-    .briefing { background: var(--brand-yellow-soft); border-left: 8px solid var(--brand-yellow); padding: 1rem 1.3rem; margin: 1rem 0 0.4rem; line-height: 1.6; font-size: 1rem; color: var(--text); white-space: pre-wrap; }
-    .briefing-source { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.6rem; }
-    .replay-label { font-size: 0.92rem; color: var(--brand-teal); font-style: italic; margin: 0.4rem 0; }
-
-    .table-wrap { overflow-x: auto; margin: 0.6rem 0 1rem; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 540px; }
-    th, td { text-align: left; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--border); }
-    th { background: var(--bg-alt); font-weight: 700; color: var(--text); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
-    td { color: var(--text); }
-    td b { font-weight: 700; }
-    .chip { display: inline-block; padding: 0.2rem 0.65rem; font-size: 0.82rem; font-weight: 700; }
-    .chip.ALL_CLEAR { background: var(--all-clear-soft); color: var(--all-clear); }
-    .chip.WATCH { background: var(--watch-soft); color: var(--watch); }
-    .chip.WARNING { background: var(--warning-soft); color: var(--warning); }
-    .chip.IMMINENT { background: var(--imminent-soft); color: var(--imminent); }
-    .empty { padding: 1.4rem 0.5rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
-    .empty .sun { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
-
-    .outlook-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.7rem; margin-top: 0.6rem; }
-    .area { background: var(--bg-alt); border-left: 4px solid var(--watch); padding: 0.85rem 1rem; }
-    .area.calm { border-left-color: var(--all-clear); background: var(--all-clear-soft); }
-    .area-where { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; color: var(--text); }
-    .area-chance { font-size: 0.95rem; color: var(--text); }
-    .area-48 { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
-    .chance { display: inline-block; padding: 0.18rem 0.55rem; font-size: 0.88rem; font-weight: 800; }
-    .chance.low { background: var(--all-clear-soft); color: var(--all-clear); }
-    .chance.medium { background: var(--watch-soft); color: var(--watch); }
-    .chance.high { background: var(--imminent-soft); color: var(--imminent); }
-    .tropical-src { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
-
-    .names { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
-    .name-chip { font-size: 0.92rem; padding: 0.3rem 0.65rem; background: var(--bg-alt); color: var(--text); border-left: 3px solid var(--border); }
-    .name-chip.used { opacity: 0.55; text-decoration: line-through; }
-    .name-chip.active { background: var(--imminent-soft); border-left-color: var(--imminent); color: var(--imminent); font-weight: 700; }
-    .name-chip.next { background: var(--all-clear-soft); border-left-color: var(--brand-teal); color: var(--brand-teal); font-weight: 700; }
-
-    .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.6rem; margin-top: 0.5rem; }
-    .legend > div { background: var(--bg-alt); padding: 0.8rem 1rem; border-left: 4px solid var(--border); font-size: 0.95rem; color: var(--text); line-height: 1.45; }
-    .legend > div b { display: block; font-weight: 700; margin-bottom: 0.2rem; }
-    .legend > div i { display: inline-block; width: 0.85rem; height: 0.85rem; border-radius: 999px; margin-right: 0.45rem; vertical-align: middle; }
-
-    .history { font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-top: 0.5rem; }
-    .history b { font-weight: 700; }
-
-    .prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
-    .prep-col { background: var(--bg-alt); padding: 1rem 1.2rem; border-left: 4px solid var(--brand-teal); }
-    .prep-col h3 { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.5rem; font-size: 1.05rem; }
-    .prep-dot { width: 0.9rem; height: 0.9rem; border-radius: 999px; flex-shrink: 0; }
-    .prep-col ul { padding-left: 1.2rem; }
-    .prep-col li { font-size: 0.95rem; line-height: 1.5; color: var(--text); margin-bottom: 0.45rem; }
-
-    .sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.6rem; margin-top: 0.5rem; }
-    .source { display: flex; gap: 0.7rem; align-items: center; padding: 0.85rem 1rem; background: var(--bg-alt); border-left: 4px solid var(--brand-teal); text-decoration: none; color: var(--text); }
-    .source:hover { background: #ebebeb; text-decoration: none; }
-    .source .s-ico { font-size: 1.3rem; flex-shrink: 0; }
-    .source b { font-size: 0.98rem; font-weight: 700; display: block; color: var(--text); }
-    .source small { font-size: 0.85rem; color: var(--muted); }
-
-    .explain { margin: 0.8rem 0 0; }
-    .explain summary { cursor: pointer; color: var(--brand-teal); font-weight: 600; padding: 0.4rem 0; font-size: 0.95rem; list-style: none; }
+    /* Plain-language explainers */
+    .explain { margin: 0 1.1rem 0.9rem; border: 1px solid var(--border); border-radius: 10px; background: var(--card-2); }
+    .explain summary { cursor: pointer; padding: 0.55rem 0.8rem; font-size: 0.82rem; font-weight: 700; color: var(--accent); list-style: none; }
     .explain summary::-webkit-details-marker { display: none; }
     .explain summary::before { content: "ⓘ "; }
-    .explain summary:hover { text-decoration: underline; text-decoration-thickness: 3px; }
-    .explain .ex-body { padding: 0.5rem 0; font-size: 0.95rem; line-height: 1.55; color: var(--text); }
-    .explain .ex-body b { font-weight: 700; }
+    .explain[open] summary { border-bottom: 1px solid var(--border); }
+    .explain .ex-body { padding: 0.7rem 0.85rem; font-size: 0.85rem; color: var(--soft-text); line-height: 1.6; }
+    .explain .ex-body b { color: var(--text); font-weight: 700; }
+    .explain .rkey { display: flex; align-items: center; gap: 0.5rem; margin: 0.4rem 0; font-size: 0.85rem; }
+    .explain .rsw { width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0; display: inline-block; }
 
-    .hist-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.6rem; }
-    .lead { font-weight: 700; color: var(--brand-teal); }
+    /* Active systems */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 520px; }
+    th, td { text-align: left; padding: 0.6rem 1.1rem; border-top: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    td b { font-weight: 700; }
+    .chip { display: inline-block; border-radius: 999px; padding: 0.12rem 0.6rem; font-size: 0.74rem; font-weight: 700; }
+    .chip.ALL_CLEAR { background: var(--all-clear-soft); color: #4ade80; }
+    .chip.WATCH { background: var(--watch-soft); color: #fde047; }
+    .chip.WARNING { background: var(--warning-soft); color: #fdba74; }
+    .chip.IMMINENT { background: var(--imminent-soft); color: #fca5a5; }
+    .empty { padding: 1.6rem 1.1rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
+    .empty .sun { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
 
-    .feedback-card { background: var(--brand-yellow-soft); border-left: 8px solid var(--brand-yellow); padding: 1rem 1.3rem; margin: 2rem 0 0; }
-    .feedback-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
-    .feedback-card p { font-size: 0.95rem; line-height: 1.5; }
+    .briefing { padding: 0.2rem 1.1rem 0.5rem; white-space: pre-wrap; line-height: 1.65; font-size: 0.92rem; color: var(--soft-text); }
+    .briefing-source { font-size: 0.7rem; color: var(--muted); padding: 0 1.1rem 1rem; }
+    .replay-label { padding: 0 1.1rem 0.5rem; font-size: 0.8rem; color: var(--accent); font-style: italic; }
 
-    .gov-footer { background: var(--brand-navy); color: #fff; padding: 2.5rem 1.25rem; margin-top: 3rem; }
-    .gov-footer-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
-    .gov-footer a { color: #fff; }
-    .gov-footer-links { display: grid; gap: 0.45rem; font-size: 0.95rem; }
-    .gov-footer-meta { text-align: right; font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
-    .gov-footer-coat { width: 56px; height: auto; opacity: 0.9; margin-bottom: 0.4rem; }
-    .disclaimer { background: rgba(255,255,255,0.08); border-left: 4px solid var(--brand-yellow); color: #fff; padding: 0.7rem 1rem; margin-bottom: 0.9rem; font-size: 0.92rem; }
-    .disclaimer a { color: #fff; }
+    /* Legend */
+    .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.1rem 1.1rem; }
+    .legend div { border: 1px solid var(--border); border-radius: 11px; padding: 0.55rem 0.7rem; font-size: 0.78rem; color: var(--muted); }
+    .legend b { display: flex; align-items: center; gap: 0.4rem; color: var(--text); font-size: 0.82rem; margin-bottom: 0.15rem; font-weight: 700; }
+    .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+    .history { padding: 0.2rem 1.1rem 1.1rem; font-size: 0.82rem; color: var(--muted); line-height: 1.85; }
+    .history b { color: var(--text); font-weight: 600; }
 
-    @media (max-width: 720px) {
-      .hero h1 { font-size: 1.7rem; }
-      .gov-wordmark { font-size: 1rem; }
-      .gov-footer-inner { grid-template-columns: 1fr; text-align: center; }
-      .gov-footer-meta { text-align: center; }
-      .gov-footer-coat { margin: 0 auto 0.4rem; }
-      .alpha-banner-inner { font-size: 0.88rem; }
-      .banner { flex-direction: column; }
-      .banner .b-storms { margin-left: 0; text-align: left; }
-    }
-  </style>
+    /* Atlantic outlook */
+    .outlook-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.6rem; padding: 0.3rem 1.1rem 0.6rem; }
+    .area { border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.85rem; background: var(--card-2); }
+    .area-where { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .area-chance { font-size: 0.85rem; color: var(--muted); }
+    .area-48 { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+    .area.calm { background: var(--all-clear-soft); border-color: rgba(22,163,74,0.3); }
+    .chance { display: inline-block; border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 0.82rem; font-weight: 800; }
+    .chance.low { background: var(--all-clear-soft); color: #4ade80; }
+    .chance.medium { background: var(--warning-soft); color: #fdba74; }
+    .chance.high { background: var(--imminent-soft); color: #fca5a5; }
+    .tropical-src { font-size: 0.72rem; color: var(--muted); padding: 0 1.1rem 1rem; }
+    .tropical-src a { color: var(--accent); }
 
+    /* Season names */
+    .names { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.3rem 1.1rem 1.1rem; }
+    .name-chip { font-size: 0.8rem; padding: 0.22rem 0.6rem; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--card-2); }
+    .name-chip.used { opacity: 0.45; text-decoration: line-through; }
+    .name-chip.active { background: var(--imminent-soft); border-color: rgba(239,68,68,0.5); color: #fca5a5; font-weight: 700; }
+    .name-chip.next { background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.5); color: var(--accent); font-weight: 700; }
+
+    /* Get ready */
+    .prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem; padding: 0.3rem 1.1rem 0.8rem; }
+    .prep-col { border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 0.9rem; background: var(--card-2); }
+    .prep-col h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.45rem; }
+    .prep-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .prep-col ul { margin: 0; padding-left: 1.1rem; }
+    .prep-col li { font-size: 0.85rem; color: var(--soft-text); margin-bottom: 0.4rem; line-height: 1.5; }
+
+    /* Emergency numbers + shelters */
+    .emerg { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.1rem 0.8rem; }
+    .emerg-num { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; border: 1px solid rgba(239,68,68,0.35); background: var(--imminent-soft); border-radius: 12px; padding: 0.7rem 0.5rem; text-decoration: none; }
+    .emerg-num b { font-size: 1.35rem; font-weight: 800; color: #fca5a5; letter-spacing: 0.01em; }
+    .emerg-num small { font-size: 0.74rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .emerg-num:hover { border-color: #f87171; }
+    .shelter-pick { padding: 0.2rem 1.1rem 0.7rem; }
+    .shelter-pick select { width: 100%; max-width: 360px; background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.7rem; font-size: 0.92rem; }
+    .shelter-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.45rem; padding: 0 1.1rem 0.6rem; }
+    .shelter { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border: 1px solid var(--border); border-radius: 11px; padding: 0.55rem 0.75rem; background: var(--card-2); }
+    .s-name { font-size: 0.86rem; color: var(--text); }
+    .s-wc { font-size: 1rem; flex-shrink: 0; }
+
+    /* Official sources */
+    .sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.1rem 1.2rem; }
+    .source { display: flex; align-items: center; gap: 0.6rem; border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.75rem; background: var(--card-2); text-decoration: none; color: var(--text); }
+    .source:hover { border-color: var(--accent); }
+    .source .s-ico { font-size: 1.3rem; flex-shrink: 0; }
+    .source b { font-size: 0.85rem; font-weight: 700; display: block; }
+    .source small { font-size: 0.72rem; color: var(--muted); }
+
+    footer { text-align: center; font-size: 0.76rem; color: var(--muted); padding: 1.4rem 1rem 0; line-height: 1.7; max-width: 760px; margin: 0 auto; }
+    .disclaimer { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.25); border-radius: 12px; padding: 0.65rem 0.9rem; margin-bottom: 0.7rem; color: #fde68a; }
   </style>
 </head>
 <body>
-  <!-- Alpha banner: GOV.UK-style notice that this is a demo, not the real service -->
-  <div class="alpha-banner">
-    <div class="alpha-banner-inner">
-      <span class="alpha-badge">Demo</span>
-      <span>This is an unofficial Government of Barbados–style dashboard built on public weather data.</span>
-    </div>
-  </div>
-
-  <!-- Yellow brand strip -->
-  <header class="gov-header">
-    <div class="gov-header-inner">
-      <svg class="gov-coat" viewBox="0 0 48 48" aria-hidden="true">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0b1a4a"/><stop offset="100%" stop-color="#0b1a4a"/></linearGradient></defs>
-          <path d="M24 4 L40 10 L40 26 C40 36 32 42 24 44 C16 42 8 36 8 26 L8 10 Z" fill="url(#g)" stroke="#0b1a4a" stroke-width="1"/>
-          <path d="M24 11 C20 15 17 18 17 22 C17 26 20 28 24 28 C28 28 31 26 31 22 C31 18 28 15 24 11 Z" fill="#ffd200"/>
-          <rect x="22" y="27" width="4" height="11" fill="#ffd200"/>
+  <div class="wrap">
+    <a class="skip-link" href="#now">Skip to weather</a>
+    <header>
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 100 100" focusable="false" width="100%" height="100%">
+          <rect width="100" height="100" rx="24" fill="#0b2e6e"/>
+          <g stroke="#ffc726" stroke-width="4.5" stroke-linecap="round">
+            <line x1="32" y1="58" x2="24" y2="58"/><line x1="34.4" y1="49" x2="27.5" y2="45"/>
+            <line x1="41" y1="42.4" x2="37" y2="35.5"/><line x1="50" y1="40" x2="50" y2="32"/>
+            <line x1="59" y1="42.4" x2="63" y2="35.5"/><line x1="65.6" y1="49" x2="72.5" y2="45"/>
+            <line x1="68" y1="58" x2="76" y2="58"/>
+          </g>
+          <path d="M35 58 a15 15 0 0 1 30 0 z" fill="#ffc726"/>
+          <g stroke="#ffffff" stroke-width="5" stroke-linecap="round"><line x1="14" y1="58" x2="31" y2="58"/><line x1="69" y1="58" x2="86" y2="58"/></g>
+          <path d="M16 76 q9 -8 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#7fd6ea" stroke-width="5" stroke-linecap="round"/>
         </svg>
-      <span class="gov-wordmark">Government of Barbados</span>
-      <a href="#now" class="gov-section">Hurricane-Ready</a>
-    </div>
-  </header>
+      </div>
+      <div>
+        <h1>Bim Weather</h1>
+        <span class="island"><span id="island">Barbados</span> weather, every day 🇧🇧</span>
+      </div>
+      <div class="header-spacer"></div>
+      <span class="pill" id="mode"></span>
+      <span class="pill" id="updated"></span>
+      <div class="settings-wrap">
+        <button id="settings-btn" class="settings-btn" type="button" aria-label="Settings" aria-expanded="false" aria-haspopup="true" aria-controls="settings-panel"><span class="ico" data-icon="settings"></span></button>
+        <div id="settings-panel" class="settings-panel" role="dialog" aria-label="Settings" hidden>
+          <label>Temperature
+            <select id="set-temp"><option value="C">°C</option><option value="F">°F</option></select>
+          </label>
+          <label>Wind speed
+            <select id="set-wind"><option value="kmh">km/h</option><option value="kt">knots</option><option value="mph">mph</option></select>
+          </label>
+          <label>Theme
+            <select id="set-theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select>
+          </label>
+        </div>
+      </div>
+    </header>
 
-  <!-- Navy hero with the live threat banner -->
-  <section class="hero">
-    <div class="hero-inner">
-      <h1>Hurricane-Ready <span id="island">Barbados</span></h1>
-      <p class="lede">Live forecast, conditions and tropical-storm tracking for Barbados, built on NOAA and Open-Meteo data.</p>
-      <div id="banner" class="banner ALL_CLEAR" role="status" aria-live="polite" aria-atomic="true">
+    <a id="civil-alert" class="civil-alert" href="https://brb-secondary.capews.com/capews/public/active" target="_blank" rel="noopener" aria-live="assertive" aria-atomic="true" hidden>
+      <span class="ca-ico" aria-hidden="true" data-icon="siren"></span>
+      <span class="ca-text" id="civil-text"></span>
+      <span class="ca-arrow" aria-hidden="true">→</span>
+    </a>
+
+    <div id="banner" class="banner ALL_CLEAR" role="status" aria-live="polite" aria-atomic="true">
       <span class="dot" aria-hidden="true"></span>
       <div>
         <div class="b-title" id="banner-title">Checking the skies…</div>
         <div class="b-sub" id="banner-sub"></div>
       </div>
       <div class="b-storms" id="banner-storms"></div>
+    </div>
+
+    <div id="alerts-bar" class="alerts-bar" hidden>
+      <span class="alerts-text" id="alerts-text"><span class="ico" data-icon="bell"></span> Get a push the moment the storm level rises — even with the app closed.</span>
+      <button class="alerts-btn" id="alerts-btn" type="button">Get storm alerts</button>
+      <div class="alerts-prefs" id="alerts-prefs" hidden>
+        <label>Alert me from
+          <select id="pref-level">
+            <option value="WATCH">Watch</option>
+            <option value="WARNING">Warning</option>
+            <option value="IMMINENT">Imminent</option>
+          </select>
+        </label>
+        <label class="pref-quiet"><input type="checkbox" id="pref-quiet" /> Quiet 10pm–7am</label>
       </div>
     </div>
-  </section>
+    <div id="offline-note" class="offline-note" hidden><span class="ico" data-icon="triangle-alert"></span> You're offline — showing the last saved update.</div>
 
-  <nav class="section-nav" aria-label="Sections">
-    <div class="section-nav-inner">
-      <a href="#now">Right now</a>
-      <a href="#forecast">7-day</a>
-      <a href="#rainwind">Rain &amp; wind</a>
-      <a href="#sea">Beach &amp; sea</a>
-      <a href="#radar">Radar</a>
-      <a href="#storms">Storms</a>
-      <a href="#prep">Get ready</a>
-    </div>
-  </nav>
+    <a class="advisory-link" href="https://www.barbadosweather.org" target="_blank" rel="noopener">
+      <span class="adv-ico" aria-hidden="true" data-icon="megaphone"></span>
+      <span class="adv-text">Beyond hurricanes, <b>Barbados Met Services</b> issues local advisories — small-craft, heavy-rain/flood, dust. Tap to check what's in effect now.</span>
+      <span class="adv-arrow" aria-hidden="true">→</span>
+    </a>
 
-  <div class="wrap">
+    <div class="layout">
+    <nav class="section-nav" aria-label="Sections">
+      <a href="#home"><span class="nav-ico" aria-hidden="true" data-icon="sun"></span><span>Today</span></a>
+      <a href="#forecast"><span class="nav-ico" aria-hidden="true" data-icon="calendar-days"></span><span>7-day</span></a>
+      <a href="#sea"><span class="nav-ico" aria-hidden="true" data-icon="umbrella"></span><span>Beach &amp; sea</span></a>
+      <a href="#radar"><span class="nav-ico" aria-hidden="true" data-icon="radar"></span><span>Radar</span></a>
+      <a href="#storms"><span class="nav-ico" aria-hidden="true" data-icon="tornado"></span><span>Storms</span></a>
+      <a href="#shelters"><span class="nav-ico" aria-hidden="true" data-icon="life-buoy"></span><span>Shelters</span></a>
+      <a href="#prep"><span class="nav-ico" aria-hidden="true" data-icon="backpack"></span><span>Get ready</span></a>
+    </nav>
+
     <main>
-      <section class="card" id="now">
-        <h2>🌤️ Right now in <span id="now-island">Barbados</span></h2>
+      <details class="card" id="now" data-page="home" open>
+        <summary><span class="sum-t"><span class="ico" data-icon="sun"></span> Right now in <span id="now-island">Barbados</span></span><span class="chev" aria-hidden="true">▾</span></summary>
         <p class="summary" id="now-summary">Loading current conditions…</p>
         <div class="wx-now" id="wx-now" hidden>
+          <div class="wx-ico" id="wx-ico" aria-hidden="true"></div>
           <div class="wx-temp" id="wx-temp"></div>
-          <div><div class="wx-desc" id="wx-desc"></div><div class="wx-feels" id="wx-feels"></div></div>
+          <div class="wx-meta">
+            <div class="wx-desc" id="wx-desc"></div>
+            <div class="wx-feels" id="wx-feels"></div>
+            <div class="wx-hilo" id="wx-hilo"></div>
+          </div>
         </div>
+        <div class="day-verdict" id="day-verdict" hidden><span class="dv-ico" id="dv-ico" aria-hidden="true"></span><span id="dv-text"></span></div>
         <div class="wx-grid" id="wx-grid" hidden></div>
         <p class="wx-obs" id="wx-obs"></p>
-      </section>
+      </details>
 
-      <section class="card" id="forecast">
-        <h2>📅 Next 7 days</h2>
-        <p class="summary" id="forecast-summary"></p>
-        <div class="days" id="days"><p class="summary">Loading forecast…</p></div>
-      </section>
-
-      <section class="card" id="rainwind">
-        <h2>🌧️ Rain &amp; wind — next 24 hours</h2>
+      <details class="card" id="rainwind" data-page="home" open>
+        <summary><span class="sum-t"><span class="ico" data-icon="cloud-rain"></span> Rain &amp; wind — next 24 hours</span><span class="chev" aria-hidden="true">▾</span></summary>
         <p class="summary" id="rainwind-summary">Loading outlook…</p>
-        <div class="hours" id="hours"></div>
-      </section>
+        <p class="flood-note" id="flood-note" role="status" aria-live="polite" hidden></p>
+        <p class="strip-key">Hour by hour — <b>💧 chance of rain</b> and <b>wind speed</b> (scroll for all 24 hours):</p>
+        <div class="hours" id="hours" tabindex="0" role="group" aria-label="Hourly forecast for the next 24 hours — scroll sideways"></div>
+      </details>
 
-      <section class="card" id="sea">
-        <h2>🏖️ Beach &amp; sea</h2>
+      <details class="card" id="todo" data-page="home" open>
+        <summary><span class="sum-t"><span class="ico" data-icon="palmtree"></span> Things to do in Barbados</span><span class="chev" aria-hidden="true">▾</span></summary>
+        <p class="summary" id="todo-summary">Loading ideas…</p>
+        <div class="todo-grid" id="todo-grid"></div>
+        <p class="wx-obs">Ideas are matched to today's weather. Always check opening times before you go.</p>
+      </details>
+
+      <details class="card" id="forecast" data-page="forecast">
+        <summary><span class="sum-t"><span class="ico" data-icon="calendar-days"></span> Next 7 days</span><span class="chev" aria-hidden="true">▾</span></summary>
+        <p class="summary" id="forecast-summary"></p>
+        <p class="strip-key">Each day shows the high/low temperature and <b>💧 the chance of rain</b>.</p>
+        <div class="days" id="days"><p class="summary">Loading forecast…</p></div>
+        <p class="panel-age" id="forecast-age"></p>
+      </details>
+
+      <details class="card" id="sea" data-page="sea">
+        <summary><span class="sum-t"><span class="ico" data-icon="umbrella"></span> Beach, sea &amp; sky</span><span class="chev" aria-hidden="true">▾</span></summary>
+        <h2 class="sub"><span class="ico" data-icon="waves"></span> Beach &amp; sea</h2>
         <p class="summary" id="sea-summary">Loading sea conditions…</p>
         <div class="wx-grid" id="sea-grid"></div>
-        <h2>☀️ Sun &amp; moon</h2>
+        <h2><span class="ico" data-icon="moon"></span> Sun &amp; moon</h2>
+        <p class="strip-key" id="sky-day"></p>
         <div class="wx-grid" id="sky-grid"></div>
-      </section>
+        <h2><span class="ico" data-icon="wind"></span> Air &amp; tide</h2>
+        <p class="summary" id="air-summary">Loading air &amp; tide…</p>
+        <div class="wx-grid" id="air-grid"></div>
+      </details>
 
-      <section class="card" id="radar">
-        <h2>🛰️ Rain radar &amp; satellite</h2>
+      <details class="card" id="radar" data-page="radar">
+        <summary><span class="sum-t"><span class="ico" data-icon="radar"></span> Rain radar &amp; satellite</span><span class="chev" aria-hidden="true">▾</span></summary>
         <div id="map" aria-label="Live rain radar and active storms near Barbados"></div>
         <div class="radar-bar">
           <button id="radar-toggle" type="button" aria-label="Play or pause radar animation">▶ Play radar</button>
@@ -346,7 +610,13 @@
         </div>
         <details class="explain">
           <summary>What am I looking at?</summary>
-          <div class="ex-body">This map shows <b>rain happening right now</b>, picked up by weather radar. Green is light rain, yellow and orange are heavier, and red is a downpour or thunderstorm. The blue dot is Barbados. Press <b>▶ Play radar</b> to watch where the rain has moved over the last hour — that's the direction it's heading.</div>
+          <div class="ex-body">This map shows <b>rain happening right now</b>, picked up by weather radar. The colours run from light to heavy:
+            <span class="rkey"><span class="rsw" style="background:#27aee2"></span><b>Blue</b> — light rain or drizzle</span>
+            <span class="rkey"><span class="rsw" style="background:#3bb143"></span><b>Green</b> — steady rain</span>
+            <span class="rkey"><span class="rsw" style="background:#f2c200"></span><b>Yellow/orange</b> — heavy rain</span>
+            <span class="rkey"><span class="rsw" style="background:#e53935"></span><b>Red</b> — a downpour or thunderstorm</span>
+            <span class="rkey"><span class="rsw" style="background:#fff;border:1px solid #888"></span><b>White dot</b> — Barbados (you)</span>
+            Press <b>▶ Play radar</b> to watch which way the rain is moving — that's where it's heading. When a storm is active, the <b>amber cone</b> shows where its centre could track over the next 5 days (the NHC forecast plus its average error) — the storm's winds and rain reach well beyond the thin line.</div>
         </details>
 
         <figure class="sat" id="sat" hidden>
@@ -366,14 +636,15 @@
             <div class="ex-body">A <b>live photo from a weather satellite</b> high above the Caribbean, zoomed in on us. White is cloud; bright white blobs are showers or storms building up. The hazy brown tint is <b>Saharan dust</b> blown across from Africa — normal in summer, and it actually helps keep hurricanes away. Barbados is the blue dot. Press <b>▶ Play loop</b> to watch the clouds move.</div>
           </details>
         </figure>
-      </section>
+      </details>
 
-      <section class="card" id="storms">
-        <h2>🌪️ Storms &amp; tropics</h2>
+      <details class="card" id="storms" data-page="storms">
+        <summary><span class="sum-t"><span class="ico" data-icon="tornado"></span> Storms &amp; tropics</span><span class="chev" aria-hidden="true">▾</span></summary>
         <p id="replay-label" class="replay-label"></p>
         <div id="briefing" class="briefing">Loading…</div>
         <p id="briefing-source" class="briefing-source"></p>
-        <div class="table-wrap">
+        <p class="arrival-note" id="arrival-note" role="status" aria-live="polite" hidden></p>
+        <div class="table-wrap" tabindex="0" role="group" aria-label="Active storms table — scroll sideways for more columns">
           <table>
             <thead>
               <tr><th scope="col">Storm</th><th scope="col">Class</th><th scope="col">Winds</th><th scope="col">Distance now</th><th scope="col">Closest approach</th><th scope="col">Level</th></tr>
@@ -382,16 +653,17 @@
           </table>
         </div>
 
-        <h2>🌊 Atlantic outlook</h2>
+        <h2><span class="ico" data-icon="globe"></span> Atlantic outlook</h2>
         <p class="summary" id="tropical-summary">Loading the tropics…</p>
+        <p class="wave-note" id="wave-note" role="status" aria-live="polite" hidden></p>
         <div class="outlook-areas" id="tropical-areas"></div>
         <p class="tropical-src" id="tropical-src"></p>
 
-        <h2>🔤 This season's storm names</h2>
+        <h2><span class="ico" data-icon="tags"></span> This season's storm names</h2>
         <p class="hist-intro">Atlantic storms are named in order as they form. Active and used names are highlighted.</p>
         <div class="names" id="season-names"></div>
 
-        <h2>💡 What the levels mean</h2>
+        <h2><span class="ico" data-icon="lightbulb"></span> What the levels mean</h2>
         <div class="legend">
           <div><b><i style="background:var(--all-clear)"></i>All clear</b>No storms threatening us.</div>
           <div><b><i style="background:var(--watch)"></i>Watch</b>System active in the basin. Check in daily.</div>
@@ -399,12 +671,34 @@
           <div><b><i style="background:var(--imminent)"></i>Imminent</b>Conditions expected — be ready to shelter.</div>
         </div>
 
-        <h2>🕐 Level history</h2>
+        <h2><span class="ico" data-icon="history"></span> Level history</h2>
         <div id="history" class="history">—</div>
-      </section>
+      </details>
 
-      <section class="card" id="prep">
-        <h2>🎒 Get ready</h2>
+      <details class="card" id="shelters" data-page="shelters">
+        <summary><span class="sum-t"><span class="ico" data-icon="life-buoy"></span> Emergency &amp; shelters</span><span class="chev" aria-hidden="true">▾</span></summary>
+        <h2 class="sub"><span class="ico" data-icon="phone"></span> Emergency numbers</h2>
+        <div class="emerg">
+          <a class="emerg-num" href="tel:211"><b>211</b><small>Police</small></a>
+          <a class="emerg-num" href="tel:311"><b>311</b><small>Fire</small></a>
+          <a class="emerg-num" href="tel:511"><b>511</b><small>Ambulance</small></a>
+          <a class="emerg-num" href="tel:+12464278819"><b>427-8819</b><small>Coast Guard</small></a>
+          <a class="emerg-num" href="tel:+12464387575"><b>438-7575</b><small>DEM</small></a>
+        </div>
+
+        <h2><span class="ico" data-icon="house"></span> Find a hurricane shelter</h2>
+        <p class="hist-intro">Pick your parish to see official Category&nbsp;1 shelters near you.</p>
+        <div class="shelter-pick">
+          <select id="parish-select" aria-label="Choose your parish">
+            <option value="">Choose your parish…</option>
+          </select>
+        </div>
+        <div class="shelter-list" id="shelter-list"></div>
+        <p class="tropical-src">Source: Barbados DEM Category&nbsp;1 shelter list (2026 booklet). Shelters and openings can change — always confirm with DEM before travelling. <a href="https://dem.gov.bb/public/downloads/SHELTERBOOKLET2026PUBLIC.pdf" target="_blank" rel="noopener">Official shelter booklet (PDF)</a> · ♿ = wheelchair access.</p>
+      </details>
+
+      <details class="card" id="prep" data-page="prep">
+        <summary><span class="sum-t"><span class="ico" data-icon="backpack"></span> Get ready</span><span class="chev" aria-hidden="true">▾</span></summary>
         <p class="summary">Simple steps for hurricane season in Barbados. The season runs <span class="lead">1 June to 30 November</span>.</p>
         <div class="prep">
           <div class="prep-col">
@@ -439,483 +733,43 @@
           </div>
         </div>
 
-        <h2>🔗 Official sources</h2>
+        <h2><span class="ico" data-icon="external-link"></span> Official sources</h2>
         <p class="hist-intro">This site is unofficial. For official forecasts and warnings, always go to these.</p>
         <div class="sources">
           <a class="source" href="https://www.barbadosweather.org" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">🏛️</span><span><b>Barbados Met Services</b><small>Official forecasts &amp; warnings</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="landmark"></span><span><b>Barbados Met Services</b><small>Official forecasts &amp; warnings</small></span></a>
           <a class="source" href="http://www.dem.gov.bb" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">🚨</span><span><b>Dept. of Emergency Management</b><small>Shelters &amp; preparedness</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="siren"></span><span><b>Dept. of Emergency Management</b><small>Shelters &amp; preparedness</small></span></a>
+          <a class="source" href="https://brb-secondary.capews.com/capews/public/active" target="_blank" rel="noopener">
+            <span class="s-ico" aria-hidden="true" data-icon="megaphone"></span><span><b>CAP.CAP emergency alerts</b><small>Official DEM civil alerts &amp; app</small></span></a>
           <a class="source" href="https://www.barbadosweather.org/weatherBarResp.php" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">🌧️</span><span><b>5-day rainfall forecast</b><small>BMS</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="cloud-rain"></span><span><b>5-day rainfall forecast</b><small>BMS</small></span></a>
           <a class="source" href="https://www.barbadosweather.org/marineBarResp.php" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">⛵</span><span><b>Marine forecast</b><small>BMS</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="sailboat"></span><span><b>Marine forecast</b><small>BMS</small></span></a>
           <a class="source" href="https://www.barbadosweather.org/Radars/LeafScripts/BMSRadarProducts.php" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">📡</span><span><b>Barbados radar</b><small>BMS</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="radar"></span><span><b>Barbados radar</b><small>BMS</small></span></a>
           <a class="source" href="https://www.barbadosweather.org/tsunamiBarResp.php" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">🌊</span><span><b>Tsunami information</b><small>BMS</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="waves"></span><span><b>Tsunami information</b><small>BMS</small></span></a>
           <a class="source" href="https://www.nhc.noaa.gov" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">🌀</span><span><b>NOAA Hurricane Center</b><small>Atlantic storm tracking</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="tornado"></span><span><b>NOAA Hurricane Center</b><small>Atlantic storm tracking</small></span></a>
           <a class="source" href="https://whatsapp.com/channel/0029VaikmlJF6smrbw2hXJ3I" target="_blank" rel="noopener">
-            <span class="s-ico" aria-hidden="true">💬</span><span><b>BMS WhatsApp channel</b><small>Alerts on your phone</small></span></a>
+            <span class="s-ico" aria-hidden="true" data-icon="message-circle"></span><span><b>BMS WhatsApp channel</b><small>Alerts on your phone</small></span></a>
         </div>
-      </section>
+      </details>
     </main>
+    </div>
+
+    <footer>
+      <p class="disclaimer"><strong>Unofficial project.</strong> Forecasts and threat levels are generated automatically and may be wrong.
+      Always follow official guidance from <a href="https://www.barbadosweather.org">Barbados Meteorological Services</a>
+      and the Department of Emergency Management.</p>
+      <p>Storm data from the NOAA National Hurricane Center · Weather &amp; marine from Open-Meteo · Built by <a href="https://christophercorbin.cloud">Christopher Corbin</a></p>
+    </footer>
   </div>
 
-  <footer class="gov-footer">
-    <div class="gov-footer-inner">
-      <div>
-        <p class="disclaimer"><strong>Unofficial demo.</strong> Forecasts and threat levels are generated automatically and may be wrong. Always follow official guidance from <a href="https://www.barbadosweather.org">Barbados Meteorological Services</a> and the Department of Emergency Management.</p>
-        <div class="gov-footer-links">
-          <a href="https://www.barbadosweather.org">Barbados Meteorological Services</a>
-          <a href="http://www.dem.gov.bb">Department of Emergency Management</a>
-          <a href="https://www.nhc.noaa.gov">NOAA National Hurricane Center</a>
-          <a href="#prep">Hurricane preparedness</a>
-        </div>
-      </div>
-      <div>
-        <svg class="gov-footer-coat" viewBox="0 0 48 48" aria-hidden="true">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0b1a4a"/><stop offset="100%" stop-color="#0b1a4a"/></linearGradient></defs>
-          <path d="M24 4 L40 10 L40 26 C40 36 32 42 24 44 C16 42 8 36 8 26 L8 10 Z" fill="url(#g)" stroke="#0b1a4a" stroke-width="1"/>
-          <path d="M24 11 C20 15 17 18 17 22 C17 26 20 28 24 28 C28 28 31 26 31 22 C31 18 28 15 24 11 Z" fill="#ffd200"/>
-          <rect x="22" y="27" width="4" height="11" fill="#ffd200"/>
-        </svg>
-        <div class="gov-footer-meta">© 2026 Government of Barbados (style demo)</div>
-        <div class="gov-footer-meta" style="margin-top:0.4rem">Storm data from NOAA NHC · Weather from Open-Meteo · Built by <a href="https://christophercorbin.cloud">Christopher Corbin</a></div>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    const LEVEL_TITLE = { ALL_CLEAR: "ALL CLEAR", WATCH: "WATCH", WARNING: "WARNING", IMMINENT: "IMMINENT" };
-    const LEVEL_SUB = {
-      ALL_CLEAR: "No tropical systems threatening the island.",
-      WATCH: "A system is active in the Atlantic basin. No immediate threat.",
-      WARNING: "A storm may pass near the island. Prepare now.",
-      IMMINENT: "Finish preparations and be ready to shelter.",
-    };
-    const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    function icon(code) {
-      if (code === 0) return "☀️";
-      if (code === 1 || code === 2) return "🌤️";
-      if (code === 3) return "☁️";
-      if (code === 45 || code === 48) return "🌫️";
-      if (code >= 51 && code <= 67) return "🌧️";
-      if (code >= 71 && code <= 77) return "❄️";
-      if (code >= 80 && code <= 82) return "🌦️";
-      if (code >= 95) return "⛈️";
-      return "🌡️";
-    }
-    const uvWord = (uv) => uv == null ? "—" : uv < 3 ? "Low" : uv < 6 ? "Moderate" : uv < 8 ? "High" : uv < 11 ? "Very high" : "Extreme";
-    const uvClass = (uv) => uv == null ? "low" : uv < 3 ? "low" : uv < 6 ? "moderate" : uv < 8 ? "high" : "extreme";
-    const seaWord = (m) => m == null ? "—" : m < 1 ? "Calm" : m < 1.5 ? "Slight" : m < 2.5 ? "Moderate" : m < 4 ? "Rough" : "Very rough";
-    const windWordKt = (kt) => kt < 7 ? "light" : kt < 16 ? "gentle" : kt < 22 ? "breezy" : kt < 34 ? "fresh" : "strong";
-    // Turn WMO descriptions into a natural adjective for "it's 22°C and ___".
-    const feel = (code, desc) =>
-      code >= 95 ? "stormy" :
-      code >= 80 && code <= 82 ? "showery" :
-      code >= 61 && code <= 67 ? "rainy" :
-      code >= 51 && code <= 55 ? "drizzly" :
-      code === 45 || code === 48 ? "foggy" :
-      desc.toLowerCase();
-    const hourLabel = (iso) => {
-      const d = new Date(iso);
-      let h = d.getHours();
-      const ap = h >= 12 ? "pm" : "am";
-      h = h % 12; if (h === 0) h = 12;
-      return h + ap;
-    };
-    const timeLabel = (iso) => {
-      if (!iso) return "—";
-      const d = new Date(iso);
-      let h = d.getHours();
-      const m = String(d.getMinutes()).padStart(2, "0");
-      const ap = h >= 12 ? "pm" : "am";
-      h = h % 12; if (h === 0) h = 12;
-      return `${h}:${m} ${ap}`;
-    };
-    const MOON_ICONS = {
-      "New moon": "🌑", "Waxing crescent": "🌒", "First quarter": "🌓",
-      "Waxing gibbous": "🌔", "Full moon": "🌕", "Waning gibbous": "🌖",
-      "Last quarter": "🌗", "Waning crescent": "🌘",
-    };
-
-    let map, layerGroup, radarLayer, radarFrames = [], radarHost = "", radarIdx = 0, radarTimer = null;
-
-    function initMap(island) {
-      map = L.map("map", { zoomControl: false }).setView([island.lat, island.lon], 6);
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-        attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19,
-      }).addTo(map);
-      layerGroup = L.layerGroup().addTo(map);
-      setupRadar();
-    }
-
-    async function setupRadar() {
-      try {
-        const r = await fetch("https://api.rainviewer.com/public/weather-maps.json");
-        const data = await r.json();
-        radarHost = data.host;
-        radarFrames = (data.radar.past || []).concat(data.radar.nowcast || []);
-        if (radarFrames.length) showRadarFrame(radarFrames.length - 1);
-      } catch { /* radar optional */ }
-    }
-
-    function showRadarFrame(i) {
-      if (!radarHost || !radarFrames[i]) return;
-      radarIdx = i;
-      const f = radarFrames[i];
-      const url = `${radarHost}${f.path}/256/{z}/{x}/{y}/4/1_1.png`;
-      if (radarLayer) map.removeLayer(radarLayer);
-      radarLayer = L.tileLayer(url, { opacity: 0.6, zIndex: 5 }).addTo(map);
-      document.getElementById("radar-time").textContent =
-        "Radar " + new Date(f.time * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    }
-
-    function toggleRadar() {
-      const btn = document.getElementById("radar-toggle");
-      if (radarTimer) {
-        clearInterval(radarTimer); radarTimer = null; btn.textContent = "▶ Play radar"; return;
-      }
-      if (!radarFrames.length) return;
-      btn.textContent = "⏸ Pause";
-      radarTimer = setInterval(() => {
-        showRadarFrame((radarIdx + 1) % radarFrames.length);
-      }, 700);
-    }
-
-    const SAT_BASE = "https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/car/GEOCOLOR/";
-    let satFrames = [], satIdx = 0, satTimer = null, satLoaded = false;
-
-    const dayOfYear = (d) =>
-      Math.floor((Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) - Date.UTC(d.getUTCFullYear(), 0, 0)) / 86400000);
-    const satFrameUrl = (d, size) => {
-      const ts = `${d.getUTCFullYear()}${String(dayOfYear(d)).padStart(3, "0")}` +
-        `${String(d.getUTCHours()).padStart(2, "0")}${String(d.getUTCMinutes()).padStart(2, "0")}`;
-      return `${SAT_BASE}${ts}_GOES19-ABI-car-GEOCOLOR-${size}.jpg`;
-    };
-
-    function setSatellite() {
-      const fig = document.getElementById("sat");
-      const img = document.getElementById("sat-img");
-      const bucket = Math.floor(Date.now() / 600000);
-      img.onload = () => { fig.hidden = false; };
-      img.onerror = () => { fig.hidden = true; };
-      img.src = `${SAT_BASE}1000x1000.jpg?_=${bucket}`;
-    }
-
-    // Lazily preload the last ~100 minutes of frames (started 20 min back to
-    // allow for posting latency); keep only the ones that actually load.
-    function loadSatFrames() {
-      if (satLoaded) return Promise.resolve();
-      const now = new Date();
-      now.setUTCMinutes(Math.floor(now.getUTCMinutes() / 10) * 10, 0, 0);
-      const got = [];
-      const tries = [];
-      for (let i = 2; i < 12; i++) {
-        const d = new Date(now.getTime() - i * 600000);
-        const url = satFrameUrl(d, "500x500");
-        tries.push(new Promise((res) => {
-          const im = new Image();
-          im.onload = () => { got.push({ t: d.getTime(), url }); res(); };
-          im.onerror = () => res();
-          im.src = url;
-        }));
-      }
-      return Promise.all(tries).then(() => {
-        got.sort((a, b) => a.t - b.t);
-        satFrames = got;
-        satLoaded = true;
-      });
-    }
-
-    async function toggleSat() {
-      const btn = document.getElementById("sat-toggle");
-      const img = document.getElementById("sat-img");
-      const time = document.getElementById("sat-time");
-      if (satTimer) {
-        clearInterval(satTimer); satTimer = null;
-        btn.textContent = "▶ Play loop"; time.textContent = "";
-        setSatellite();
-        return;
-      }
-      btn.textContent = "… loading";
-      await loadSatFrames();
-      if (!satFrames.length) { btn.textContent = "▶ Play loop"; return; }
-      btn.textContent = "⏸ Pause";
-      satIdx = 0;
-      img.onerror = null;
-      satTimer = setInterval(() => {
-        const f = satFrames[satIdx % satFrames.length];
-        img.src = f.url;
-        time.textContent = "Frame " + new Date(f.t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        satIdx++;
-      }, 600);
-    }
-
-    function renderNow(s) {
-      const w = s.weather;
-      const el = document.getElementById("now-summary");
-      if (!w) { el.textContent = "Current conditions are unavailable right now."; return; }
-      document.getElementById("wx-now").hidden = false;
-      document.getElementById("wx-grid").hidden = false;
-      document.getElementById("wx-temp").textContent = w.tempC + "°C";
-      document.getElementById("wx-desc").textContent = w.description;
-      document.getElementById("wx-feels").textContent = "Feels like " + w.feelsLikeC + "°C";
-      document.getElementById("wx-grid").innerHTML = `
-        <div class="wx-tile"><div class="lbl">Wind</div><div class="val">${w.windKt} kt ${w.windFrom}</div></div>
-        <div class="wx-tile"><div class="lbl">Gusts</div><div class="val">${w.gustKt} kt</div></div>
-        <div class="wx-tile"><div class="lbl">Humidity</div><div class="val">${w.humidity}%</div></div>
-        <div class="wx-tile"><div class="lbl">Rain</div><div class="val">${w.precipMm} mm</div></div>`;
-      document.getElementById("wx-obs").textContent =
-        "Observed " + new Date(w.observedAt + "Z").toUTCString().slice(5, 22) + " UTC · Open-Meteo";
-      const rain = w.precipMm > 0 ? " Light rain is falling." : "";
-      const today = s.outlook && s.outlook.daily && s.outlook.daily[0];
-      let todayClause = "";
-      if (today) {
-        const rp = today.rainProb ?? 0;
-        const rainPhrase = rp >= 60 ? "showers likely" : rp >= 30 ? "a chance of showers" : "mostly dry";
-        todayClause = ` Today: high ${today.maxC}°C, ${rainPhrase}.`;
-      }
-      el.innerHTML = `<span class="lead">It's ${w.tempC}°C and ${feel(w.code, w.description)}</span>, ` +
-        `with a ${windWordKt(w.windKt)} ${w.windFrom} breeze.${rain}${todayClause}`;
-    }
-
-    function renderForecast(o) {
-      const wrap = document.getElementById("days");
-      if (!o || !o.daily || !o.daily.length) { wrap.innerHTML = '<p class="summary">Forecast unavailable right now.</p>'; return; }
-      wrap.innerHTML = o.daily.map((d, idx) => {
-        const dow = idx === 0 ? "Today" : DOW[new Date(d.date + "T00:00").getDay()];
-        const rain = d.rainProb != null ? `<div class="rain">${d.rainProb}%</div>` : "";
-        return `<div class="day"><div class="dow">${dow}</div><div class="ico" aria-hidden="true">${icon(d.code)}</div>
-          <div><span class="hi">${d.maxC}°</span> <span class="lo">${d.minC}°</span></div>${rain}</div>`;
-      }).join("");
-      const wet = o.daily.filter(d => (d.rainProb ?? 0) >= 50).length;
-      const hi = Math.max(...o.daily.map(d => d.maxC));
-      const lo = Math.min(...o.daily.map(d => d.minC));
-      const temps = `Temperatures ${lo}–${hi}°C.`;
-      let lead, rest;
-      if (wet === 0) { lead = "Mostly settled week ahead."; rest = ` Highs around ${hi}°C, lows near ${lo}°C, with little rain expected.`; }
-      else if (wet === 7) { lead = "A wet week ahead."; rest = ` Rain is likely every day. ${temps}`; }
-      else if (wet >= 4) { lead = "A wet week."; rest = ` ${wet} of the next 7 days look rainy. ${temps}`; }
-      else { lead = "A mostly fine week."; rest = ` Just ${wet} wet ${wet === 1 ? "day" : "days"} ahead. ${temps}`; }
-      document.getElementById("forecast-summary").innerHTML = `<span class="lead">${lead}</span>${rest}`;
-    }
-
-    function renderRainWind(o, w) {
-      const wrap = document.getElementById("hours");
-      const sum = document.getElementById("rainwind-summary");
-      if (!o || !o.hourly || !o.hourly.length) { sum.textContent = "Hourly outlook unavailable right now."; wrap.innerHTML = ""; return; }
-      const h = o.hourly;
-      wrap.innerHTML = h.filter((_, i) => i % 2 === 0).map(x => `
-        <div class="hr"><div class="t">${hourLabel(x.time)}</div><div class="ico" aria-hidden="true">${icon(x.code)}</div>
-          <div class="r">${x.rainProb ?? 0}%</div><div class="w">${x.windKmh} km/h</div></div>`).join("");
-      let peak = h[0];
-      for (const x of h) if ((x.rainProb ?? 0) > (peak.rainProb ?? 0)) peak = x;
-      const winds = h.map(x => x.windKmh);
-      const wlo = Math.min(...winds), whi = Math.max(...winds);
-      const dir = w ? " from the " + w.windFrom : "";
-      let rainText;
-      if ((peak.rainProb ?? 0) < 30) rainText = "Little to no rain expected over the next 24 hours.";
-      else rainText = `Showers most likely around ${hourLabel(peak.time)} (${peak.rainProb}% chance).`;
-      sum.innerHTML = `<span class="lead">${rainText}</span> Winds ${wlo}–${whi} km/h${dir}.`;
-    }
-
-    function renderSea(o, hourlyUv) {
-      const grid = document.getElementById("sea-grid");
-      const sum = document.getElementById("sea-summary");
-      const m = o && o.marine;
-      const uvNow = o && o.hourly && o.hourly.length ? o.hourly[0].uv : null;
-      const uvMax = o && o.daily && o.daily.length ? o.daily[0].uvMax : null;
-      const waveVal = m && m.waveHeightM != null ? m.waveHeightM + " m" : "—";
-      const periodVal = m && m.wavePeriodS != null ? m.wavePeriodS + " s" : "—";
-      grid.innerHTML = `
-        <div class="wx-tile"><div class="lbl">Sea state</div><div class="val">${seaWord(m && m.waveHeightM)}</div></div>
-        <div class="wx-tile"><div class="lbl">Wave height</div><div class="val">${waveVal}</div></div>
-        <div class="wx-tile"><div class="lbl">Wave period</div><div class="val">${periodVal}</div></div>
-        <div class="wx-tile"><div class="lbl">UV now</div><div class="val"><span class="uv ${uvClass(uvNow)}">${uvWord(uvNow)}</span></div></div>`;
-      const uvAdvice = (uvMax != null && uvMax >= 6) ? " UV peaks " + uvWord(uvMax).toLowerCase() + " today — wear sunscreen and seek shade around midday." : "";
-      if (m && m.waveHeightM != null) {
-        sum.innerHTML = `<span class="lead">Seas are ${seaWord(m.waveHeightM).toLowerCase()} at about ${m.waveHeightM} m.</span>${uvAdvice}`;
-      } else {
-        sum.innerHTML = `<span class="lead">Sea conditions are unavailable right now.</span>${uvAdvice}`;
-      }
-    }
-
-    function renderSunMoon(o) {
-      const g = document.getElementById("sky-grid");
-      const a = o && o.astro;
-      if (!a) { g.innerHTML = `<div class="wx-tile"><div class="lbl">Sun &amp; moon</div><div class="val">—</div></div>`; return; }
-      const dl = a.daylightSeconds != null
-        ? `${Math.floor(a.daylightSeconds / 3600)}h ${Math.round((a.daylightSeconds % 3600) / 60)}m` : "—";
-      g.innerHTML = `
-        <div class="wx-tile"><div class="lbl">Sunrise</div><div class="val">${timeLabel(a.sunrise)}</div></div>
-        <div class="wx-tile"><div class="lbl">Sunset</div><div class="val">${timeLabel(a.sunset)}</div></div>
-        <div class="wx-tile"><div class="lbl">Daylight</div><div class="val">${dl}</div></div>
-        <div class="wx-tile"><div class="lbl">Moon</div><div class="val">${MOON_ICONS[a.moonPhase] || "🌙"} ${a.moonIllumination}%</div><div class="lbl" style="margin-top:0.15rem">${a.moonPhase}</div></div>`;
-    }
-
-    function renderNames(s) {
-      const el = document.getElementById("season-names");
-      const names = s.seasonNames || [];
-      const used = s.stormsSoFar || 0;
-      const active = new Set((s.storms || []).map(x => x.name));
-      el.innerHTML = names.map((n, i) => {
-        let cls = "upcoming", tag = "";
-        if (active.has(n)) { cls = "active"; tag = " · active now"; }
-        else if (i < used) { cls = "used"; }
-        else if (i === used) { cls = "next"; tag = " · next"; }
-        return `<span class="name-chip ${cls}" title="${n}${tag}">${n}</span>`;
-      }).join("");
-    }
-
-    function renderTropical(s) {
-      const t = s.tropical;
-      const sum = document.getElementById("tropical-summary");
-      const areas = document.getElementById("tropical-areas");
-      const src = document.getElementById("tropical-src");
-      renderNames(s);
-      if (!t) { sum.textContent = "The Atlantic outlook is unavailable right now."; areas.innerHTML = ""; src.textContent = ""; return; }
-      sum.innerHTML = `<span class="lead">${t.headline}</span>` + (t.activeSystemsText ? ` ${t.activeSystemsText}` : "");
-      if (t.areas && t.areas.length) {
-        areas.innerHTML = t.areas.map(a => {
-          const cat = a.chance7 ? a.chance7.category : "low";
-          const pct = a.chance7 ? a.chance7.pct : 0;
-          return `<div class="area">
-            <div class="area-where">${a.where}</div>
-            <div class="area-chance"><span class="chance ${cat}">${pct}%</span> chance of forming in 7 days</div>
-            ${a.chance48 ? `<div class="area-48">${a.chance48.pct}% within 48 hours</div>` : ""}
-          </div>`;
-        }).join("");
-      } else {
-        areas.innerHTML = `<div class="area calm"><div class="area-where">☀️ All quiet across the Atlantic</div><div class="area-48">No new systems are expected to form in the next 7 days.</div></div>`;
-      }
-      const when = t.issuedAt ? new Date(t.issuedAt).toUTCString().slice(5, 22) + " UTC" : "";
-      src.innerHTML = `NHC Tropical Weather Outlook${when ? " · issued " + when : ""} · <a href="${t.url}" target="_blank" rel="noopener">read the full outlook</a>`;
-    }
-
-    function renderStorms(s) {
-      const passText = (a) => {
-        const p = a.pass;
-        if (!p || p.kind === "distant") return "";
-        if (p.kind === "direct-hit-risk") return `<small style="color:#fca5a5">may track very close</small>`;
-        return `<small style="color:var(--accent)">passes ~${p.distanceKm} km to the ${p.side}</small>`;
-      };
-      const rows = s.storms.map(st => `
-        <tr>
-          <td><b>${st.name}</b></td>
-          <td>${st.classification}</td>
-          <td>${st.intensityKt} kt</td>
-          <td>${st.assessment.distanceNowKm} km</td>
-          <td>${st.assessment.closestApproachKm} km in ~${st.assessment.closestApproachInHours}h ${passText(st.assessment)}
-              <br><small style="color:var(--muted)">(${st.assessment.method === "official-track" ? "NHC track" : "projected"}${st.assessment.windFieldKm ? `, winds reach ${st.assessment.windFieldKm} km` : ""})</small></td>
-          <td><span class="chip ${st.assessment.level}">${st.assessment.level.replace("_", " ")}</span></td>
-        </tr>`).join("");
-      document.getElementById("storms-body").innerHTML = rows ||
-        '<tr><td colspan="6"><div class="empty"><span class="sun" aria-hidden="true">☀️</span>No active systems — enjoy the sunshine.</div></td></tr>';
-
-      document.getElementById("history").innerHTML = (s.history ?? []).slice(-8).reverse()
-        .map(h => `${new Date(h.at).toUTCString().slice(5, 22)} UTC — ${h.from.replace("_", " ")} → <b>${h.to.replace("_", " ")}</b>`)
-        .join("<br>") || "No level changes yet";
-    }
-
-    function renderMap(s) {
-      if (!map) initMap(s.island);
-      layerGroup.clearLayers();
-      L.circleMarker([s.island.lat, s.island.lon], { radius: 7, color: "#38bdf8", fillColor: "#38bdf8", fillOpacity: 0.9 })
-        .bindTooltip(s.island.name, { permanent: true, direction: "bottom" }).addTo(layerGroup);
-      for (const st of s.storms) {
-        L.circleMarker([st.lat, st.lon], { radius: 10, color: "#f87171", fillColor: "#dc2626", fillOpacity: 0.8 })
-          .bindTooltip(`${st.name} (${st.intensityKt} kt)`, { permanent: true, direction: "top" }).addTo(layerGroup);
-        L.polyline([[st.lat, st.lon], [s.island.lat, s.island.lon]], { color: "#475569", dashArray: "6 6", weight: 1 }).addTo(layerGroup);
-        if (st.radii34Km) {
-          L.circle([st.lat, st.lon], { radius: st.radii34Km * 1000, color: "#f97316", weight: 1, fillColor: "#f97316", fillOpacity: 0.12 })
-            .bindTooltip(`34-kt winds to ~${st.radii34Km} km`).addTo(layerGroup);
-        }
-        const pts = (st.forecastPoints ?? []).filter(p => Number.isFinite(p.lat));
-        if (pts.length > 0) {
-          const track = [[st.lat, st.lon], ...pts.map(p => [p.lat, p.lon])];
-          L.polyline(track, { color: "#fbbf24", weight: 2, dashArray: "8 5" }).addTo(layerGroup);
-          for (const p of pts) {
-            L.circleMarker([p.lat, p.lon], { radius: 4, color: "#fbbf24", fillColor: "#f59e0b", fillOpacity: 0.9 })
-              .bindTooltip(`+${p.hoursFromIssuance}h${p.maxWindKt ? ` · ${p.maxWindKt} kt` : ""} (NHC forecast)`).addTo(layerGroup);
-          }
-        }
-      }
-    }
-
-    function render(s) {
-      document.getElementById("island").textContent = s.island.name;
-      document.getElementById("now-island").textContent = s.island.name;
-      document.getElementById("mode").innerHTML = s.mode === "replay" ? "🎬 <b>Replay:</b> Beryl 2024" : "📡 <b>Live:</b> NHC feed";
-      document.getElementById("updated").textContent = s.updatedAt ? new Date(s.updatedAt).toUTCString().slice(5, 22) + " UTC" : "";
-
-      const banner = document.getElementById("banner");
-      banner.className = "banner " + s.level;
-      document.getElementById("banner-title").textContent = LEVEL_TITLE[s.level];
-      document.getElementById("banner-sub").textContent = LEVEL_SUB[s.level];
-      document.getElementById("banner-storms").innerHTML = s.storms.length
-        ? `tracking<b>${s.storms.map(x => x.name).join(", ")}</b>` : "";
-
-      document.getElementById("briefing").textContent = s.briefing ?? "—";
-      document.getElementById("briefing-source").textContent =
-        s.briefingSource === "claude" ? "✨ Written by Claude on Amazon Bedrock · level decided by deterministic engine" :
-        s.briefingSource === "template" ? "Standard guidance · level decided by deterministic engine" : "";
-      document.getElementById("replay-label").textContent = s.replayLabel ?? "";
-
-      renderNow(s);
-      renderForecast(s.outlook);
-      renderRainWind(s.outlook, s.weather);
-      renderSea(s.outlook);
-      renderSunMoon(s.outlook);
-      renderTropical(s);
-      renderStorms(s);
-      renderMap(s);
-    }
-
-    // Highlight the section nav link for whichever section is in view.
-    function setupScrollSpy() {
-      const links = [...document.querySelectorAll(".section-nav a")];
-      const byId = Object.fromEntries(links.map(a => [a.getAttribute("href").slice(1), a]));
-      const obs = new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            links.forEach(l => l.classList.remove("active"));
-            byId[e.target.id]?.classList.add("active");
-          }
-        }
-      }, { rootMargin: "-55% 0px -40% 0px" });
-      document.querySelectorAll("section[id]").forEach(sec => obs.observe(sec));
-    }
-
-    async function refresh(first) {
-      try {
-        const res = await fetch("/api/status");
-        render(await res.json());
-        // The sections above grow once live data lands, so an initial
-        // deep-link (e.g. /#sea) needs re-aligning after the first render.
-        if (first && location.hash) {
-          const el = document.querySelector(location.hash);
-          if (el) requestAnimationFrame(() => el.scrollIntoView());
-        }
-      } catch { /* transient */ }
-    }
-
-    // The server polls NHC every ~15 min and the API just returns its cached
-    // status, so a 60 s UI refresh keeps the dashboard current without
-    // hammering the origin.
-    const start = () => {
-      refresh(true);
-      setInterval(() => refresh(false), 60000);
-      setSatellite();
-      setupScrollSpy();
-      document.getElementById("radar-toggle").addEventListener("click", toggleRadar);
-      document.getElementById("sat-toggle").addEventListener("click", toggleSat);
-    };
-    if (document.readyState === "complete") start();
-    else window.addEventListener("load", start);
-  </script>
+  <!-- App JS extracted to /app.js (#29). With no inline <script> in the
+       page, CSP can drop 'unsafe-inline' from script-src — see
+       infra/cloudfront.tf. -->
+  <script defer src="/app.js"></script>
 </body>
 </html>

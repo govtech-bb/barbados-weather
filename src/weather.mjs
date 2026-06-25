@@ -20,6 +20,26 @@ const compass = (deg) => COMPASS[Math.round(((deg % 360) / 22.5)) % 16];
 const UA = "hurricane-ready (github.com/christophercorbin/hurricane-ready)";
 const round1 = (n) => (n == null ? null : Math.round(n * 10) / 10);
 
+// Tide state from an hourly sea-level series: current height, whether it's
+// rising, and the next high/low turning points after the current hour.
+function computeTide(times, heights, startIdx) {
+  if (!Array.isArray(times) || !Array.isArray(heights)) return null;
+  const i = Math.max(0, Math.min(startIdx, heights.length - 1));
+  const cur = heights[i];
+  if (cur == null) return null;
+  const rising = (heights[i + 1] ?? cur) >= cur;
+  let nextHigh = null;
+  let nextLow = null;
+  for (let j = i + 1; j < heights.length - 1; j++) {
+    const a = heights[j - 1], b = heights[j], c = heights[j + 1];
+    if (a == null || b == null || c == null) continue;
+    if (!nextHigh && b > a && b >= c) nextHigh = { time: times[j], m: round1(b) };
+    if (!nextLow && b < a && b <= c) nextLow = { time: times[j], m: round1(b) };
+    if (nextHigh && nextLow) break;
+  }
+  return { currentM: round1(cur), rising, nextHigh, nextLow };
+}
+
 const MOON_NAMES = [
   "New moon", "Waxing crescent", "First quarter", "Waxing gibbous",
   "Full moon", "Waning gibbous", "Last quarter", "Waning crescent",
@@ -92,7 +112,10 @@ export async function fetchOutlook(island) {
     `wind_gusts_10m,weather_code,uv_index`;
   const marineUrl =
     `https://marine-api.open-meteo.com/v1/marine?${base}` +
-    `&hourly=wave_height,wave_period&daily=wave_height_max&forecast_days=2`;
+    `&hourly=wave_height,wave_period,sea_level_height_msl&daily=wave_height_max&forecast_days=2`;
+  const airUrl =
+    `https://air-quality-api.open-meteo.com/v1/air-quality?${base}` +
+    `&current=pm10,pm2_5,dust,us_aqi`;
   const opts = {
     headers: { "User-Agent": UA },
     signal: AbortSignal.timeout(8000),
@@ -104,9 +127,10 @@ export async function fetchOutlook(island) {
     );
 
   try {
-    const [fc, marineRes] = await Promise.allSettled([
+    const [fc, marineRes, airRes] = await Promise.allSettled([
       fetchJson(forecastUrl),
       fetchJson(marineUrl),
+      fetchJson(airUrl),
     ]);
     if (fc.status !== "fulfilled") throw new Error("forecast unavailable");
     const f = fc.value;
@@ -122,10 +146,18 @@ export async function fetchOutlook(island) {
       uvMax: f.daily.uv_index_max[i] != null ? Math.round(f.daily.uv_index_max[i]) : null,
     }));
 
-    // Next 24 hours starting from the current hour.
+    // Next 24 hours starting from the *current* local hour. Open-Meteo returns
+    // naive local timestamps (e.g. "2026-06-20T21:00", no zone) plus the zone's
+    // utc_offset_seconds. We must apply that offset — parsing the naive string
+    // as if it were UTC skews the start by the island's offset (4h for AST),
+    // making the strip begin hours in the future. local = UTC + offset, so the
+    // instant's true UTC ms = (naive parsed as UTC) - offset.
     const now = Date.now();
+    const offsetMs = (f.utc_offset_seconds ?? 0) * 1000;
+    const toUtcMs = (t) => Date.parse(t + "Z") - offsetMs;
     const times = f.hourly.time;
-    let start = times.findIndex((t) => new Date(t).getTime() >= now);
+    // First hour whose end is still ahead of now == the hour we're currently in.
+    let start = times.findIndex((t) => toUtcMs(t) + 3600000 > now);
     if (start < 0) start = 0;
     const hourly = [];
     for (let i = start; i < Math.min(start + 24, times.length); i++) {
@@ -141,16 +173,30 @@ export async function fetchOutlook(island) {
     }
 
     let marine = null;
+    let tide = null;
     if (marineRes.status === "fulfilled" && marineRes.value.hourly) {
       const m = marineRes.value;
       const mt = m.hourly.time;
-      let mi = mt.findIndex((t) => new Date(t).getTime() >= now);
+      const mOffsetMs = m.utc_offset_seconds != null ? m.utc_offset_seconds * 1000 : offsetMs;
+      let mi = mt.findIndex((t) => Date.parse(t + "Z") - mOffsetMs + 3600000 > now);
       if (mi < 0) mi = 0;
       marine = {
         waveHeightM: round1(m.hourly.wave_height?.[mi]),
         wavePeriodS: m.hourly.wave_period?.[mi] != null ? Math.round(m.hourly.wave_period[mi]) : null,
         waveMaxTodayM: round1(m.daily?.wave_height_max?.[0]),
         observedAt: mt[mi],
+      };
+      tide = computeTide(mt, m.hourly.sea_level_height_msl, mi);
+    }
+
+    let airQuality = null;
+    if (airRes.status === "fulfilled" && airRes.value.current) {
+      const a = airRes.value.current;
+      airQuality = {
+        pm10: a.pm10 ?? null,
+        pm25: a.pm2_5 ?? null,
+        dust: a.dust ?? null,
+        usAqi: a.us_aqi ?? null,
       };
     }
 
@@ -163,7 +209,7 @@ export async function fetchOutlook(island) {
       moonIllumination: moon.illumination,
     };
 
-    return { generatedAt: new Date().toISOString(), daily, hourly, marine, astro };
+    return { generatedAt: new Date().toISOString(), daily, hourly, marine, tide, airQuality, astro };
   } catch (err) {
     console.warn(`Outlook unavailable (${err.message})`);
     return null;
