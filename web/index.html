@@ -157,6 +157,7 @@
     .gov-bleed__inner { max-width: 920px; margin: 0 auto; padding: 0 1.1rem; }
     .gov-strip { background: var(--gov-black); color: rgba(255,255,255,0.85); font-size: 0.78rem; }
     .gov-strip .gov-bleed__inner { display: flex; align-items: center; gap: 0.4rem; padding-top: 0.3rem; padding-bottom: 0.3rem; }
+    .gov-strip__flag svg { display: block; border-radius: 1px; }
     .gov-header__inner { display: flex; align-items: center; gap: 0.7rem; padding-top: 0.7rem; padding-bottom: 0.7rem; }
     .gov-brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
     .gov-crest { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
@@ -470,7 +471,7 @@
     .gov-feedback h2, .gov-feedback p { color: #0b0c0c; }
     .gov-feedback h2 { font-size: 1.05rem; margin-bottom: 0.3rem; }
     .gov-feedback a { color: var(--gov-link); text-decoration: underline; }
-    .gov-footer { background: var(--navy); color: rgba(255,255,255,0.85); border-top: 3px solid var(--gold); margin: 2rem 0 0; max-width: none; text-align: left; }
+    .gov-footer { background: var(--navy); color: rgba(255,255,255,0.85); border-top: 3px solid var(--gold); margin: 2rem 0 0; max-width: none; text-align: left; padding: 0; }
     .gov-footer__inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; padding-top: 1.5rem; padding-bottom: 1.5rem; }
     .gov-footer__nav { display: flex; gap: 1.2rem; margin-bottom: 0.7rem; }
     .gov-footer a { color: #fff; text-decoration: underline; }
@@ -483,7 +484,7 @@
 <body>
   <div class="gov-strip">
     <div class="gov-bleed__inner">
-      <span aria-hidden="true">🇧🇧</span>
+      <span class="gov-strip__flag" aria-hidden="true"><svg width="16" height="11" viewBox="0 0 16 11" focusable="false"><rect width="16" height="11" fill="#00267f"/><rect x="5.34" width="5.33" height="11" fill="#ffc726"/></svg></span>
       <span>Official government website</span>
     </div>
   </div>
