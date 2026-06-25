@@ -69,6 +69,7 @@
       --warning: #f97316;   --warning-soft: rgba(249,115,22,0.15);
       --imminent: #ef4444;  --imminent-soft: rgba(239,68,68,0.16);
       --soft-text: #dbe6f5;
+      --gov-link: #1d70b8; --gov-link-visited: #4c2c92; --gov-focus: #ffdd00;
     }
     /* Light theme — DEFAULT — modelled on the alpha.gov.bb palette:
        white surfaces, Barbados navy, teal accents, gold highlights. */
@@ -88,6 +89,7 @@
       --hero-bg: linear-gradient(135deg, #e6f3f8 0%, #f7fbfd 72%);
       --card-shadow: 0 1px 2px rgba(11,31,58,0.05), 0 6px 18px rgba(11,31,58,0.04);
       --soft-text: #1f3760;
+      --gov-link: #1d70b8; --gov-link-visited: #4c2c92; --gov-focus: #ffdd00;
       --all-clear-soft: rgba(22,163,74,0.12);
       --watch-soft: rgba(234,179,8,0.18);
       --warning-soft: rgba(249,115,22,0.14);
@@ -126,6 +128,8 @@
     [hidden] { display: none !important; }
     .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--accent); color: #04263a; padding: 0.6rem 1rem; border-radius: 0 0 10px 0; font-weight: 700; font-size: 0.9rem; }
     .skip-link:focus { left: 0; }
+    /* GDS yellow focus ring — accessibility staple of the gov.bb design system. */
+    :focus-visible { outline: 3px solid var(--gov-focus); outline-offset: 0; box-shadow: 0 0 0 1px #0b0c0c; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
     }
