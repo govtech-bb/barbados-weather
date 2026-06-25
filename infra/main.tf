@@ -12,9 +12,12 @@ terraform {
     }
   }
 
+  # Reuses the shared GovTech sandbox OpenTofu state bucket (holds state for
+  # case-management, crop-advisor, modular-forms, etc.), following the existing
+  # `<project>-sandbox/terraform.tfstate` key convention.
   backend "s3" {
-    bucket       = "govtech-sandbox-tfstate-672203047922"
-    key          = "barbados-weather/terraform.tfstate"
+    bucket       = "alpha-tofu-state-sandbox-7922"
+    key          = "barbados-weather-sandbox/terraform.tfstate"
     region       = "us-east-1"
     encrypt      = true
     use_lockfile = true
