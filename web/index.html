@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bim Weather | Barbados Weather &amp; Storm Watch</title>
+  <title>Barbados Weather &amp; Storm Watch | Government of Barbados</title>
   <meta name="description" content="Live, easy-to-read Barbados weather: today's conditions, a 7-day forecast, rain & wind outlook, beach & sea conditions, rain radar, and tropical-storm threat levels built on NOAA and Open-Meteo data." />
   <meta name="theme-color" content="#0b2e6e" />
   <link rel="canonical" href="https://d1a03jmlh4dne2.cloudfront.net/" />
@@ -15,20 +15,20 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Bim Weather" />
+  <meta name="apple-mobile-web-app-title" content="Barbados Weather" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Bim Weather" />
-  <meta property="og:title" content="Bim Weather | Barbados Weather &amp; Storm Watch" />
+  <meta property="og:site_name" content="Barbados Weather &amp; Storm Watch" />
+  <meta property="og:title" content="Barbados Weather &amp; Storm Watch | Government of Barbados" />
   <meta property="og:description" content="Easy-to-read Barbados weather and tropical-storm tracking — today's conditions, 7-day forecast, rain & wind, beach & sea, radar, and storm threat levels." />
   <meta property="og:url" content="https://d1a03jmlh4dne2.cloudfront.net/" />
   <meta property="og:image" content="https://d1a03jmlh4dne2.cloudfront.net/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Bim Weather — Barbados weather" />
+  <meta property="og:image:alt" content="Barbados Weather &amp; Storm Watch" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Bim Weather | Barbados Weather &amp; Storm Watch" />
+  <meta name="twitter:title" content="Barbados Weather &amp; Storm Watch | Government of Barbados" />
   <meta name="twitter:description" content="Easy-to-read Barbados weather and tropical-storm tracking, built on NOAA and Open-Meteo data." />
   <meta name="twitter:image" content="https://d1a03jmlh4dne2.cloudfront.net/og-image.png" />
 
@@ -150,21 +150,16 @@
     .todo-ico { color: var(--accent); }
     section[id] { scroll-margin-top: 70px; }
 
-    /* Barbados navy masthead with a gold underline (alpha.gov.bb feel). */
-    header { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
-      background: var(--navy); color: var(--on-navy); border-radius: 14px;
-      border-bottom: 3px solid var(--gold); padding: 0.85rem 1.1rem; margin-bottom: 1.1rem; }
-    .logo {
-      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.14);
-    }
-    .logo svg { width: 100%; height: 100%; display: block; }
-    header h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; color: var(--on-navy); }
-    header .island { font-size: 0.92rem; color: rgba(255,255,255,0.82); }
-    header .pill { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.1); }
-    header .settings-btn { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); }
-    header .settings-btn:hover { color: #fff; border-color: var(--gold); }
+    /* Government of Barbados full-bleed crest bar (gov.bb masthead). */
+    .gov-header { background: var(--navy); border-bottom: 3px solid var(--gold); }
+    .gov-header__inner { max-width: 920px; margin: 0 auto; display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1.1rem; }
+    .gov-crest { width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0; overflow: hidden; display: flex; box-shadow: 0 0 0 1px rgba(255,255,255,0.14); }
+    .gov-crest svg { width: 100%; height: 100%; display: block; }
+    .gov-wordmark { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; }
+    /* Service identity row beneath the crest bar. */
+    .gov-service-bar { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; padding: 1rem 0 0.4rem; border-bottom: 1px solid var(--border); margin-bottom: 1.1rem; }
+    .gov-service-bar__title h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; color: var(--heading); }
+    .gov-service-bar .island { font-size: 0.92rem; color: var(--muted); }
     .header-spacer { flex: 1; }
     .pill {
       font-size: 0.72rem; color: var(--muted); border: 1px solid var(--border);
@@ -462,10 +457,9 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <a class="skip-link" href="#now">Skip to weather</a>
-    <header>
-      <div class="logo" aria-hidden="true">
+  <header class="gov-header">
+    <div class="gov-header__inner">
+      <span class="gov-crest" aria-hidden="true">
         <svg viewBox="0 0 100 100" focusable="false" width="100%" height="100%">
           <rect width="100" height="100" rx="24" fill="#0b2e6e"/>
           <g stroke="#ffc726" stroke-width="4.5" stroke-linecap="round">
@@ -478,10 +472,16 @@
           <g stroke="#ffffff" stroke-width="5" stroke-linecap="round"><line x1="14" y1="58" x2="31" y2="58"/><line x1="69" y1="58" x2="86" y2="58"/></g>
           <path d="M16 76 q9 -8 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#7fd6ea" stroke-width="5" stroke-linecap="round"/>
         </svg>
-      </div>
-      <div>
-        <h1>Bim Weather</h1>
-        <span class="island"><span id="island">Barbados</span> weather, every day 🇧🇧</span>
+      </span>
+      <span class="gov-wordmark">Government of Barbados</span>
+    </div>
+  </header>
+  <div class="wrap">
+    <a class="skip-link" href="#now">Skip to weather</a>
+    <div class="gov-service-bar">
+      <div class="gov-service-bar__title">
+        <h1>Barbados Weather &amp; Storm Watch</h1>
+        <span class="island"><span id="island">Barbados</span> weather, every day</span>
       </div>
       <div class="header-spacer"></div>
       <span class="pill" id="mode"></span>
@@ -500,7 +500,7 @@
           </label>
         </div>
       </div>
-    </header>
+    </div>
 
     <a id="civil-alert" class="civil-alert" href="https://brb-secondary.capews.com/capews/public/active" target="_blank" rel="noopener" aria-live="assertive" aria-atomic="true" hidden>
       <span class="ca-ico" aria-hidden="true" data-icon="siren"></span>

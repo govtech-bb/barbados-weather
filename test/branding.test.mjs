@@ -17,3 +17,19 @@ test("global GDS yellow focus ring is present", () => {
     "missing global :focus-visible rule using --gov-focus",
   );
 });
+
+test("masthead shows Government of Barbados crest bar", () => {
+  assert.match(html, /Government of Barbados/, "missing gov wordmark");
+  assert.match(html, /class="gov-header"/, "missing gov-header element");
+});
+
+test("service title is the approved name", () => {
+  assert.match(html, /Barbados Weather &amp; Storm Watch/, "missing service title");
+  assert.doesNotMatch(html, /Bim Weather/, "stale Bim Weather brand still present");
+});
+
+test("header controls the app JS depends on are preserved", () => {
+  for (const id of ["island", "mode", "updated", "settings-btn", "settings-panel", "set-temp", "set-wind", "set-theme"]) {
+    assert.match(html, new RegExp(`id="${id}"`), `missing required control id="${id}"`);
+  }
+});
