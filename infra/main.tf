@@ -1,5 +1,5 @@
 /**
- * CI/CD wiring for Hurricane-Ready. Apply in the target AWS account, then set
+ * CI/CD wiring for Barbados-Weather. Apply in the target AWS account, then set
  * GitHub repo variables from the outputs:
  *   AWS_DEPLOY_ROLE_ARN, ECR_REPOSITORY (and later ECS_CLUSTER/ECS_SERVICE).
  */
@@ -11,17 +11,25 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket       = "govtech-sandbox-tfstate-672203047922"
+    key          = "barbados-weather/terraform.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
+    use_lockfile = true
+  }
 }
 
 provider "aws" {
   region = var.region
 
   # The deploy role's ecs:UpdateService statement is conditioned on
-  # aws:ResourceTag/project = "hurricane-ready" — tagging everything via
+  # aws:ResourceTag/project = "barbados-weather" — tagging everything via
   # default_tags makes that condition impossible to miss on a new resource.
   default_tags {
     tags = {
-      project = "hurricane-ready"
+      project = "barbados-weather"
     }
   }
 }
@@ -34,19 +42,19 @@ variable "region" {
 variable "github_repo" {
   description = "GitHub org/repo allowed to assume the deploy role"
   type        = string
-  default     = "christophercorbin/hurricane-ready"
+  default     = "govtech-bb/barbados-weather"
 }
 
 variable "create_oidc_provider" {
   description = "Set false if this account already has the GitHub OIDC provider (e.g., from zero-downtime-pipeline)"
   type        = bool
-  default     = true
+  default     = false
 }
 
 # ---------- ECR ----------
 
 resource "aws_ecr_repository" "app" {
-  name = "hurricane-ready"
+  name = "barbados-weather"
   # MUTABLE is required today because release.yml pushes `:latest` on every
   # deploy; switching to IMMUTABLE needs the deploy flow to reference images
   # by SHA in the ECS task definition. Tracked alongside #34 in a follow-up.
@@ -97,7 +105,7 @@ locals {
 }
 
 resource "aws_iam_role" "deploy" {
-  name = "hurricane-ready-github-deploy"
+  name = "barbados-weather-github-deploy"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -149,7 +157,7 @@ resource "aws_iam_role_policy" "deploy" {
       {
         # Scope ECS mutations to the specific service ARN (#32). The prior
         # `Resource = "*"` with a tag condition was a soft boundary: any
-        # actor able to set `project=hurricane-ready` tag on another service
+        # actor able to set `project=barbados-weather` tag on another service
         # would also be reachable. Naming the ARN removes the tag-based
         # blast radius entirely. The tag condition is kept as belt-and-
         # suspenders.
@@ -161,7 +169,7 @@ resource "aws_iam_role_policy" "deploy" {
         ]
         Resource = aws_ecs_service.app.id
         Condition = {
-          StringEquals = { "aws:ResourceTag/project" = "hurricane-ready" }
+          StringEquals = { "aws:ResourceTag/project" = "barbados-weather" }
         }
       },
     ]

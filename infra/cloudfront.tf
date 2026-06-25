@@ -40,7 +40,7 @@ locals {
 
 resource "aws_cloudfront_vpc_origin" "alb" {
   vpc_origin_endpoint_config {
-    name                   = "hurricane-ready-alb"
+    name                   = "barbados-weather-alb"
     arn                    = aws_lb.app.arn
     http_port              = 80
     https_port             = 443
@@ -62,7 +62,7 @@ resource "aws_cloudfront_vpc_origin" "alb" {
 # (/api/status) is same-origin, so connect-src 'self' is sufficient.
 
 resource "aws_cloudfront_response_headers_policy" "security" {
-  name = "hurricane-ready-security-headers"
+  name = "barbados-weather-security-headers"
 
   security_headers_config {
     strict_transport_security {
@@ -118,7 +118,7 @@ resource "aws_cloudfront_response_headers_policy" "security" {
 resource "aws_cloudfront_distribution" "app" {
   enabled         = true
   is_ipv6_enabled = true
-  comment         = "hurricane-ready"
+  comment         = "barbados-weather"
   price_class     = "PriceClass_100" # US + EU edges only — Caribbean audience is served by both
 
   # WAFv2 ACL: managed common-rule-set + known-bad-inputs + per-IP rate cap.

@@ -14,8 +14,8 @@
  */
 
 resource "aws_wafv2_web_acl" "cf" {
-  name        = "hurricane-ready"
-  description = "Hurricane-Ready CloudFront protection"
+  name        = "barbados-weather"
+  description = "Barbados-Weather CloudFront protection"
   scope       = "CLOUDFRONT"
 
   default_action {
@@ -40,7 +40,7 @@ resource "aws_wafv2_web_acl" "cf" {
     }
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "hurricane-ready-common-rule-set"
+      metric_name                = "barbados-weather-common-rule-set"
       sampled_requests_enabled   = true
     }
   }
@@ -61,7 +61,7 @@ resource "aws_wafv2_web_acl" "cf" {
     }
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "hurricane-ready-known-bad-inputs"
+      metric_name                = "barbados-weather-known-bad-inputs"
       sampled_requests_enabled   = true
     }
   }
@@ -84,14 +84,14 @@ resource "aws_wafv2_web_acl" "cf" {
     }
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "hurricane-ready-rate-limit"
+      metric_name                = "barbados-weather-rate-limit"
       sampled_requests_enabled   = true
     }
   }
 
   visibility_config {
     cloudwatch_metrics_enabled = true
-    metric_name                = "hurricane-ready-waf"
+    metric_name                = "barbados-weather-waf"
     sampled_requests_enabled   = true
   }
 }

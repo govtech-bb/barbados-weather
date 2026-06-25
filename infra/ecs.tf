@@ -1,5 +1,5 @@
 /**
- * Runs hurricane-ready as a Fargate service behind a public ALB in the default
+ * Runs barbados-weather as a Fargate service behind a public ALB in the default
  * VPC. Reuses the ECR repo from main.tf; the Release workflow rolls deploys
  * with `aws ecs update-service --force-new-deployment` against the outputs
  * captured here as GitHub repo variables ECS_CLUSTER / ECS_SERVICE.
@@ -42,7 +42,7 @@ data "aws_subnets" "default" {
 # ---------- Logs ----------
 
 resource "aws_cloudwatch_log_group" "app" {
-  name              = "/ecs/hurricane-ready"
+  name              = "/ecs/barbados-weather"
   retention_in_days = 7
 }
 
@@ -51,7 +51,7 @@ resource "aws_cloudwatch_log_group" "app" {
 # ECS uses this to pull from ECR and write logs. Trusted by the ECS tasks
 # service principal; nothing else can assume it.
 resource "aws_iam_role" "exec" {
-  name = "hurricane-ready-ecs-exec"
+  name = "barbados-weather-ecs-exec"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -71,7 +71,7 @@ resource "aws_iam_role_policy_attachment" "exec_managed" {
 # Bedrock/SES/SNS calls. When you flip DISABLE_AI=0 add an aws_iam_role_policy
 # here granting bedrock:InvokeModel (and ses:SendEmail / sns:Publish for alerts).
 resource "aws_iam_role" "task" {
-  name = "hurricane-ready-ecs-task"
+  name = "barbados-weather-ecs-task"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -85,11 +85,11 @@ resource "aws_iam_role" "task" {
 # ---------- Security groups ----------
 
 resource "aws_security_group" "alb" {
-  name = "hurricane-ready-alb"
+  name = "barbados-weather-alb"
   # NOTE: aws_security_group.description is ForceNew. Keep this in sync with
   # whatever AWS currently has — changing it triggers a destroy+create, and
   # ELB-related SG deletes can hang on internal AWS bookkeeping for 15+ min.
-  description = "Public HTTP for hurricane-ready ALB"
+  description = "Public HTTP for barbados-weather ALB"
   vpc_id      = data.aws_vpc.default.id
 
   # CloudFront-managed ENIs for the VPC origin belong to a CloudFront-owned
@@ -115,7 +115,7 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_security_group" "tasks" {
-  name        = "hurricane-ready-tasks"
+  name        = "barbados-weather-tasks"
   description = "ECS tasks accept traffic from the ALB only"
   vpc_id      = data.aws_vpc.default.id
 
@@ -139,7 +139,7 @@ resource "aws_security_group" "tasks" {
 # ---------- ALB ----------
 
 resource "aws_lb" "app" {
-  name               = "hurricane-ready-alb"
+  name               = "barbados-weather-alb"
   internal           = true # CloudFront VPC origin reaches it over AWS's private network
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
@@ -147,7 +147,7 @@ resource "aws_lb" "app" {
 }
 
 resource "aws_lb_target_group" "app" {
-  name        = "hurricane-ready-tg"
+  name        = "barbados-weather-tg"
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
@@ -180,7 +180,7 @@ resource "aws_lb_listener" "http" {
 # ---------- ECS ----------
 
 resource "aws_ecs_cluster" "app" {
-  name = "hurricane-ready"
+  name = "barbados-weather"
 
   setting {
     name  = "containerInsights"
@@ -189,7 +189,7 @@ resource "aws_ecs_cluster" "app" {
 }
 
 resource "aws_ecs_task_definition" "app" {
-  family                   = "hurricane-ready"
+  family                   = "barbados-weather"
   cpu                      = "256"
   memory                   = "512"
   network_mode             = "awsvpc"
@@ -229,7 +229,7 @@ resource "aws_ecs_task_definition" "app" {
 }
 
 resource "aws_ecs_service" "app" {
-  name            = "hurricane-ready"
+  name            = "barbados-weather"
   cluster         = aws_ecs_cluster.app.id
   task_definition = aws_ecs_task_definition.app.arn
   desired_count   = 1
