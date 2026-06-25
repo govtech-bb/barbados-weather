@@ -72,3 +72,12 @@ test("no stale Bim Weather brand in src/web shipped files", () => {
     assert.doesNotMatch(read(f), /Bim Weather/, `${f} still contains stale Bim Weather brand`);
   }
 });
+
+test("near-black top utility strip is present", () => {
+  assert.match(html, /class="gov-strip"/, "missing gov-strip");
+  assert.match(html, /Official government website/, "missing official-website strip text");
+});
+
+test("full-bleed inner helper exists", () => {
+  assert.match(html, /\.gov-bleed__inner\s*\{/, "missing .gov-bleed__inner helper");
+});

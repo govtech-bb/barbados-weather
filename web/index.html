@@ -70,6 +70,7 @@
       --imminent: #ef4444;  --imminent-soft: rgba(239,68,68,0.16);
       --soft-text: #dbe6f5;
       --gov-link: #1d70b8; --gov-link-visited: #4c2c92; --gov-focus: #ffdd00;
+      --gov-black: #0b0c0c; --gov-feedback-bg: #fff7bf;
     }
     /* Light theme — DEFAULT — modelled on the alpha.gov.bb palette:
        white surfaces, Barbados navy, teal accents, gold highlights. */
@@ -90,6 +91,7 @@
       --card-shadow: 0 1px 2px rgba(11,31,58,0.05), 0 6px 18px rgba(11,31,58,0.04);
       --soft-text: #1f3760;
       --gov-link: #1d70b8; --gov-link-visited: #4c2c92; --gov-focus: #ffdd00;
+      --gov-black: #0b0c0c; --gov-feedback-bg: #fff7bf;
       --all-clear-soft: rgba(22,163,74,0.12);
       --watch-soft: rgba(234,179,8,0.18);
       --warning-soft: rgba(249,115,22,0.14);
@@ -152,6 +154,9 @@
 
     /* Government of Barbados full-bleed crest bar (gov.bb masthead). */
     .gov-header { background: var(--navy); border-bottom: 3px solid var(--gold); }
+    .gov-bleed__inner { max-width: 920px; margin: 0 auto; padding: 0 1.1rem; }
+    .gov-strip { background: var(--gov-black); color: rgba(255,255,255,0.85); font-size: 0.78rem; }
+    .gov-strip .gov-bleed__inner { display: flex; align-items: center; gap: 0.4rem; padding-top: 0.3rem; padding-bottom: 0.3rem; }
     .gov-header__inner { max-width: 920px; margin: 0 auto; display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1.1rem; }
     .gov-crest { width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0; overflow: hidden; display: flex; box-shadow: 0 0 0 1px rgba(255,255,255,0.14); }
     .gov-crest svg { width: 100%; height: 100%; display: block; }
@@ -231,6 +236,7 @@
     .section-nav .nav-ico { font-size: 0.95rem; line-height: 1; }
     @media (min-width: 880px) {
       .wrap { max-width: 1140px; }
+      .gov-bleed__inner { max-width: 1140px; }
       .layout { display: grid; grid-template-columns: 198px minmax(0, 1fr); gap: 1.4rem; align-items: start; }
       .section-nav {
         position: sticky; top: 1rem; z-index: 1; flex-direction: column; gap: 0.2rem; overflow: visible;
@@ -465,6 +471,12 @@
   </style>
 </head>
 <body>
+  <div class="gov-strip">
+    <div class="gov-bleed__inner">
+      <span aria-hidden="true">🇧🇧</span>
+      <span>Official government website</span>
+    </div>
+  </div>
   <header class="gov-header">
     <div class="gov-header__inner">
       <span class="gov-crest" aria-hidden="true">
