@@ -24,7 +24,7 @@ export function isAtlanticStorm(s) {
 
 export async function fetchLiveStorms(nhcUrl) {
   const res = await fetch(nhcUrl, {
-    headers: { "User-Agent": "hurricane-ready (github.com/christophercorbin/hurricane-ready)" },
+    headers: { "User-Agent": "barbados-weather (gov.bb)" },
     // 8s timeout (#38): without this a slow NHC TCP / DNS / proxy stall could
     // hang the watcher's tick indefinitely (the single-flight loop blocks all
     // dispatch until the in-flight tick completes).

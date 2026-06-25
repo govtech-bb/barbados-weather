@@ -44,3 +44,25 @@ test("footer carries the gov copyright, not a personal credit", () => {
   assert.doesNotMatch(html, /Built by Christopher/i, "personal credit still in footer");
   assert.doesNotMatch(html, /christophercorbin/i, "personal link still in page");
 });
+
+import { readdirSync } from "node:fs";
+
+test("no personal strings in shipped web/src files", () => {
+  const banned = [/christophercorbin/i, /christopher\.corbin/i, /hurricane-ready\.local/i, /d1a03jmlh4dne2\.cloudfront\.net/i];
+  const files = [
+    "../web/index.html", "../web/manifest.webmanifest", "../web/sw.js",
+    ...readdirSync(new URL("../src", import.meta.url)).map((f) => `../src/${f}`),
+  ];
+  for (const f of files) {
+    const body = read(f);
+    for (const re of banned) {
+      assert.doesNotMatch(body, re, `${f} still contains ${re}`);
+    }
+  }
+});
+
+test("user-agent strings are gov-neutral", () => {
+  for (const f of ["../src/weather.mjs", "../src/nhc.mjs", "../src/tropical.mjs"]) {
+    assert.match(read(f), /gov\.bb/, `${f} user-agent not rebranded`);
+  }
+});

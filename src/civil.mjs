@@ -28,7 +28,7 @@ export async function fetchCivilAlerts() {
   try {
     const res = await fetch(ACTIVE_COUNT_URL, {
       headers: {
-        "User-Agent": "hurricane-ready (github.com/christophercorbin/hurricane-ready)",
+        "User-Agent": "barbados-weather (gov.bb)",
         Accept: "application/json, text/plain, */*",
         "X-Requested-With": "XMLHttpRequest",
       },

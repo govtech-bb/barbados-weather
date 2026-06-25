@@ -484,7 +484,7 @@ const loop = createTickLoop({
 
 server.listen(config.port, async () => {
   console.log(
-    `Bim Weather watching ${config.island.name} on :${config.port} ` +
+    `Barbados Weather watching ${config.island.name} on :${config.port} ` +
       `(${status.mode} mode, tick every ${intervalMs / 1000}s)`
   );
   await loop.runOnce();

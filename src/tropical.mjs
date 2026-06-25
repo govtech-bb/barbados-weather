@@ -103,7 +103,7 @@ export function parseOutlook(xml) {
 export async function fetchTropicalOutlook() {
   try {
     const res = await fetch(TWO_URL, {
-      headers: { "User-Agent": "hurricane-ready (github.com/christophercorbin/hurricane-ready)" },
+      headers: { "User-Agent": "barbados-weather (gov.bb)" },
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) throw new Error(`TWO ${res.status}`);
@@ -159,7 +159,7 @@ export async function fetchTropicalWaves(islandLon = -59.54) {
   const islandLonW = Math.abs(islandLon);
   try {
     const res = await fetch(TWD_URL, {
-      headers: { "User-Agent": "hurricane-ready (github.com/christophercorbin/hurricane-ready)" },
+      headers: { "User-Agent": "barbados-weather (gov.bb)" },
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) throw new Error(`TWD ${res.status}`);

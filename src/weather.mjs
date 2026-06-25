@@ -17,7 +17,7 @@ const WMO = {
 const COMPASS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 const compass = (deg) => COMPASS[Math.round(((deg % 360) / 22.5)) % 16];
 
-const UA = "hurricane-ready (github.com/christophercorbin/hurricane-ready)";
+const UA = "barbados-weather (gov.bb)";
 const round1 = (n) => (n == null ? null : Math.round(n * 10) / 10);
 
 // Tide state from an hourly sea-level series: current height, whether it's
@@ -68,8 +68,7 @@ export async function fetchCurrentWeather(island) {
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent":
-          "hurricane-ready (github.com/christophercorbin/hurricane-ready)",
+        "User-Agent": "barbados-weather (gov.bb)",
       },
       signal: AbortSignal.timeout(8000),
     });

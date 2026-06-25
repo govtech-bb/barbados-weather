@@ -20,7 +20,7 @@ const PUSH_CONCURRENCY = Math.max(1, Number(process.env.PUSH_CONCURRENCY || 50))
 
 const PUBLIC = process.env.VAPID_PUBLIC_KEY || "";
 const PRIVATE = process.env.VAPID_PRIVATE_KEY || "";
-const SUBJECT = process.env.VAPID_SUBJECT || "mailto:alerts@hurricane-ready.local";
+const SUBJECT = process.env.VAPID_SUBJECT || "mailto:alerts@gov.bb";
 // Unsubscribe token secret (#18). Derived from VAPID_PRIVATE_KEY by default
 // (already a long-lived server secret); override with UNSUBSCRIBE_SECRET to
 // rotate independently. Tokens minted with the prior secret stop verifying

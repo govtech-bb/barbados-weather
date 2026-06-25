@@ -122,8 +122,7 @@ export async function fetchAdvisory(url) {
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent":
-          "hurricane-ready (github.com/christophercorbin/hurricane-ready)",
+        "User-Agent": "barbados-weather (gov.bb)",
       },
       // 8s timeout (#38): a hung advisory fetch would stall every dispatch
       // since the watcher's tick is single-flight.

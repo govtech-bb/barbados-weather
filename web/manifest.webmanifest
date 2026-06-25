@@ -1,6 +1,6 @@
 {
-  "name": "Bim Weather — Barbados Weather & Storm Watch",
-  "short_name": "Bim Weather",
+  "name": "Barbados Weather & Storm Watch",
+  "short_name": "Barbados Weather",
   "description": "Easy-to-read Barbados weather, things to do, and storm alerts.",
   "start_url": "/",
   "scope": "/",

@@ -1,4 +1,4 @@
-# Hurricane-Ready 🇧🇧
+# Barbados Weather & Storm Watch 🇧🇧
 
 An easy-to-read Barbados weather dashboard **and** a hurricane preparedness alerter, in one hardened Docker container. It gives locals the everyday forecast in plain language, watches the National Hurricane Center feed, computes the storm threat deterministically, has Claude explain it calmly, and alerts by SMS, email, and webhook the moment the level changes.
 
@@ -145,9 +145,9 @@ Two workflows in `.github/workflows/`:
 - **CI** (every PR and push): unit tests, then the real thing — builds the image, boots it in replay mode, asserts the threat ladder actually climbs to IMMINENT and returns to ALL CLEAR via the API, and runs a **Playwright frontend smoke test** that loads the live dashboard and asserts every section (forecast, rain & wind, sea, air, storms, shelters, …) is populated with real data and the service worker registers — so a silent UI break is caught in CI, not by users. Plus a Trivy scan that fails the build on HIGH/CRITICAL vulnerabilities.
 
 **Monitoring:** `/healthz` returns liveness plus `dataAgeSeconds` and a `stale` flag (true when the watcher is up but hasn't refreshed in 3+ poll cycles). Point an uptime monitor (UptimeRobot, Pingdom, or a CloudWatch Synthetics canary) at `/healthz` and alert on non-200 or `stale: true`.
-- **Release** (push to main): always publishes the image to GHCR (`ghcr.io/christophercorbin/hurricane-ready`). When the AWS repo variables are set, it additionally assumes a role via OIDC (no stored keys), pushes to ECR, and force-redeploys the ECS service.
+- **Release** (push to main): always publishes the image to GHCR (`ghcr.io/OWNER/barbados-weather`). When the AWS repo variables are set, it additionally assumes a role via OIDC (no stored keys), pushes to ECR, and force-redeploys the ECS service.
 
-To wire an AWS account: `cd infra && tofu apply` there, then set the outputs as GitHub repo variables (`AWS_DEPLOY_ROLE_ARN`, `ECR_REPOSITORY`, and later `ECS_CLUSTER`/`ECS_SERVICE`). Until then the pipeline is fully functional against GHCR — anyone can `docker run ghcr.io/christophercorbin/hurricane-ready`.
+To wire an AWS account: `cd infra && tofu apply` there, then set the outputs as GitHub repo variables (`AWS_DEPLOY_ROLE_ARN`, `ECR_REPOSITORY`, and later `ECS_CLUSTER`/`ECS_SERVICE`). Until then the pipeline is fully functional against GHCR — anyone can `docker run ghcr.io/OWNER/barbados-weather`.
 
 ### Putting it on a real domain (TLS 1.2+, HSTS preload)
 
@@ -194,4 +194,4 @@ For each active Atlantic storm, the watcher also fetches the official NHC **Fore
 
 ## License
 
-MIT — built by [Christopher Corbin](https://christophercorbin.cloud)
+MIT
