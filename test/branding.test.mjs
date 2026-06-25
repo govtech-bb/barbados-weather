@@ -35,7 +35,8 @@ test("header controls the app JS depends on are preserved", () => {
 });
 
 test("feedback box is present and uses mailto", () => {
-  assert.match(html, /Was this page helpful\?/i, "missing feedback prompt");
+  assert.match(html, /Was this helpful\?/i, "missing feedback prompt");
+  assert.match(html, /Help us to improve alpha\.gov\.bb/i, "missing alpha.gov.bb feedback copy");
   assert.match(html, /href="mailto:feedback@gov\.bb/, "feedback box must use the placeholder mailto");
 });
 
@@ -87,4 +88,10 @@ test("white header has brand and Home/Services nav", () => {
   assert.match(html, />\s*Home\s*</, "missing Home link");
   assert.match(html, />\s*Services\s*</, "missing Services link");
   assert.match(html, /Government of Barbados/, "missing wordmark");
+});
+
+test("full-bleed navy footer with gov links", () => {
+  assert.match(html, /class="gov-footer"/, "missing gov-footer");
+  assert.match(html, /Terms &amp; Conditions/, "missing Terms link");
+  assert.match(html, /© 2026 Government of Barbados/, "missing copyright");
 });

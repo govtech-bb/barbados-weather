@@ -466,13 +466,18 @@
     footer { text-align: center; font-size: 0.76rem; color: var(--muted); padding: 1.4rem 1rem 0; line-height: 1.7; max-width: 760px; margin: 0 auto; }
     .disclaimer { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.25); border-radius: 12px; padding: 0.65rem 0.9rem; margin-bottom: 0.7rem; color: #fde68a; }
 
-    /* Was-this-page-helpful box — gov.bb yellow-bordered feedback pattern. */
-    .gov-feedback { background: var(--card-2); border: 1px solid var(--gold); border-left-width: 6px; border-radius: 8px; padding: 1rem 1.15rem; margin: 1.5rem 0; }
-    .gov-feedback h2 { font-size: 1.05rem; color: var(--heading); margin-bottom: 0.3rem; }
+    .gov-feedback { background: var(--gov-feedback-bg); border: 1px solid #f3d000; border-radius: 6px; padding: 1rem 1.15rem; margin: 1.5rem 0; }
+    .gov-feedback h2, .gov-feedback p { color: #0b0c0c; }
+    .gov-feedback h2 { font-size: 1.05rem; margin-bottom: 0.3rem; }
     .gov-feedback a { color: var(--gov-link); text-decoration: underline; }
-    .gov-footer { border-top: 3px solid var(--gold); padding-top: 1rem; margin-top: 1.5rem; color: var(--muted); font-size: 0.85rem; }
-    .gov-footer a { color: var(--gov-link); text-decoration: underline; }
-    .gov-footer__copyright { margin-top: 0.6rem; font-weight: 600; color: var(--heading); }
+    .gov-footer { background: var(--navy); color: rgba(255,255,255,0.85); border-top: 3px solid var(--gold); margin-top: 2rem; }
+    .gov-footer__inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .gov-footer__nav { display: flex; gap: 1.2rem; margin-bottom: 0.7rem; }
+    .gov-footer a { color: #fff; text-decoration: underline; }
+    .gov-footer__meta { font-size: 0.8rem; line-height: 1.5; color: rgba(255,255,255,0.8); max-width: 62ch; }
+    .gov-footer__copyright { margin-top: 0.6rem; font-weight: 600; color: #fff; }
+    .gov-footer__emblem { width: 64px; height: 64px; flex-shrink: 0; }
+    .gov-footer__emblem svg { width: 100%; height: 100%; display: block; }
   </style>
 </head>
 <body>
@@ -798,19 +803,34 @@
     </div>
 
     <section class="gov-feedback" aria-labelledby="feedback-h">
-      <h2 id="feedback-h">Was this page helpful?</h2>
-      <p>Give us your feedback to help improve this page.
+      <h2 id="feedback-h">Was this helpful?</h2>
+      <p>Give us your feedback about this page. Help us to improve alpha.gov.bb.
         <a href="mailto:feedback@gov.bb?subject=Barbados%20Weather%20%26%20Storm%20Watch%20feedback">Send feedback</a>.</p>
     </section>
-
-    <footer class="gov-footer">
-      <p class="disclaimer"><strong>Forecasts and threat levels are generated automatically and may be wrong.</strong>
-      Always follow official guidance from <a href="https://www.barbadosweather.org">Barbados Meteorological Services</a>
-      and the Department of Emergency Management.</p>
-      <p>Storm data from the NOAA National Hurricane Center · Weather &amp; marine from Open-Meteo.</p>
-      <p class="gov-footer__copyright">© 2026 Government of Barbados</p>
-    </footer>
   </div>
+
+  <footer class="gov-footer">
+    <div class="gov-bleed__inner gov-footer__inner">
+      <div class="gov-footer__main">
+        <nav class="gov-footer__nav" aria-label="Footer">
+          <a href="/">Home</a>
+          <a href="/terms">Terms &amp; Conditions</a>
+        </nav>
+        <p class="gov-footer__meta"><strong>Forecasts and threat levels are generated automatically and may be wrong.</strong> Always follow official guidance from <a href="https://www.barbadosweather.org">Barbados Meteorological Services</a> and the Department of Emergency Management. Storm data: NOAA NHC · Weather &amp; marine: Open-Meteo.</p>
+        <p class="gov-footer__copyright">© 2026 Government of Barbados</p>
+      </div>
+      <span class="gov-footer__emblem" aria-hidden="true">
+        <svg viewBox="0 0 100 100" focusable="false" width="100%" height="100%">
+          <rect width="100" height="100" rx="14" fill="#ffffff" fill-opacity="0.08"/>
+          <g stroke="#ffc726" stroke-width="4.5" stroke-linecap="round">
+            <line x1="32" y1="58" x2="24" y2="58"/><line x1="50" y1="40" x2="50" y2="32"/><line x1="68" y1="58" x2="76" y2="58"/>
+          </g>
+          <path d="M35 58 a15 15 0 0 1 30 0 z" fill="#ffc726"/>
+          <path d="M16 76 q9 -8 18 0 t18 0 t18 0 t18 0" fill="none" stroke="#7fd6ea" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </div>
+  </footer>
 
   <!-- App JS extracted to /app.js (#29). With no inline <script> in the
        page, CSP can drop 'unsafe-inline' from script-src — see
