@@ -77,7 +77,9 @@ shared gov shell rather than reproducing the portal landing page.
 - Workstream B — moving the repo into the GovTech GitHub org.
 - Workstream C — retargeting CI/CD + Terraform to the GovTech sandbox AWS
   account and choosing the final gov domain.
-- A real feedback backend (the box is a `mailto` for now).
+- A real feedback backend (the box is a `mailto` for now). **Future:** route
+  feedback to SNS (a topic publish) instead of `mailto` once the gov AWS
+  account is wired in Workstream C.
 - Full GOV.UK Frontend component rebuild (rejected: flattens the data-dense
   dashboard for little gain).
 - A new portal-style landing page (rejected: wrong template for a single
