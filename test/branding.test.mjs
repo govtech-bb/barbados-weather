@@ -33,3 +33,14 @@ test("header controls the app JS depends on are preserved", () => {
     assert.match(html, new RegExp(`id="${id}"`), `missing required control id="${id}"`);
   }
 });
+
+test("feedback box is present and uses mailto", () => {
+  assert.match(html, /Was this page helpful\?/i, "missing feedback prompt");
+  assert.match(html, /href="mailto:feedback@gov\.bb/, "feedback box must use the placeholder mailto");
+});
+
+test("footer carries the gov copyright, not a personal credit", () => {
+  assert.match(html, /Government of Barbados/, "footer missing gov attribution");
+  assert.doesNotMatch(html, /Built by Christopher/i, "personal credit still in footer");
+  assert.doesNotMatch(html, /christophercorbin/i, "personal link still in page");
+});

@@ -454,6 +454,14 @@
 
     footer { text-align: center; font-size: 0.76rem; color: var(--muted); padding: 1.4rem 1rem 0; line-height: 1.7; max-width: 760px; margin: 0 auto; }
     .disclaimer { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.25); border-radius: 12px; padding: 0.65rem 0.9rem; margin-bottom: 0.7rem; color: #fde68a; }
+
+    /* Was-this-page-helpful box — gov.bb yellow-bordered feedback pattern. */
+    .gov-feedback { background: var(--card-2); border: 1px solid var(--gold); border-left-width: 6px; border-radius: 8px; padding: 1rem 1.15rem; margin: 1.5rem 0; }
+    .gov-feedback h2 { font-size: 1.05rem; color: var(--heading); margin-bottom: 0.3rem; }
+    .gov-feedback a { color: var(--gov-link); text-decoration: underline; }
+    .gov-footer { border-top: 3px solid var(--gold); padding-top: 1rem; margin-top: 1.5rem; color: var(--muted); font-size: 0.85rem; }
+    .gov-footer a { color: var(--gov-link); text-decoration: underline; }
+    .gov-footer__copyright { margin-top: 0.6rem; font-weight: 600; color: var(--heading); }
   </style>
 </head>
 <body>
@@ -763,11 +771,18 @@
     </main>
     </div>
 
-    <footer>
-      <p class="disclaimer"><strong>Unofficial project.</strong> Forecasts and threat levels are generated automatically and may be wrong.
+    <section class="gov-feedback" aria-labelledby="feedback-h">
+      <h2 id="feedback-h">Was this page helpful?</h2>
+      <p>Give us your feedback to help improve this page.
+        <a href="mailto:feedback@gov.bb?subject=Barbados%20Weather%20%26%20Storm%20Watch%20feedback">Send feedback</a>.</p>
+    </section>
+
+    <footer class="gov-footer">
+      <p class="disclaimer"><strong>Forecasts and threat levels are generated automatically and may be wrong.</strong>
       Always follow official guidance from <a href="https://www.barbadosweather.org">Barbados Meteorological Services</a>
       and the Department of Emergency Management.</p>
-      <p>Storm data from the NOAA National Hurricane Center · Weather &amp; marine from Open-Meteo · Built by <a href="https://christophercorbin.cloud">Christopher Corbin</a></p>
+      <p>Storm data from the NOAA National Hurricane Center · Weather &amp; marine from Open-Meteo.</p>
+      <p class="gov-footer__copyright">© 2026 Government of Barbados</p>
     </footer>
   </div>
 
