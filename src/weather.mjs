@@ -84,7 +84,7 @@ export async function fetchCurrentWeather(island) {
       gustKt: Math.round(c.wind_gusts_10m),
       windFrom: compass(c.wind_direction_10m),
       code: c.weather_code,
-      description: WMO[c.weather_code] ?? "—",
+      description: WMO[c.weather_code] ?? "Unknown",
       observedAt: c.time,
     };
   } catch (err) {
@@ -137,7 +137,7 @@ export async function fetchOutlook(island) {
     const daily = f.daily.time.map((date, i) => ({
       date,
       code: f.daily.weather_code[i],
-      description: WMO[f.daily.weather_code[i]] ?? "—",
+      description: WMO[f.daily.weather_code[i]] ?? "Unknown",
       maxC: Math.round(f.daily.temperature_2m_max[i]),
       minC: Math.round(f.daily.temperature_2m_min[i]),
       rainProb: f.daily.precipitation_probability_max[i] ?? null,
