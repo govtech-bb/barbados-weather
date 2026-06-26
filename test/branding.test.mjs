@@ -31,10 +31,16 @@ test("header controls the app JS depends on are preserved", () => {
   }
 });
 
-test("feedback box is present and uses mailto", () => {
-  assert.match(html, /Was this helpful\?/i, "missing feedback prompt");
-  assert.match(html, /Help us to improve alpha\.gov\.bb/i, "missing alpha.gov.bb feedback copy");
-  assert.match(html, /href="mailto:feedback@gov\.bb/, "feedback box must use the placeholder mailto");
+test("helpful box uses real gov copy + mailto", () => {
+  assert.match(html, /Was this helpful\?/i, "missing helpful heading");
+  assert.match(html, /Help us improve alpha\.gov\.bb/i, "missing real helpful copy");
+  assert.match(html, /href="mailto:feedback@gov\.bb/, "missing mailto");
+});
+test("blue gov footer with links + copyright", () => {
+  assert.match(html, /class="gov-footer"/, "missing gov-footer");
+  assert.match(html, /Terms &amp; Conditions/, "missing Terms link");
+  assert.match(html, /Careers/, "missing Careers link");
+  assert.match(html, /© 2026 Government of Barbados/, "missing copyright");
 });
 
 test("footer carries the gov copyright, not a personal credit", () => {
