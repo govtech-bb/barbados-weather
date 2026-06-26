@@ -95,3 +95,23 @@ test("full-bleed navy footer with gov links", () => {
   assert.match(html, /Terms &amp; Conditions/, "missing Terms link");
   assert.match(html, /© 2026 Government of Barbados/, "missing copyright");
 });
+
+import { existsSync } from "node:fs";
+
+test("gov-bb real design tokens are present", () => {
+  assert.match(html, /--color-yellow-100:\s*#ffc726/i, "missing yellow-100 token");
+  assert.match(html, /--color-blue-100:\s*#00267f/i, "missing blue-100 token");
+  assert.match(html, /--color-blue-10:\s*#e5e9f2/i, "missing blue-10 token");
+});
+test("Figtree is vendored and font-faced", () => {
+  assert.match(html, /@font-face/, "missing @font-face");
+  assert.match(html, /Figtree/, "missing Figtree family");
+  assert.ok(existsSync(new URL("../web/fonts/figtree-latin-400-normal.woff2", import.meta.url)), "missing Figtree 400 woff2");
+  assert.ok(existsSync(new URL("../web/coat-of-arms.png", import.meta.url)), "missing coat-of-arms.png");
+  assert.ok(existsSync(new URL("../web/gov-logo.svg", import.meta.url)), "missing gov-logo.svg");
+});
+test("superseded approximation tokens are gone", () => {
+  for (const t of ["--gov-navy", "--gov-cyan", "--gov-feedback-bg", "--gov-focus"]) {
+    assert.ok(!html.includes(t), `superseded token ${t} still present`);
+  }
+});

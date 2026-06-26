@@ -69,8 +69,15 @@
       --warning: #f97316;   --warning-soft: rgba(249,115,22,0.15);
       --imminent: #ef4444;  --imminent-soft: rgba(239,68,68,0.16);
       --soft-text: #dbe6f5;
-      --gov-link: #1d70b8; --gov-link-visited: #4c2c92; --gov-focus: #ffdd00;
-      --gov-black: #0b0c0c; --gov-feedback-bg: #fff7bf;
+      --gov-link: #1d70b8; --gov-link-visited: #4c2c92;
+      /* gov.bb design tokens (verbatim from @govtech-bb/design) */
+      --color-yellow-100:#ffc726; --color-yellow-40:#ffe9a8; --color-yellow-10:#fff9e9; --color-yellow-00:#e8a833;
+      --color-blue-00:#00164a; --color-blue-100:#00267f; --color-blue-40:#99a8cc; --color-blue-10:#e5e9f2;
+      --color-black-00:#000000; --color-mid-grey-00:#595959; --color-grey-00:#e0e4e9; --color-white-00:#ffffff;
+      --color-focus-visible:#ace6e9;
+      --gov-font:'Figtree',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+      --font-size-h2:2.5rem; --line-height-h2:1.25; --font-size-h3:1.5rem; --font-size-body:1.25rem; --font-size-caption:1rem;
+      --spacing-xs:.5rem; --spacing-s:1rem; --spacing-xm:1.5rem; --spacing-m:2rem;
     }
     /* Light theme — DEFAULT — modelled on the alpha.gov.bb palette:
        white surfaces, Barbados navy, teal accents, gold highlights. */
@@ -90,8 +97,7 @@
       --hero-bg: linear-gradient(135deg, #e6f3f8 0%, #f7fbfd 72%);
       --card-shadow: 0 1px 2px rgba(11,31,58,0.05), 0 6px 18px rgba(11,31,58,0.04);
       --soft-text: #1f3760;
-      --gov-link: #1d70b8; --gov-link-visited: #4c2c92; --gov-focus: #ffdd00;
-      --gov-black: #0b0c0c; --gov-feedback-bg: #fff7bf;
+      --gov-link: #1d70b8; --gov-link-visited: #4c2c92;
       --all-clear-soft: rgba(22,163,74,0.12);
       --watch-soft: rgba(234,179,8,0.18);
       --warning-soft: rgba(249,115,22,0.14);
@@ -130,13 +136,18 @@
     [hidden] { display: none !important; }
     .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--accent); color: #04263a; padding: 0.6rem 1rem; border-radius: 0 0 10px 0; font-weight: 700; font-size: 0.9rem; }
     .skip-link:focus { left: 0; }
-    /* GDS yellow focus ring — accessibility staple of the gov.bb design system. */
-    :focus-visible { outline: 3px solid var(--gov-focus); outline-offset: 0; box-shadow: 0 0 0 1px #0b0c0c; }
+    /* gov.bb focus ring token */
+    :focus-visible { outline: 3px solid var(--color-focus-visible); outline-offset: 0; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
     }
+    @font-face{font-family:'Figtree';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/figtree-latin-400-normal.woff2') format('woff2');}
+    @font-face{font-family:'Figtree';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/figtree-latin-500-normal.woff2') format('woff2');}
+    @font-face{font-family:'Figtree';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/figtree-latin-600-normal.woff2') format('woff2');}
+    @font-face{font-family:'Figtree';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/figtree-latin-700-normal.woff2') format('woff2');}
+    @font-face{font-family:'Figtree';font-style:normal;font-weight:800;font-display:swap;src:url('/fonts/figtree-latin-800-normal.woff2') format('woff2');}
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: var(--gov-font);
       background: var(--bg); background-image: var(--bg-grad); background-attachment: fixed;
       color: var(--text); min-height: 100vh; line-height: 1.5;
       -webkit-font-smoothing: antialiased;
@@ -467,7 +478,7 @@
     footer { text-align: center; font-size: 0.76rem; color: var(--muted); padding: 1.4rem 1rem 0; line-height: 1.7; max-width: 760px; margin: 0 auto; }
     .disclaimer { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.25); border-radius: 12px; padding: 0.65rem 0.9rem; margin-bottom: 0.7rem; color: #fde68a; }
 
-    .gov-feedback { background: var(--gov-feedback-bg); border: 1px solid #f3d000; border-radius: 6px; padding: 1rem 1.15rem; margin: 1.5rem 0; }
+    .gov-feedback { background: var(--color-yellow-40); border: 1px solid #f3d000; border-radius: 6px; padding: 1rem 1.15rem; margin: 1.5rem 0; }
     .gov-feedback h2, .gov-feedback p { color: #0b0c0c; }
     .gov-feedback h2 { font-size: 1.05rem; margin-bottom: 0.3rem; }
     .gov-feedback a { color: var(--gov-link); text-decoration: underline; }
