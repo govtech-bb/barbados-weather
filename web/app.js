@@ -26,16 +26,16 @@
     // Date math is anchored to the island, not the browser's local TZ (#48).
     // A user opening the dashboard in UTC or Pacific time previously saw the
     // wrong day-of-week labels on the 7-day strip and the wrong wall-clock
-    // for "winds reach us by X" — confusing during an actual storm.
+    // for "winds reach us by X", confusing during an actual storm.
     const ISLAND_TZ = "America/Barbados";
     const ISLAND_DOW_FMT = new Intl.DateTimeFormat("en-GB", { timeZone: ISLAND_TZ, weekday: "short" });
     const ISLAND_TIME_FMT = new Intl.DateTimeFormat("en-GB", { timeZone: ISLAND_TZ, hour: "numeric", minute: "2-digit", hour12: true });
     function islandDOW(dateStr) {
       // Open-Meteo daily.date is YYYY-MM-DD in the requested TZ (island). We
       // parse as UTC midnight and format in island TZ to get a stable label.
-      if (!dateStr) return "—";
+      if (!dateStr) return "-";
       const d = new Date(`${dateStr}T00:00:00Z`);
-      if (!Number.isFinite(d.getTime())) return "—";
+      if (!Number.isFinite(d.getTime())) return "-";
       // Intl returns "Sun"/"Mon"/etc with en-GB.
       return ISLAND_DOW_FMT.format(d);
     }
@@ -54,8 +54,8 @@
     // Data is stored in °C and km/h; current-conditions wind is in knots.
     const toTemp = (c) => c == null ? null : settings.temp === "F" ? Math.round(c * 9 / 5 + 32) : Math.round(c);
     const tUnit = () => settings.temp === "F" ? "°F" : "°C";
-    const fmtTemp = (c) => c == null ? "—" : `${toTemp(c)}${tUnit()}`;
-    const fmtDeg = (c) => c == null ? "—" : `${toTemp(c)}°`;
+    const fmtTemp = (c) => c == null ? "-" : `${toTemp(c)}${tUnit()}`;
+    const fmtDeg = (c) => c == null ? "-" : `${toTemp(c)}°`;
     const wUnit = () => settings.wind === "kt" ? "kt" : settings.wind === "mph" ? "mph" : "km/h";
     const fromKmh = (k) => k == null ? null : settings.wind === "kt" ? Math.round(k / 1.852) : settings.wind === "mph" ? Math.round(k / 1.609) : Math.round(k);
     const fromKt = (kt) => kt == null ? null : fromKmh(kt * 1.852);
@@ -144,7 +144,7 @@
     }
 
     function sanitizeBriefing(s) {
-      if (s == null) return "—";
+      if (s == null) return "-";
       return String(s).replace(BIDI_CTL_RE, "").slice(0, 4000);
     }
 
@@ -159,45 +159,45 @@
       if (code >= 95) return "⛈️";
       return "🌡️";
     }
-    const uvWord = (uv) => uv == null ? "—" : uv < 3 ? "Low" : uv < 6 ? "Moderate" : uv < 8 ? "High" : uv < 11 ? "Very high" : "Extreme";
+    const uvWord = (uv) => uv == null ? "-" : uv < 3 ? "Low" : uv < 6 ? "Moderate" : uv < 8 ? "High" : uv < 11 ? "Very high" : "Extreme";
     const uvClass = (uv) => uv == null ? "low" : uv < 3 ? "low" : uv < 6 ? "moderate" : uv < 8 ? "high" : "extreme";
-    const seaWord = (m) => m == null ? "—" : m < 1 ? "Calm" : m < 1.5 ? "Slight" : m < 2.5 ? "Moderate" : m < 4 ? "Rough" : "Very rough";
-    const aqiWord = (v) => v == null ? "—" : v <= 50 ? "Good" : v <= 100 ? "Moderate" : v <= 150 ? "Unhealthy (sensitive)" : v <= 200 ? "Unhealthy" : v <= 300 ? "Very unhealthy" : "Hazardous";
+    const seaWord = (m) => m == null ? "-" : m < 1 ? "Calm" : m < 1.5 ? "Slight" : m < 2.5 ? "Moderate" : m < 4 ? "Rough" : "Very rough";
+    const aqiWord = (v) => v == null ? "-" : v <= 50 ? "Good" : v <= 100 ? "Moderate" : v <= 150 ? "Unhealthy (sensitive)" : v <= 200 ? "Unhealthy" : v <= 300 ? "Very unhealthy" : "Hazardous";
     const aqiClass = (v) => v == null ? "low" : v <= 50 ? "low" : v <= 100 ? "medium" : "high";
-    const hazeWord = (pm10) => pm10 == null ? "—" : pm10 < 30 ? "Clear" : pm10 < 55 ? "Slight haze" : pm10 < 110 ? "Hazy" : pm10 < 180 ? "Thick dust" : "Severe dust";
+    const hazeWord = (pm10) => pm10 == null ? "-" : pm10 < 30 ? "Clear" : pm10 < 55 ? "Slight haze" : pm10 < 110 ? "Hazy" : pm10 < 180 ? "Thick dust" : "Severe dust";
     const hazeClass = (pm10) => pm10 == null ? "low" : pm10 < 55 ? "low" : pm10 < 110 ? "medium" : "high";
     const windWordKt = (kt) => kt == null ? "light" : kt < 7 ? "light" : kt < 16 ? "gentle" : kt < 22 ? "breezy" : kt < 34 ? "fresh" : "strong";
 
     // Plain-language "what does this rating mean + what should I do" notes,
     // shown on demand behind a "?" so the tiles stay uncluttered.
     const seaExplain = (m) => m == null ? null
-      : m < 1 ? "<b>Calm</b> — flat, glassy water. Great for swimming and small boats."
-      : m < 1.5 ? "<b>Slight</b> — small waves about 1 m, knee-to-waist high. Fine for a swim."
-      : m < 2.5 ? "<b>Moderate</b> — choppy, waves up to about 2.5 m. Swim with care and watch children."
-      : m < 4 ? "<b>Rough</b> — big waves (2.5–4 m). Best to stay out of the water."
-      : "<b>Very rough</b> — dangerous seas over 4 m. Keep off the beaches and don't take a boat out.";
+      : m < 1 ? "<b>Calm</b>: flat, glassy water. Great for swimming and small boats."
+      : m < 1.5 ? "<b>Slight</b>: small waves about 1 m, knee-to-waist high. Fine for a swim."
+      : m < 2.5 ? "<b>Moderate</b>: choppy, waves up to about 2.5 m. Swim with care and watch children."
+      : m < 4 ? "<b>Rough</b>: big waves (2.5–4 m). Best to stay out of the water."
+      : "<b>Very rough</b>: dangerous seas over 4 m. Keep off the beaches and don't take a boat out.";
     const uvExplain = (uv) => uv == null ? null
-      : uv < 3 ? "<b>Low</b> — little burn risk. Safe to be outside."
-      : uv < 6 ? "<b>Moderate</b> — you could burn in 30–45 min. Wear a hat and sunscreen for long stints outside."
-      : uv < 8 ? "<b>High</b> — skin burns in about 25 min. Wear sunscreen and seek shade around midday."
-      : uv < 11 ? "<b>Very high</b> — burns in about 15 min. Cover up and limit midday sun."
-      : "<b>Extreme</b> — burns in minutes. Stay out of the midday sun where you can.";
+      : uv < 3 ? "<b>Low</b>: little burn risk. Safe to be outside."
+      : uv < 6 ? "<b>Moderate</b>: you could burn in 30–45 min. Wear a hat and sunscreen for long stints outside."
+      : uv < 8 ? "<b>High</b>: skin burns in about 25 min. Wear sunscreen and seek shade around midday."
+      : uv < 11 ? "<b>Very high</b>: burns in about 15 min. Cover up and limit midday sun."
+      : "<b>Extreme</b>: burns in minutes. Stay out of the midday sun where you can.";
     const aqiExplain = (v) => v == null ? null
-      : v <= 50 ? "<b>Good</b> — the air is clean. Fine for everyone."
-      : v <= 100 ? "<b>Moderate</b> — mostly fine. A few unusually sensitive people might notice irritation."
-      : v <= 150 ? "<b>Unhealthy for sensitive groups</b> — OK for most, but people with asthma, heart or lung conditions should ease up on hard outdoor activity."
-      : v <= 200 ? "<b>Unhealthy</b> — everyone may start to feel it. Limit long or intense time outdoors."
-      : v <= 300 ? "<b>Very unhealthy</b> — health alert. Cut outdoor activity and keep windows shut."
-      : "<b>Hazardous</b> — emergency levels. Stay indoors.";
+      : v <= 50 ? "<b>Good</b>: the air is clean. Fine for everyone."
+      : v <= 100 ? "<b>Moderate</b>: mostly fine. A few unusually sensitive people might notice irritation."
+      : v <= 150 ? "<b>Unhealthy for sensitive groups</b>: OK for most, but people with asthma, heart or lung conditions should ease up on hard outdoor activity."
+      : v <= 200 ? "<b>Unhealthy</b>: everyone may start to feel it. Limit long or intense time outdoors."
+      : v <= 300 ? "<b>Very unhealthy</b>: health alert. Cut outdoor activity and keep windows shut."
+      : "<b>Hazardous</b>: emergency levels. Stay indoors.";
     const hazeExplain = (pm10) => pm10 == null ? null
-      : pm10 < 30 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Clear</b> right now — little dust about."
-      : pm10 < 55 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Slight haze</b> — the sky looks a little milky; most people won't be affected."
-      : pm10 < 110 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Hazy</b> — noticeable dust; people with asthma may feel it."
-      : pm10 < 180 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Thick dust</b> — hazy air; limit time outdoors if you have breathing trouble."
-      : "Saharan dust blows across the Atlantic and hazes the sky. <b>Severe dust</b> — keep windows closed; asthma and allergy sufferers should stay in.";
+      : pm10 < 30 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Clear</b> right now: little dust about."
+      : pm10 < 55 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Slight haze</b>: the sky looks a little milky; most people won't be affected."
+      : pm10 < 110 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Hazy</b>: noticeable dust; people with asthma may feel it."
+      : pm10 < 180 ? "Saharan dust blows across the Atlantic and hazes the sky. <b>Thick dust</b>: hazy air; limit time outdoors if you have breathing trouble."
+      : "Saharan dust blows across the Atlantic and hazes the sky. <b>Severe dust</b>: keep windows closed; asthma and allergy sufferers should stay in.";
 
     // Build a readout tile. If `note` is given, add a "?" that reveals a
-    // plain-language explanation in the same box — kept hidden by default so
+    // plain-language explanation in the same box, kept hidden by default so
     // the grid isn't an information dump.
     function infoTile(lbl, valHtml, note) {
       // No inline onclick (#29): the document-level delegated handler in
@@ -224,23 +224,23 @@
       code === 45 || code === 48 ? "foggy" :
       desc.toLowerCase();
     // Compact "1pm" / "12am" form in island TZ (#48). Used in the hourly
-    // strip — pre-fix used d.getHours() which drifts with the viewer's
+    // strip. Pre-fix used d.getHours() which drifts with the viewer's
     // local TZ, making "1pm" mean different things to different users.
     const HOUR_FMT = new Intl.DateTimeFormat("en-GB", { timeZone: ISLAND_TZ, hour: "numeric", hour12: true });
     const hourLabel = (iso) => {
-      if (!iso) return "—";
+      if (!iso) return "-";
       const d = new Date(iso);
-      if (!Number.isFinite(d.getTime())) return "—";
+      if (!Number.isFinite(d.getTime())) return "-";
       // Intl gives "1 pm" / "12 am" with a space; collapse to "1pm".
       return HOUR_FMT.format(d).toLowerCase().replace(/\s/g, "");
     };
     const timeLabel = (iso) => {
       // Format in island TZ (#48). Pre-fix used d.getHours() which is the
-      // browser's local TZ — a UK user opening this saw sunrise/sunset and
+      // browser's local TZ. A UK user opening this saw sunrise/sunset and
       // storm-arrival times shifted by their offset.
-      if (!iso) return "—";
+      if (!iso) return "-";
       const d = new Date(iso);
-      if (!Number.isFinite(d.getTime())) return "—";
+      if (!Number.isFinite(d.getTime())) return "-";
       // Intl returns e.g. "1:24 pm" with en-GB + hour12.
       return ISLAND_TIME_FMT.format(d).toLowerCase();
     };
@@ -311,7 +311,7 @@
       const bucket = Math.floor(Date.now() / 600000);
       img.onload = () => { fig.hidden = false; };
       img.onerror = () => { fig.hidden = true; };
-      // Smaller image on phones — ~286 KB vs ~950 KB, easier on mobile data.
+      // Smaller image on phones, ~286 KB vs ~950 KB, easier on mobile data.
       const size = window.innerWidth < 560 ? "500x500" : "1000x1000";
       img.src = `${SAT_BASE}${size}.jpg?_=${bucket}`;
     }
@@ -375,12 +375,12 @@
       { icon: "flower-2", name: "Hunte's Gardens", area: "St. Joseph", blurb: "A lush, leafy garden tucked into a gully.", modes: ["fine"], indoor: false },
       { icon: "mountain", name: "Farley Hill National Park", area: "St. Peter", blurb: "Picnic spot with sweeping views over the east coast.", modes: ["fine"], indoor: false },
       { icon: "waves", name: "Bathsheba & the Soup Bowl", area: "St. Joseph", blurb: "Watch the surfers and the dramatic Atlantic rollers.", modes: ["fine", "windy"], indoor: false },
-      { icon: "wind", name: "Silver Sands", area: "Christ Church", blurb: "The island's kitesurfing and windsurfing hotspot — best when it's breezy.", modes: ["windy"], indoor: false },
-      { icon: "gem", name: "Harrison's Cave", area: "St. Thomas", blurb: "Underground crystal cave by tram — great whatever the weather.", modes: ["wet", "fine", "any"], indoor: true },
+      { icon: "wind", name: "Silver Sands", area: "Christ Church", blurb: "The island's kitesurfing and windsurfing hotspot, best when it's breezy.", modes: ["windy"], indoor: false },
+      { icon: "gem", name: "Harrison's Cave", area: "St. Thomas", blurb: "Underground crystal cave by tram, great whatever the weather.", modes: ["wet", "fine", "any"], indoor: true },
       { icon: "anchor", name: "Animal Flower Cave", area: "St. Lucy", blurb: "A sea cave at the island's northern tip with ocean views.", modes: ["fine", "any"], indoor: false },
       { icon: "landmark", name: "Barbados Museum", area: "Garrison", blurb: "Island history and heritage, all under one roof.", modes: ["wet"], indoor: true },
       { icon: "wine", name: "Rum distillery tour", area: "Mount Gay / St. Nicholas Abbey", blurb: "Tour a historic distillery and taste Barbadian rum, rain or shine.", modes: ["wet", "any"], indoor: true },
-      { icon: "shopping-bag", name: "Bridgetown & Broad Street", area: "Bridgetown", blurb: "Shopping and the UNESCO-listed Garrison — easy to enjoy in the rain.", modes: ["wet", "any"], indoor: true },
+      { icon: "shopping-bag", name: "Bridgetown & Broad Street", area: "Bridgetown", blurb: "Shopping and the UNESCO-listed Garrison, easy to enjoy in the rain.", modes: ["wet", "any"], indoor: true },
       { icon: "utensils", name: "Oistins Fish Fry", area: "Christ Church", blurb: "Friday-night food, music and liming by the sea.", modes: ["any"], indoor: false },
     ];
     function todayMode(s) {
@@ -404,9 +404,9 @@
       if (mode === "wet") pick = pick.sort((a, b) => (b.indoor ? 1 : 0) - (a.indoor ? 1 : 0));
       pick = pick.slice(0, 6);
       sum.textContent =
-        mode === "wet" ? "A wet one today — here are some things to do under cover:"
-        : mode === "windy" ? "Breezy out — good for the water, or try these:"
-        : mode === "fine" ? "Great day to get outside — a few ideas:"
+        mode === "wet" ? "A wet one today. Here are some things to do under cover:"
+        : mode === "windy" ? "Breezy out, good for the water, or try these:"
+        : mode === "fine" ? "Great day to get outside. A few ideas:"
         : "Some ideas for your time in Barbados:";
       grid.innerHTML = pick.map((a) =>
         `<div class="todo-item"><div class="todo-ico">${iconSvg(a.icon)}</div>` +
@@ -430,13 +430,13 @@
       const uv = today ? (today.uvMax ?? 0) : 0;
       const sun = uv >= 8 ? " Wear sunscreen and grab some shade around midday." : "";
       if (raining || rainProb >= 65) {
-        return { icon: "umbrella", html: "<b>A wet one today.</b> Keep an umbrella handy — better for indoor plans." };
+        return { icon: "umbrella", html: "<b>A wet one today.</b> Keep an umbrella handy, better for indoor plans." };
       }
       if (rainProb >= 35) {
         return { icon: "cloud-sun", html: "<b>Sun with the odd shower.</b> Fine for a quick outing, but carry a brolly just in case." };
       }
       if (windKt >= 22) {
-        return { icon: "footprints", html: `<b>Dry but breezy.</b> Good for a walk — just hold onto your hat.${sun}` };
+        return { icon: "footprints", html: `<b>Dry but breezy.</b> Good for a walk, just hold onto your hat.${sun}` };
       }
       return { icon: "palmtree", html: `<b>Lovely day.</b> Great for a walk, the beach or a lime outside.${sun}` };
     }
@@ -486,7 +486,7 @@
       const wrap = document.getElementById("days");
       const age = document.getElementById("forecast-age");
       age.textContent = o && o.generatedAt ? "Updated " + agoText(o.generatedAt) + " · Open-Meteo" : "";
-      if (!o || !o.daily || !o.daily.length) { wrap.innerHTML = '<p class="summary">Forecast unavailable right now.</p>'; document.getElementById("forecast-summary").textContent = ""; return; }
+      if (!o || !o.daily || !o.daily.length) { document.getElementById("forecast-summary").textContent = "Forecast unavailable right now."; wrap.innerHTML = ""; return; }
       wrap.innerHTML = o.daily.map((d, idx) => {
         const dow = idx === 0 ? "Today" : islandDOW(d.date);
         const rain = d.rainProb != null ? `<div class="rain" title="Chance of rain">💧 ${d.rainProb}%</div>` : "";
@@ -538,11 +538,11 @@
       else {
         const msg = ["", "minor ponding possible in low-lying spots",
           "flash flooding possible in low-lying areas",
-          "flash flooding likely — avoid flood-prone roads",
-          "dangerous flooding — stay off the roads if you can"][lvl];
+          "flash flooding likely, avoid flood-prone roads",
+          "dangerous flooding, stay off the roads if you can"][lvl];
         fn.hidden = false;
-        // Polite live region — dedup via setLiveHtml (#49)
-        setLiveHtml(fn, `<span class="chance ${lvl <= 2 ? "medium" : "high"}">Flood watch</span> About ${total24} mm of rain expected over 24h — ${msg}.`);
+        // Polite live region: dedup via setLiveHtml (#49)
+        setLiveHtml(fn, `<span class="chance ${lvl <= 2 ? "medium" : "high"}">Flood watch</span> About ${total24} mm of rain expected over 24h, ${msg}.`);
       }
     }
 
@@ -553,14 +553,14 @@
       const uvNow = o && o.hourly && o.hourly.length ? o.hourly[0].uv : null;
       const uvMax = o && o.daily && o.daily.length ? o.daily[0].uvMax : null;
       const mh = m && m.waveHeightM != null ? m.waveHeightM : null;
-      const waveVal = mh != null ? mh + " m" : "—";
-      const periodVal = m && m.wavePeriodS != null ? m.wavePeriodS + " s" : "—";
+      const waveVal = mh != null ? mh + " m" : "-";
+      const periodVal = m && m.wavePeriodS != null ? m.wavePeriodS + " s" : "-";
       grid.innerHTML =
         infoTile("Sea state", seaWord(mh), seaExplain(mh)) +
-        infoTile("Wave height", waveVal, mh != null ? `How tall the waves are, measured crest to trough — about <b>${mh} m</b> right now. Sea state is the word for the same thing.` : null) +
+        infoTile("Wave height", waveVal, mh != null ? `How tall the waves are, measured crest to trough, about <b>${mh} m</b> right now. Sea state is the word for the same thing.` : null) +
         infoTile("Wave period", periodVal, "The gap in seconds between one wave and the next. Longer gaps (10s+) mean a stronger, more powerful swell; short gaps are choppy wind-driven sea.") +
         infoTile("UV now", `<span class="uv ${uvClass(uvNow)}">${uvWord(uvNow)}</span>`, uvExplain(uvNow));
-      const uvAdvice = (uvMax != null && uvMax >= 6) ? " UV peaks " + uvWord(uvMax).toLowerCase() + " today — wear sunscreen and seek shade around midday." : "";
+      const uvAdvice = (uvMax != null && uvMax >= 6) ? " UV peaks " + uvWord(uvMax).toLowerCase() + " today. Wear sunscreen and seek shade around midday." : "";
       if (m && m.waveHeightM != null) {
         sum.innerHTML = `<span class="lead">Seas are ${seaWord(m.waveHeightM).toLowerCase()} at about ${m.waveHeightM} m.</span>${uvAdvice}`;
       } else {
@@ -569,7 +569,7 @@
     }
 
     // Official DEM Category 1 hurricane shelters (2026 booklet). Source:
-    // https://dem.gov.bb/emergency/shelter — review yearly against the booklet.
+    // https://dem.gov.bb/emergency/shelter, review yearly against the booklet.
     const SHELTERS = [
       { name: "Blackman and Gollop Primary School", parish: "Christ Church", wc: true },
       { name: "Christ Church Foundation School", parish: "Christ Church", wc: true },
@@ -638,25 +638,25 @@
       const aq = o && o.airQuality;
       const tide = o && o.tide;
       if (!aq && !tide) { sum.textContent = "Air and tide data are unavailable right now."; grid.innerHTML = ""; return; }
-      const tideState = tide ? (tide.rising ? "Rising" : "Falling") : "—";
-      const nextEvent = !tide ? "—"
+      const tideState = tide ? (tide.rising ? "Rising" : "Falling") : "-";
+      const nextEvent = !tide ? "-"
         : tide.rising && tide.nextHigh ? "High " + timeLabel(tide.nextHigh.time)
-        : tide.nextLow ? "Low " + timeLabel(tide.nextLow.time) : "—";
+        : tide.nextLow ? "Low " + timeLabel(tide.nextLow.time) : "-";
       grid.innerHTML =
-        infoTile("Air quality", `<span class="chance ${aq ? aqiClass(aq.usAqi) : "low"}">${aq ? aqiWord(aq.usAqi) : "—"}</span>`, aq ? aqiExplain(aq.usAqi) : null) +
-        infoTile("Saharan dust", `<span class="chance ${aq ? hazeClass(aq.pm10) : "low"}">${aq ? hazeWord(aq.pm10) : "—"}</span>`, aq ? hazeExplain(aq.pm10) : null) +
+        infoTile("Air quality", `<span class="chance ${aq ? aqiClass(aq.usAqi) : "low"}">${aq ? aqiWord(aq.usAqi) : "-"}</span>`, aq ? aqiExplain(aq.usAqi) : null) +
+        infoTile("Saharan dust", `<span class="chance ${aq ? hazeClass(aq.pm10) : "low"}">${aq ? hazeWord(aq.pm10) : "-"}</span>`, aq ? hazeExplain(aq.pm10) : null) +
         infoTile("Tide", tideState, tide ? "Whether the sea is coming in (<b>rising</b>) or going out (<b>falling</b>). Rising tides cover more of the beach." : null) +
         infoTile("Next tide", nextEvent, tide ? "The time of the next high or low tide. Around high tide the water reaches furthest up the beach." : null);
       const parts = [];
       if (aq) {
         const aqi = aqiWord(aq.usAqi).toLowerCase();
-        if (aq.pm10 >= 110) parts.push(`<span class="lead">Hazy with Saharan dust.</span> Air quality is ${aqi} — sensitive groups should limit time outdoors.`);
+        if (aq.pm10 >= 110) parts.push(`<span class="lead">Hazy with Saharan dust.</span> Air quality is ${aqi}. Sensitive groups should limit time outdoors.`);
         else if (aq.pm10 >= 55) parts.push(`<span class="lead">A little Saharan haze about.</span> Air quality is ${aqi}.`);
         else parts.push(`<span class="lead">Clear air, little dust.</span> Air quality is ${aqi}.`);
       }
       if (tide) {
         parts.push(`Tide is ${tide.rising ? "rising" : "falling"}` +
-          (tide.rising && tide.nextHigh ? ` — high around ${timeLabel(tide.nextHigh.time)}.` : tide.nextLow ? ` — low around ${timeLabel(tide.nextLow.time)}.` : "."));
+          (tide.rising && tide.nextHigh ? `, high around ${timeLabel(tide.nextHigh.time)}.` : tide.nextLow ? `, low around ${timeLabel(tide.nextLow.time)}.` : "."));
       }
       sum.innerHTML = parts.join(" ");
     }
@@ -665,7 +665,7 @@
       const g = document.getElementById("sky-grid");
       const a = o && o.astro;
       const dayEl = document.getElementById("sky-day");
-      if (!a) { g.innerHTML = `<div class="wx-tile"><div class="lbl">Sun &amp; moon</div><div class="val">—</div></div>`; if (dayEl) dayEl.textContent = ""; return; }
+      if (!a) { g.innerHTML = `<div class="wx-tile"><div class="lbl">Sun &amp; moon</div><div class="val">-</div></div>`; if (dayEl) dayEl.textContent = ""; return; }
       if (dayEl) {
         const d = a.sunrise ? new Date(a.sunrise) : new Date();
         const today = new Date();
@@ -674,7 +674,7 @@
         dayEl.innerHTML = `Sunrise, sunset and moon for <b>${sameDay ? "today" : ds}</b>${sameDay ? " (" + ds + ")" : ""}.`;
       }
       const dl = a.daylightSeconds != null
-        ? `${Math.floor(a.daylightSeconds / 3600)}h ${Math.round((a.daylightSeconds % 3600) / 60)}m` : "—";
+        ? `${Math.floor(a.daylightSeconds / 3600)}h ${Math.round((a.daylightSeconds % 3600) / 60)}m` : "-";
       g.innerHTML = `
         <div class="wx-tile"><div class="lbl">Sunrise</div><div class="val">${timeLabel(a.sunrise)}</div></div>
         <div class="wx-tile"><div class="lbl">Sunset</div><div class="val">${timeLabel(a.sunset)}</div></div>
@@ -706,11 +706,11 @@
       if (s.waves && s.waves.near) {
         wn.hidden = false;
         const dev = (t && t.formationExpected === false) ? " No tropical development is expected." : "";
-        // Polite live region — dedup via setLiveHtml (#49)
-        setLiveHtml(wn, `<span class="lead">🌀 A tropical wave is crossing our area</span> (axis near ${s.waves.nearAxisLonW}°W) — expect passing showers and a gusty breeze.${dev}`);
+        // Polite live region: dedup via setLiveHtml (#49)
+        setLiveHtml(wn, `<span class="lead">🌀 A tropical wave is crossing our area</span> (axis near ${s.waves.nearAxisLonW}°W). Expect passing showers and a gusty breeze.${dev}`);
       } else { wn.hidden = true; wn.__hrLast = undefined; }
       if (!t) { sum.textContent = "The Atlantic outlook is unavailable right now."; areas.innerHTML = ""; src.textContent = ""; return; }
-      // NHC text → innerHTML — escape to prevent any upstream weirdness
+      // NHC text → innerHTML: escape to prevent any upstream weirdness
       // from landing in the DOM as live markup (#29).
       sum.innerHTML = `<span class="lead">${escapeHtml(t.headline)}</span>` + (t.activeSystemsText ? ` ${escapeHtml(t.activeSystemsText)}` : "");
       if (t.areas && t.areas.length) {
@@ -763,7 +763,7 @@
         const when = arr.hours === 0 ? "are arriving now"
           : `could reach us by about ${timeLabel(new Date(Date.parse(s.updatedAt) + arr.hours * 3600000).toISOString())} (~+${arr.hours}h)`;
         an.hidden = false;
-        // Polite live region — dedup via setLiveHtml (#49)
+        // Polite live region: dedup via setLiveHtml (#49)
         setLiveHtml(an, `<span class="chance high">Winds</span> Tropical-storm-force winds (34&nbsp;kt+) from ${escapeHtml(arr.name)} ${when}. Finish preparations early.`);
       } else { an.hidden = true; an.__hrLast = undefined; }
       const passText = (a) => {
@@ -783,10 +783,10 @@
           <td><span class="chip ${st.assessment.level}">${st.assessment.level.replace("_", " ")}</span></td>
         </tr>`).join("");
       document.getElementById("storms-body").innerHTML = rows ||
-        '<tr><td colspan="6"><div class="empty"><span class="sun" aria-hidden="true">☀️</span>No active systems — enjoy the sunshine.</div></td></tr>';
+        '<tr><td colspan="6"><div class="empty"><span class="sun" aria-hidden="true">☀️</span>No active systems. Enjoy the sunshine.</div></td></tr>';
 
       document.getElementById("history").innerHTML = (s.history ?? []).slice(-8).reverse()
-        .map(h => `${new Date(h.at).toUTCString().slice(5, 22)} UTC — ${h.from.replace("_", " ")} → <b>${h.to.replace("_", " ")}</b>`)
+        .map(h => `${new Date(h.at).toUTCString().slice(5, 22)} UTC: ${h.from.replace("_", " ")} → <b>${h.to.replace("_", " ")}</b>`)
         .join("<br>") || "No level changes yet";
     }
 
@@ -836,7 +836,7 @@
     function renderMap(s) {
       if (!map) initMap(s.island);
       layerGroup.clearLayers();
-      // White dot with a dark ring — stands out from the blue radar returns.
+      // White dot with a dark ring, stands out from the blue radar returns.
       L.circleMarker([s.island.lat, s.island.lon], { radius: 6, color: "#0b1220", weight: 3, fillColor: "#ffffff", fillOpacity: 1 })
         .bindTooltip(s.island.name, { permanent: true, direction: "bottom" }).addTo(layerGroup);
       for (const st of s.storms) {
@@ -844,7 +844,7 @@
         const cone = coneFor(st);
         if (cone) {
           // Leaflet's bindTooltip treats the string content as HTML (writes
-          // via innerHTML on the tooltip container) — escape st.name (#29).
+          // via innerHTML on the tooltip container), escape st.name (#29).
           L.polygon(cone, { color: "#fbbf24", weight: 1, opacity: 0.5, fillColor: "#fbbf24", fillOpacity: 0.12 })
             .bindTooltip(`${escapeHtml(st.name)}: probable path of the centre (next 5 days)`).addTo(layerGroup);
         }
@@ -874,12 +874,12 @@
         ca.hidden = false;
         ca.href = c.url || "https://brb-secondary.capews.com/capews/public/active";
         const n = c.count || 1;
-        // Assertive live region — dedup via setLiveHtml (#49) so screen
+        // Assertive live region: dedup via setLiveHtml (#49) so screen
         // readers don't re-announce "Official emergency alert in effect"
         // every 60 s while the same CAP alert is still active.
         setLiveHtml(
           document.getElementById("civil-text"),
-          `<b>Official emergency alert${n > 1 ? "s" : ""} in effect.</b> Barbados DEM has ${n > 1 ? n + " active alerts" : "an active alert"} — tap for details on CAP.CAP.`
+          `<b>Official emergency alert${n > 1 ? "s" : ""} in effect.</b> Barbados DEM has ${n > 1 ? n + " active alerts" : "an active alert"}. Tap for details on CAP.CAP.`
         );
       } else {
         ca.hidden = true;
@@ -901,7 +901,8 @@
       s.history = Array.isArray(s.history) ? s.history : [];
       lastStatus = s;
       renderCivil(s);
-      document.getElementById("island").textContent = s.island.name;
+      const islandEl = document.getElementById("island");
+      if (islandEl) islandEl.textContent = s.island.name;
       document.getElementById("now-island").textContent = s.island.name;
       document.getElementById("mode").innerHTML = s.mode === "replay" ? "🎬 <b>Replay:</b> Beryl 2024" : "📡 <b>Live:</b> NHC feed";
       document.getElementById("updated").textContent = !s.updatedAt ? ""
@@ -911,7 +912,7 @@
       const banner = document.getElementById("banner");
       banner.className = "banner " + s.level;
       document.getElementById("banner-title").textContent = LEVEL_TITLE[s.level];
-      // Banner sub is in a polite live region — only update DOM on change (#49)
+      // Banner sub is in a polite live region: only update DOM on change (#49)
       setLiveText(document.getElementById("banner-sub"), LEVEL_SUB[s.level]);
       document.getElementById("banner-storms").innerHTML = s.storms.length
         ? `tracking<b>${s.storms.map(x => escapeHtml(x.name)).join(", ")}</b>` : "";
@@ -966,7 +967,7 @@
       document.querySelectorAll(".section-nav a").forEach((a) => {
         a.classList.toggle("active", a.getAttribute("href") === "#" + page);
       });
-      // Leaflet sizes wrong while its container is display:none — nudge on show.
+      // Leaflet sizes wrong while its container is display:none, nudge on show.
       if (page === "radar" && map) requestAnimationFrame(() => map.invalidateSize());
       window.scrollTo(0, 0);
     }
@@ -1035,7 +1036,7 @@
         bar.classList.toggle("on", on);
         text.textContent = on
           ? "✓ Storm alerts are on for this device."
-          : "🔔 Get a push the moment the storm level rises — even with the app closed.";
+          : "🔔 Get a push the moment the storm level rises, even with the app closed.";
         btn.textContent = on ? "Turn off" : "Get storm alerts";
         btn.dataset.on = on ? "1" : "";
         prefsBox.hidden = false;
@@ -1082,7 +1083,7 @@
             setState(true);
           }
         } catch {
-          text.textContent = "Couldn't change alert settings — please try again.";
+          text.textContent = "Couldn't change alert settings. Please try again.";
         } finally {
           btn.disabled = false;
         }
@@ -1092,7 +1093,7 @@
     async function refresh(first) {
       try {
         const res = await fetch("/api/status");
-        if (!res.ok) return; // 5xx — keep the prior render; the next tick retries
+        if (!res.ok) return; // 5xx: keep the prior render; the next tick retries
         const payload = await res.json();
         // Render-time exceptions (#46) must not freeze the polling loop.
         try { render(payload); } catch (err) { console.error("render failed:", err); }
@@ -1109,7 +1110,7 @@
     // The reload-on-controllerchange listener is only ARMED after the user
     // explicitly accepts an update toast. Otherwise the FIRST SW install on
     // a fresh client triggers a controllerchange (sw.js calls clients.claim
-    // on activate) and we'd reload the page mid-initialization — which both
+    // on activate) and we'd reload the page mid-initialization, which both
     // breaks any test that expects a stable post-load DOM and is a poor UX
     // (an unrequested reload on every first visit).
     let userInitiatedSkip = false;
@@ -1119,7 +1120,7 @@
       t.id = "hr-update-toast";
       t.className = "hr-update-toast";
       t.type = "button";
-      t.textContent = "Update available — tap to refresh";
+      t.textContent = "Update available. Tap to refresh";
       t.addEventListener("click", () => {
         t.disabled = true;
         t.textContent = "Refreshing…";
@@ -1160,7 +1161,7 @@
       document.getElementById("sat-toggle").addEventListener("click", toggleSat);
       // Delegated click for the per-tile "?" buttons (#29). The inline
       // `onclick="toggleTileNote(this)"` was the last thing forcing
-      // `'unsafe-inline'` to stay on script-src in the CSP — gone now.
+      // `'unsafe-inline'` to stay on script-src in the CSP, gone now.
       document.addEventListener("click", (e) => {
         const btn = e.target instanceof Element ? e.target.closest(".tile-info") : null;
         if (btn) toggleTileNote(btn);
