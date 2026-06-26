@@ -26,7 +26,7 @@ test("service title is the approved name", () => {
 });
 
 test("header controls the app JS depends on are preserved", () => {
-  for (const id of ["island", "mode", "updated", "settings-btn", "settings-panel", "set-temp", "set-wind", "set-theme"]) {
+  for (const id of ["mode", "updated", "settings-btn", "settings-panel", "set-temp", "set-wind", "set-theme"]) {
     assert.match(html, new RegExp(`id="${id}"`), `missing required control id="${id}"`);
   }
 });

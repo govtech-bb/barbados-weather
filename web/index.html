@@ -21,7 +21,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Barbados Weather &amp; Storm Watch" />
   <meta property="og:title" content="Barbados Weather &amp; Storm Watch | Government of Barbados" />
-  <meta property="og:description" content="Easy-to-read Barbados weather and tropical-storm tracking — today's conditions, 7-day forecast, rain & wind, beach & sea, radar, and storm threat levels." />
+  <meta property="og:description" content="Easy-to-read Barbados weather and tropical-storm tracking: today's conditions, 7-day forecast, rain & wind, beach & sea, radar, and storm threat levels." />
   <meta property="og:url" content="https://weather.gov.bb/" />
   <meta property="og:image" content="https://weather.gov.bb/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -93,9 +93,9 @@
       --accent-soft: rgba(14,116,144,0.10); --accent-line: rgba(14,116,144,0.45);
       --navy: #0b2e6e; --navy-deep: #07235a; --on-navy: #ffffff; --gold: #ffc726;
       --nav-bg: rgba(255,255,255,0.92);
-      --heading: #0b2e6e;
+      --heading: #000000;
       --hero-bg: linear-gradient(135deg, #e6f3f8 0%, #f7fbfd 72%);
-      --card-shadow: 0 1px 2px rgba(11,31,58,0.05), 0 6px 18px rgba(11,31,58,0.04);
+      --card-shadow: none;
       --soft-text: #1f3760;
       --gov-link: #1d70b8; --gov-link-visited: #4c2c92;
       --all-clear-soft: rgba(22,163,74,0.12);
@@ -129,12 +129,12 @@
     }
     .hr-update-toast:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
     .settings-panel { position: absolute; right: 0; top: 38px; z-index: 700; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; min-width: 170px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
-    .settings-panel label { font-size: 0.78rem; color: var(--muted); display: flex; flex-direction: column; gap: 0.25rem; }
-    .settings-panel select { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem 0.4rem; font-size: 0.85rem; }
+    .settings-panel label { font-size: 1rem; color: var(--muted); display: flex; flex-direction: column; gap: 0.25rem; }
+    .settings-panel select { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem 0.4rem; font-size: 1rem; }
     * { box-sizing: border-box; margin: 0; }
     /* The `hidden` attribute must win over component display rules (flex/grid). */
     [hidden] { display: none !important; }
-    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--accent); color: #04263a; padding: 0.6rem 1rem; border-radius: 0 0 10px 0; font-weight: 700; font-size: 0.9rem; }
+    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--accent); color: #04263a; padding: 0.6rem 1rem; border-radius: 0 0 10px 0; font-weight: 700; font-size: 1rem; }
     .skip-link:focus { left: 0; }
     /* gov.bb focus ring token */
     :focus-visible { outline: 3px solid var(--color-focus-visible); outline-offset: 0; }
@@ -168,11 +168,19 @@
     .gov-official { background: var(--color-blue-100); }
     .gov-official__inner { display:flex; gap:.5rem; align-items:center; padding:.5rem 1rem; }
     .gov-official__crest { width:16px; height:16px; flex:0 0 auto; object-fit:cover; }
+    /* 12px intentionally: exact match to the live alpha.gov.bb official banner. */
     .gov-official p { font-size:12px; line-height:1rem; color:var(--color-white-00); margin:0; }
     .gov-stage { background: var(--color-blue-10); }
-    .gov-stage__box { padding:1rem; border:1px solid var(--color-blue-100); border-radius:.25rem; background:var(--color-blue-10); }
-    .gov-stage p { font-size:var(--font-size-body); line-height:1.4; color:var(--color-black-00); margin:0; }
-    .gov-stage a, .gov-helpful a { color:var(--color-blue-100); }
+    /* Live alpha.gov.bb StatusBanner: flex items-center p-s px-0, rounded-sm,
+       bg-blue-10, NO visible border (border-blue-100 is colour-only, width 0). */
+    .gov-stage__box { display:flex; align-items:center; padding:1rem 0; border-radius:.25rem; background:var(--color-blue-10); }
+    .gov-stage p { font-size:var(--font-size-body); font-weight:400; line-height:1.5; color:var(--color-black-00); margin:0; }
+    /* Secondary link (gov-bb): black, underlined w/ 2px offset; hover removes
+       underline + white bg + teal text; focus/active = yellow-100 bg, black. */
+    .gov-stage a, .gov-helpful a { display:inline-flex; color:var(--color-black-00); text-decoration:underline; text-underline-offset:2px; outline:none; }
+    .gov-stage a:hover, .gov-helpful a:hover { text-decoration:none; background:var(--color-white-00); color:#083a3d; }
+    .gov-stage a:focus-visible, .gov-helpful a:focus-visible,
+    .gov-stage a:active, .gov-helpful a:active { text-decoration:none; background:var(--color-yellow-100); color:var(--color-black-00); }
     .gov-header { position:relative; background: var(--color-yellow-100); }
     .gov-header__inner { display:flex; align-items:center; gap:1.5rem; padding-top:1rem; padding-bottom:1rem; }
     @media (min-width:1024px){ .gov-header__inner{ padding-top:1.5rem; padding-bottom:1.5rem; } }
@@ -185,11 +193,11 @@
     .gov-nav a:hover { text-decoration:underline; }
     /* Service identity row, gov type */
     .gov-service-bar { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; padding: 1.4rem 0 0.6rem; border-bottom: 1px solid var(--border); margin-bottom: 1.1rem; }
-    .gov-service-bar__title h1 { font-size:var(--font-size-h2); line-height:var(--line-height-h2); font-weight:700; color:var(--color-blue-00); }
+    .gov-service-bar__title h1 { font-size:var(--font-size-h2); line-height:var(--line-height-h2); font-weight:700; color:var(--color-black-00); }
     .gov-service-bar .island { font-size:var(--font-size-caption); color:var(--color-mid-grey-00); }
     .header-spacer { flex: 1; }
     .pill {
-      font-size: 0.72rem; color: var(--muted); border: 1px solid var(--border);
+      font-size: 1rem; color: var(--muted); border: 1px solid var(--border);
       border-radius: 999px; padding: 0.28rem 0.7rem; white-space: nowrap; background: rgba(255,255,255,0.02);
     }
     .pill b { color: var(--text); font-weight: 600; }
@@ -202,8 +210,8 @@
     }
     .banner .dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 5px rgba(255,255,255,0.08); }
     .banner .b-title { font-size: 1.3rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.2; }
-    .banner .b-sub { font-size: 0.9rem; color: var(--muted); margin-top: 0.15rem; }
-    .banner .b-storms { margin-left: auto; text-align: right; font-size: 0.85rem; color: var(--muted); }
+    .banner .b-sub { font-size: 1rem; color: var(--muted); margin-top: 0.15rem; }
+    .banner .b-storms { margin-left: auto; text-align: right; font-size: 1rem; color: var(--muted); }
     .banner .b-storms b { display: block; font-size: 1rem; color: var(--text); font-weight: 700; }
     .ALL_CLEAR { background: var(--all-clear-soft); border-color: rgba(22,163,74,0.35); }
     .ALL_CLEAR .dot { background: var(--all-clear); } .ALL_CLEAR .b-title { color: #4ade80; }
@@ -217,25 +225,25 @@
 
     /* Alerts opt-in + offline */
     .alerts-bar { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.3); border-radius: 14px; padding: 0.7rem 1rem; margin-bottom: 0.9rem; }
-    .alerts-text { font-size: 0.88rem; color: var(--soft-text); flex: 1; min-width: 200px; }
-    .alerts-btn { background: var(--accent); color: #04263a; border: none; border-radius: 10px; padding: 0.5rem 0.95rem; font-size: 0.85rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .alerts-text { font-size: 1rem; color: var(--soft-text); flex: 1; min-width: 200px; }
+    .alerts-btn { background: var(--accent); color: #04263a; border: none; border-radius: 10px; padding: 0.5rem 0.95rem; font-size: 1rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
     .alerts-btn:hover { filter: brightness(1.08); }
     .alerts-bar.on { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.35); }
     .alerts-bar.on .alerts-btn { background: transparent; color: var(--muted); border: 1px solid var(--border); font-weight: 600; }
-    .alerts-prefs { display: flex; gap: 0.9rem; align-items: center; flex-wrap: wrap; width: 100%; font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
-    .alerts-prefs select { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.2rem 0.4rem; font-size: 0.8rem; }
+    .alerts-prefs { display: flex; gap: 0.9rem; align-items: center; flex-wrap: wrap; width: 100%; font-size: 1rem; color: var(--muted); margin-top: 0.1rem; }
+    .alerts-prefs select { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.2rem 0.4rem; font-size: 1rem; }
     .alerts-prefs label { display: inline-flex; align-items: center; gap: 0.35rem; }
-    .offline-note { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: #fde68a; border-radius: 12px; padding: 0.55rem 0.9rem; margin-bottom: 0.9rem; font-size: 0.85rem; }
+    .offline-note { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: #fde68a; border-radius: 12px; padding: 0.55rem 0.9rem; margin-bottom: 0.9rem; font-size: 1rem; }
     .civil-alert { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; background: var(--imminent-soft); border: 1px solid rgba(239,68,68,0.55); border-radius: 14px; padding: 0.8rem 1rem; margin-bottom: 0.9rem; }
     .civil-alert:hover { border-color: #f87171; }
     .civil-alert .ca-ico { font-size: 1.3rem; flex-shrink: 0; }
-    .civil-alert .ca-text { font-size: 0.9rem; color: #fca5a5; flex: 1; line-height: 1.45; }
+    .civil-alert .ca-text { font-size: 1rem; color: #fca5a5; flex: 1; line-height: 1.45; }
     .civil-alert .ca-text b { color: #fecaca; }
     .civil-alert .ca-arrow { color: #fca5a5; font-weight: 700; flex-shrink: 0; }
     .advisory-link { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.9rem; margin-bottom: 0.9rem; }
     .advisory-link:hover { border-color: var(--accent); }
     .advisory-link .adv-ico { font-size: 1.1rem; flex-shrink: 0; }
-    .advisory-link .adv-text { font-size: 0.85rem; color: var(--soft-text); flex: 1; line-height: 1.45; }
+    .advisory-link .adv-text { font-size: 1rem; color: var(--soft-text); flex: 1; line-height: 1.45; }
     .advisory-link .adv-text b { color: var(--text); }
     .advisory-link .adv-arrow { color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
@@ -250,12 +258,12 @@
     }
     .section-nav a {
       display: inline-flex; align-items: center; gap: 0.4rem;
-      color: var(--muted); text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      color: var(--muted); text-decoration: none; font-size: 1rem; font-weight: 600;
       padding: 0.35rem 0.75rem; border-radius: 999px; white-space: nowrap; border: 1px solid transparent;
     }
     .section-nav a:hover { color: var(--text); }
     .section-nav a.active { color: var(--accent); background: var(--accent-soft); border-color: var(--accent-line); }
-    .section-nav .nav-ico { font-size: 0.95rem; line-height: 1; }
+    .section-nav .nav-ico { font-size: 1rem; line-height: 1; }
     @media (min-width: 880px) {
       .wrap { max-width: 1140px; }
       .gov-bleed__inner { max-width: 1140px; }
@@ -265,98 +273,99 @@
         margin: 0; padding: 0.5rem; background: var(--card); backdrop-filter: none;
         border: 1px solid var(--border); border-radius: 14px;
       }
-      .section-nav a { border-radius: 10px; padding: 0.58rem 0.7rem; font-size: 0.88rem; }
+      .section-nav a { border-radius: 10px; padding: 0.58rem 0.7rem; font-size: 1rem; }
       .section-nav .nav-ico { width: 1.25rem; text-align: center; font-size: 1.02rem; }
     }
 
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 1rem; box-shadow: var(--card-shadow); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; box-shadow: var(--card-shadow); }
     /* Collapsible cards (native <details>): one tap to open/close, nothing
        hidden behind tabs. Key sections start open; the rest are tucked away. */
     details.card > summary {
       list-style: none; cursor: pointer; user-select: none;
       display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
-      font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--heading); font-weight: 800; padding: 0.95rem 1.1rem;
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--heading); font-weight: 800; padding: 1.05rem 1.3rem;
     }
     details.card > summary::-webkit-details-marker { display: none; }
     details.card > summary::marker { content: ""; }
     details.card > summary .sum-t { display: flex; align-items: center; gap: 0.45rem; }
-    details.card > summary .chev { flex: none; font-size: 0.8rem; color: var(--accent); transition: transform 0.2s ease; }
+    details.card > summary .chev { flex: none; font-size: 1rem; color: var(--accent); transition: transform 0.2s ease; }
     details.card[open] > summary .chev { transform: rotate(180deg); }
     details.card[open] > summary { border-bottom: 1px solid var(--border); }
-    details.card > summary:hover { color: var(--text); background: var(--card-2); }
-    details.card > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 16px; }
+    details.card > summary:hover { color: var(--heading); background: var(--card-2); }
+    details.card > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 8px; }
     @media (prefers-reduced-motion: reduce) { details.card > summary .chev { transition: none; } }
     .card h2 {
-      font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--heading);
-      padding: 0.85rem 1.1rem 0.55rem; display: flex; align-items: center; gap: 0.45rem; font-weight: 800;
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--heading);
+      padding: 1.05rem 1.3rem 0.6rem; display: flex; align-items: center; gap: 0.45rem; font-weight: 800;
     }
-    .summary { padding: 0.1rem 1.1rem 0.6rem; font-size: 0.98rem; color: var(--soft-text); line-height: 1.6; }
+    .summary { padding: 0.15rem 1.3rem 0.9rem; font-size: 1rem; color: var(--soft-text); line-height: 1.6; }
+    .hist-intro { margin: 0; padding: 0.15rem 1.3rem 0.7rem; font-size: 1rem; color: var(--soft-text); line-height: 1.5; }
     .summary .lead { color: var(--text); font-weight: 700; }
 
     /* Now / current conditions */
     /* Bold "right now" hero (weather.com-style): big temp + icon on a soft
        sky-tinted panel, with today's high/low. */
-    .wx-now { display: flex; align-items: center; gap: 1rem; margin: 0.2rem 1.1rem 0.7rem; padding: 1.05rem 1.2rem; border-radius: 16px;
+    .wx-now { display: flex; align-items: center; gap: 1rem; margin: 0.2rem 1.3rem 0.9rem; padding: 1.05rem 1.2rem; border-radius: 8px;
       background: var(--hero-bg); border: 1px solid var(--border); }
     .wx-ico { font-size: 3.2rem; line-height: 1; flex: none; }
     .wx-temp { font-size: 3.6rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; flex: none; }
     .wx-meta { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; }
     .wx-desc { font-size: 1.05rem; color: var(--text); font-weight: 600; }
-    .wx-feels { font-size: 0.84rem; color: var(--muted); }
-    .wx-hilo { font-size: 0.84rem; color: var(--soft-text); margin-top: 0.12rem; }
+    .wx-feels { font-size: 1rem; color: var(--muted); }
+    .wx-hilo { font-size: 1rem; color: var(--soft-text); margin-top: 0.12rem; }
     .wx-hilo b { font-weight: 700; }
     @media (max-width: 560px) { .wx-now { gap: 0.7rem; padding: 0.9rem 1rem; } .wx-temp { font-size: 3rem; } .wx-ico { font-size: 2.6rem; } }
     /* Friendly "today at a glance" verdict (weather.com-style activity tip). */
-    .day-verdict { display: flex; align-items: center; gap: 0.6rem; margin: 0 1.1rem 0.7rem; padding: 0.65rem 0.9rem; border-radius: 12px;
-      background: var(--card-2); border: 1px solid var(--border); font-size: 0.94rem; color: var(--soft-text); line-height: 1.45; }
+    .day-verdict { display: flex; align-items: center; gap: 0.6rem; margin: 0 1.3rem 0.7rem; padding: 0.65rem 0.9rem; border-radius: 12px;
+      background: var(--card-2); border: 1px solid var(--border); font-size: 1rem; color: var(--soft-text); line-height: 1.45; }
     .day-verdict .dv-ico { font-size: 1.3rem; line-height: 1; flex: none; }
     .day-verdict b { color: var(--text); font-weight: 700; }
     /* Things to do in Barbados — weather-matched activity cards. */
-    .todo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.6rem; padding: 0.3rem 1.1rem 0.6rem; }
-    .todo-item { display: flex; gap: 0.65rem; align-items: flex-start; border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.8rem; background: var(--card-2); }
-    .todo-ico { font-size: 1.6rem; line-height: 1; flex: none; }
-    .todo-name { font-weight: 700; color: var(--text); font-size: 0.96rem; }
-    .todo-area { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin: 0.05rem 0 0.28rem; }
-    .todo-blurb { font-size: 0.84rem; color: var(--soft-text); line-height: 1.45; }
-    .wx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; padding: 0.3rem 1.1rem 1.1rem; }
+    .todo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.7rem; padding: 0.4rem 1.3rem 0.8rem; }
+    .todo-item { display: flex; gap: 0.6rem; align-items: flex-start; border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 0.95rem; background: transparent; }
+    .todo-ico { font-size: 1.1rem; line-height: 1; flex: none; height: 1.41rem; }
+    .todo-name { font-weight: 700; color: var(--text); font-size: 1rem; }
+    .todo-area { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin: 0.1rem 0 0.32rem; }
+    .todo-blurb { font-size: 1rem; color: var(--soft-text); line-height: 1.45; }
+    .wx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; padding: 0.5rem 1.3rem 1.3rem; }
     .wx-tile { position: relative; border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.75rem; background: var(--card-2); }
-    .wx-tile .lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .wx-tile .lbl { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
     .wx-tile .val { font-size: 1.1rem; font-weight: 700; margin-top: 0.15rem; }
-    .tile-info { position: absolute; top: 6px; right: 6px; width: 19px; height: 19px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--muted); font-size: 0.72rem; font-weight: 700; line-height: 1; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
+    .tile-info { position: absolute; top: 6px; right: 6px; width: 19px; height: 19px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--muted); font-size: 1rem; font-weight: 700; line-height: 1; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
     .tile-info:hover, .tile-info:focus-visible { color: var(--soft-text); border-color: var(--accent); }
-    .tile-note { margin-top: 0.45rem; font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+    .tile-note { margin-top: 0.45rem; font-size: 1rem; color: var(--muted); line-height: 1.5; }
     .tile-note b { color: var(--soft-text); font-weight: 600; }
-    .wx-obs { font-size: 0.72rem; color: var(--muted); padding: 0 1.1rem 1.1rem; }
-    .panel-age { font-size: 0.7rem; color: var(--muted); padding: 0 1.1rem 1rem; }
-    .flood-note { font-size: 0.88rem; color: var(--soft-text); padding: 0 1.1rem 0.6rem; line-height: 1.5; }
+    .wx-obs { font-size: 1rem; color: var(--muted); padding: 0 1.3rem 1.3rem; }
+    .panel-age { font-size: 1rem; color: var(--muted); padding: 0 1.3rem 1rem; }
+    .flood-note { font-size: 1rem; color: var(--soft-text); padding: 0 1.3rem 0.6rem; line-height: 1.5; }
     .flood-note .chance, .arrival-note .chance { margin-right: 0.35rem; }
-    .arrival-note { font-size: 0.9rem; color: var(--soft-text); padding: 0.2rem 1.1rem 0.7rem; line-height: 1.5; }
-    .wave-note { font-size: 0.92rem; color: var(--soft-text); padding: 0 1.1rem 0.6rem; line-height: 1.55; }
+    .arrival-note { font-size: 1rem; color: var(--soft-text); padding: 0.2rem 1.3rem 0.7rem; line-height: 1.5; }
+    .wave-note { font-size: 1rem; color: var(--soft-text); padding: 0 1.3rem 0.6rem; line-height: 1.55; }
     .wave-note .lead { color: var(--text); font-weight: 700; }
 
     /* 7-day forecast */
-    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; padding: 0.3rem 1.1rem 1.1rem; }
+    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; padding: 0.5rem 1.3rem 1.3rem; }
     @media (max-width: 720px) { .days { grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); } }
     .day { border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.35rem; text-align: center; background: var(--card-2); }
-    .day .dow { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .day .dow { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
     .day .ico { font-size: 1.5rem; margin: 0.3rem 0; }
     .day .hi { font-weight: 800; }
     .day .lo { color: var(--muted); }
-    .day .rain { font-size: 0.72rem; color: var(--accent); margin-top: 0.25rem; }
+    .day .rain { font-size: 1rem; color: var(--accent); margin-top: 0.25rem; }
 
     /* Hourly strip */
-    .strip-key { font-size: 0.75rem; color: var(--muted); padding: 0 1.1rem 0.45rem; line-height: 1.4; }
+    .strip-key { font-size: 1rem; color: var(--muted); padding: 0 1.3rem 0.45rem; line-height: 1.4; }
     .strip-key b { color: var(--soft-text); font-weight: 600; }
-    .hours { display: flex; gap: 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0.3rem 1.1rem 1.1rem; }
+    .hours { display: flex; gap: 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0.5rem 1.3rem 1.3rem; }
     .hr { flex: 0 0 auto; width: 66px; text-align: center; border: 1px solid var(--border); border-radius: 11px; padding: 0.5rem 0.3rem; background: var(--card-2); }
-    .hr .t { font-size: 0.72rem; color: var(--muted); }
+    .hr .t { font-size: 1rem; color: var(--muted); }
     .hr .ico { font-size: 1.15rem; margin: 0.2rem 0; }
-    .hr .r { font-size: 0.74rem; color: var(--accent); }
-    .hr .w { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+    .hr .r { font-size: 1rem; color: var(--accent); }
+    .hr .w { font-size: 1rem; color: var(--muted); margin-top: 0.1rem; }
 
     /* UV badge */
-    .uv { display: inline-block; border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 0.78rem; font-weight: 700; }
+    .uv { display: inline-block; border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 1rem; font-weight: 700; }
     .uv.low { background: var(--all-clear-soft); color: #4ade80; }
     .uv.moderate { background: var(--watch-soft); color: #fde047; }
     .uv.high { background: var(--warning-soft); color: #fdba74; }
@@ -376,111 +385,113 @@
       .shelter-pick select, .alerts-prefs select, .settings-panel select, .emerg-num { min-height: 44px; }
       .source { min-height: 52px; }
     }
-    .radar-bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 1.1rem; font-size: 0.8rem; color: var(--muted); flex-wrap: wrap; }
+    .radar-bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 1.3rem; font-size: 1rem; color: var(--muted); flex-wrap: wrap; }
     .radar-bar button {
       background: var(--card-2); color: var(--text); border: 1px solid var(--border);
-      border-radius: 9px; padding: 0.3rem 0.7rem; font-size: 0.8rem; cursor: pointer; font-weight: 600;
+      border-radius: 9px; padding: 0.3rem 0.7rem; font-size: 1rem; cursor: pointer; font-weight: 600;
     }
     .radar-bar button:hover { border-color: var(--accent); }
-    .sat { padding: 0 1.1rem 1.1rem; }
+    .sat { padding: 0 1.3rem 1.3rem; }
     .sat-frame { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--card-2); }
     .sat-scene { position: absolute; top: 0; left: 0; width: 100%; transform-origin: 0 0; transform: scale(2.1) translate(-36%, -52%); }
     .sat-scene img { width: 100%; display: block; }
-    .sat-pin { position: absolute; left: 63%; top: 44%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; font-size: 0.64rem; color: #fff; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.95); white-space: nowrap; pointer-events: none; z-index: 2; }
+    .sat-pin { position: absolute; left: 63%; top: 44%; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; font-size: 1rem; color: #fff; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.95); white-space: nowrap; pointer-events: none; z-index: 2; }
     .sat-dot { width: 10px; height: 10px; border-radius: 50%; background: #38bdf8; border: 2px solid #fff; box-shadow: 0 0 0 2px rgba(56,189,248,0.6); margin-bottom: 2px; }
-    .sat-bar { display: flex; align-items: center; gap: 0.7rem; padding-top: 0.5rem; font-size: 0.78rem; color: var(--muted); flex-wrap: wrap; }
-    .sat-bar button { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 9px; padding: 0.3rem 0.7rem; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
+    .sat-bar { display: flex; align-items: center; gap: 0.7rem; padding-top: 0.5rem; font-size: 1rem; color: var(--muted); flex-wrap: wrap; }
+    .sat-bar button { background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 9px; padding: 0.3rem 0.7rem; font-size: 1rem; cursor: pointer; font-weight: 600; }
     .sat-bar button:hover { border-color: var(--accent); }
     .sat .explain { margin: 0.6rem 0 0; }
 
     /* Plain-language explainers */
-    .explain { margin: 0 1.1rem 0.9rem; border: 1px solid var(--border); border-radius: 10px; background: var(--card-2); }
-    .explain summary { cursor: pointer; padding: 0.55rem 0.8rem; font-size: 0.82rem; font-weight: 700; color: var(--accent); list-style: none; }
+    .explain { margin: 0 1.3rem 0.9rem; border: 1px solid var(--border); border-radius: 10px; background: var(--card-2); }
+    .explain summary { cursor: pointer; padding: 0.55rem 0.8rem; font-size: 1rem; font-weight: 700; color: var(--accent); list-style: none; }
     .explain summary::-webkit-details-marker { display: none; }
     .explain summary::before { content: "ⓘ "; }
     .explain[open] summary { border-bottom: 1px solid var(--border); }
-    .explain .ex-body { padding: 0.7rem 0.85rem; font-size: 0.85rem; color: var(--soft-text); line-height: 1.6; }
+    .explain .ex-body { padding: 0.8rem 1rem; font-size: 1rem; color: var(--soft-text); line-height: 1.6; }
     .explain .ex-body b { color: var(--text); font-weight: 700; }
-    .explain .rkey { display: flex; align-items: center; gap: 0.5rem; margin: 0.4rem 0; font-size: 0.85rem; }
+    .explain .ex-body p { margin: 0 0 0.6rem; }
+    .explain .ex-body p:last-child { margin-bottom: 0; }
+    .explain .rkey { display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0; font-size: 1rem; }
     .explain .rsw { width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0; display: inline-block; }
 
     /* Active systems */
     .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 520px; }
+    table { width: 100%; border-collapse: collapse; font-size: 1rem; min-width: 520px; }
     th, td { text-align: left; padding: 0.6rem 1.1rem; border-top: 1px solid var(--border); }
-    th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    th { color: var(--muted); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
     td b { font-weight: 700; }
-    .chip { display: inline-block; border-radius: 999px; padding: 0.12rem 0.6rem; font-size: 0.74rem; font-weight: 700; }
+    .chip { display: inline-block; border-radius: 999px; padding: 0.12rem 0.6rem; font-size: 1rem; font-weight: 700; }
     .chip.ALL_CLEAR { background: var(--all-clear-soft); color: #4ade80; }
     .chip.WATCH { background: var(--watch-soft); color: #fde047; }
     .chip.WARNING { background: var(--warning-soft); color: #fdba74; }
     .chip.IMMINENT { background: var(--imminent-soft); color: #fca5a5; }
-    .empty { padding: 1.6rem 1.1rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
+    .empty { padding: 1.8rem 1.3rem; text-align: center; color: var(--muted); font-size: 1rem; }
     .empty .sun { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
 
-    .briefing { padding: 0.2rem 1.1rem 0.5rem; white-space: pre-wrap; line-height: 1.65; font-size: 0.92rem; color: var(--soft-text); }
-    .briefing-source { font-size: 0.7rem; color: var(--muted); padding: 0 1.1rem 1rem; }
-    .replay-label { padding: 0 1.1rem 0.5rem; font-size: 0.8rem; color: var(--accent); font-style: italic; }
+    .briefing { padding: 0.3rem 1.3rem 0.7rem; white-space: pre-wrap; line-height: 1.65; font-size: 1rem; color: var(--soft-text); }
+    .briefing-source { font-size: 1rem; color: var(--muted); padding: 0 1.3rem 1rem; }
+    .replay-label { padding: 0 1.3rem 0.5rem; font-size: 1rem; color: var(--accent); font-style: italic; }
 
     /* Legend */
-    .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.1rem 1.1rem; }
-    .legend div { border: 1px solid var(--border); border-radius: 11px; padding: 0.55rem 0.7rem; font-size: 0.78rem; color: var(--muted); }
-    .legend b { display: flex; align-items: center; gap: 0.4rem; color: var(--text); font-size: 0.82rem; margin-bottom: 0.15rem; font-weight: 700; }
+    .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; padding: 0.5rem 1.3rem 1.3rem; }
+    .legend div { border: 1px solid var(--border); border-radius: 11px; padding: 0.55rem 0.7rem; font-size: 1rem; color: var(--muted); }
+    .legend b { display: flex; align-items: center; gap: 0.4rem; color: var(--text); font-size: 1rem; margin-bottom: 0.15rem; font-weight: 700; }
     .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-    .history { padding: 0.2rem 1.1rem 1.1rem; font-size: 0.82rem; color: var(--muted); line-height: 1.85; }
+    .history { padding: 0.3rem 1.3rem 1.3rem; font-size: 1rem; color: var(--muted); line-height: 1.85; }
     .history b { color: var(--text); font-weight: 600; }
 
     /* Atlantic outlook */
-    .outlook-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.6rem; padding: 0.3rem 1.1rem 0.6rem; }
+    .outlook-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.6rem; padding: 0.4rem 1.3rem 0.8rem; }
     .area { border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.85rem; background: var(--card-2); }
-    .area-where { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.3rem; }
-    .area-chance { font-size: 0.85rem; color: var(--muted); }
-    .area-48 { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+    .area-where { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
+    .area-chance { font-size: 1rem; color: var(--muted); }
+    .area-48 { font-size: 1rem; color: var(--muted); margin-top: 0.25rem; }
     .area.calm { background: var(--all-clear-soft); border-color: rgba(22,163,74,0.3); }
-    .chance { display: inline-block; border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 0.82rem; font-weight: 800; }
+    .chance { display: inline-block; border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 1rem; font-weight: 800; }
     .chance.low { background: var(--all-clear-soft); color: #4ade80; }
     .chance.medium { background: var(--warning-soft); color: #fdba74; }
     .chance.high { background: var(--imminent-soft); color: #fca5a5; }
-    .tropical-src { font-size: 0.72rem; color: var(--muted); padding: 0 1.1rem 1rem; }
+    .tropical-src { font-size: 1rem; color: var(--muted); padding: 0 1.3rem 1rem; }
     .tropical-src a { color: var(--accent); }
 
     /* Season names */
-    .names { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.3rem 1.1rem 1.1rem; }
-    .name-chip { font-size: 0.8rem; padding: 0.22rem 0.6rem; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--card-2); }
+    .names { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 1.3rem 1.3rem; }
+    .name-chip { font-size: 1rem; padding: 0.22rem 0.6rem; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--card-2); }
     .name-chip.used { opacity: 0.45; text-decoration: line-through; }
     .name-chip.active { background: var(--imminent-soft); border-color: rgba(239,68,68,0.5); color: #fca5a5; font-weight: 700; }
     .name-chip.next { background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.5); color: var(--accent); font-weight: 700; }
 
     /* Get ready */
-    .prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem; padding: 0.3rem 1.1rem 0.8rem; }
+    .prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem; padding: 0.5rem 1.3rem 1rem; }
     .prep-col { border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 0.9rem; background: var(--card-2); }
-    .prep-col h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.45rem; }
+    .prep-col h3 { font-size: 1rem; font-weight: 700; color: var(--heading); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.45rem; }
     .prep-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
     .prep-col ul { margin: 0; padding-left: 1.1rem; }
-    .prep-col li { font-size: 0.85rem; color: var(--soft-text); margin-bottom: 0.4rem; line-height: 1.5; }
+    .prep-col li { font-size: 1rem; color: var(--soft-text); margin-bottom: 0.4rem; line-height: 1.5; }
 
     /* Emergency numbers + shelters */
-    .emerg { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.1rem 0.8rem; }
+    .emerg { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.3rem 0.8rem; }
     .emerg-num { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; border: 1px solid rgba(239,68,68,0.35); background: var(--imminent-soft); border-radius: 12px; padding: 0.7rem 0.5rem; text-decoration: none; }
     .emerg-num b { font-size: 1.35rem; font-weight: 800; color: #fca5a5; letter-spacing: 0.01em; }
-    .emerg-num small { font-size: 0.74rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .emerg-num small { font-size: 1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
     .emerg-num:hover { border-color: #f87171; }
-    .shelter-pick { padding: 0.2rem 1.1rem 0.7rem; }
-    .shelter-pick select { width: 100%; max-width: 360px; background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.7rem; font-size: 0.92rem; }
-    .shelter-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.45rem; padding: 0 1.1rem 0.6rem; }
+    .shelter-pick { padding: 0.2rem 1.3rem 0.7rem; }
+    .shelter-pick select { width: 100%; max-width: 360px; background: var(--card-2); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.7rem; font-size: 1rem; }
+    .shelter-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.45rem; padding: 0 1.3rem 0.6rem; }
     .shelter { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border: 1px solid var(--border); border-radius: 11px; padding: 0.55rem 0.75rem; background: var(--card-2); }
-    .s-name { font-size: 0.86rem; color: var(--text); }
+    .s-name { font-size: 1rem; color: var(--text); }
     .s-wc { font-size: 1rem; flex-shrink: 0; }
 
     /* Official sources */
-    .sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.1rem 1.2rem; }
+    .sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.5rem; padding: 0.3rem 1.3rem 1.2rem; }
     .source { display: flex; align-items: center; gap: 0.6rem; border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.75rem; background: var(--card-2); text-decoration: none; color: var(--text); }
     .source:hover { border-color: var(--accent); }
     .source .s-ico { font-size: 1.3rem; flex-shrink: 0; }
-    .source b { font-size: 0.85rem; font-weight: 700; display: block; }
-    .source small { font-size: 0.72rem; color: var(--muted); }
+    .source b { font-size: 1rem; font-weight: 700; display: block; }
+    .source small { font-size: 1rem; color: var(--muted); }
 
-    footer { font-size: 0.76rem; color: var(--muted); padding: 0; line-height: 1.7; }
+    footer { font-size: 1rem; color: var(--muted); padding: 0; line-height: 1.7; }
     .disclaimer { background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.25); border-radius: 12px; padding: 0.65rem 0.9rem; margin-bottom: 0.7rem; color: #fde68a; }
 
     .gov-helpful { display:flex; flex-direction:column; align-items:flex-start; gap:var(--spacing-xs); border:4px solid var(--color-yellow-100); background:var(--color-yellow-40); padding:1.5rem 1rem; margin:1.5rem 0; }
@@ -526,7 +537,6 @@
     <div class="gov-service-bar">
       <div class="gov-service-bar__title">
         <h1>Barbados Weather &amp; Storm Watch</h1>
-        <span class="island"><span id="island">Barbados</span> weather, every day</span>
       </div>
       <div class="header-spacer"></div>
       <span class="pill" id="mode"></span>
@@ -563,7 +573,7 @@
     </div>
 
     <div id="alerts-bar" class="alerts-bar" hidden>
-      <span class="alerts-text" id="alerts-text"><span class="ico" data-icon="bell"></span> Get a push the moment the storm level rises — even with the app closed.</span>
+      <span class="alerts-text" id="alerts-text"><span class="ico" data-icon="bell"></span> Get a push the moment the storm level rises, even with the app closed.</span>
       <button class="alerts-btn" id="alerts-btn" type="button">Get storm alerts</button>
       <div class="alerts-prefs" id="alerts-prefs" hidden>
         <label>Alert me from
@@ -576,11 +586,11 @@
         <label class="pref-quiet"><input type="checkbox" id="pref-quiet" /> Quiet 10pm–7am</label>
       </div>
     </div>
-    <div id="offline-note" class="offline-note" hidden><span class="ico" data-icon="triangle-alert"></span> You're offline — showing the last saved update.</div>
+    <div id="offline-note" class="offline-note" hidden><span class="ico" data-icon="triangle-alert"></span> You're offline. Showing the last saved update.</div>
 
     <a class="advisory-link" href="https://www.barbadosweather.org" target="_blank" rel="noopener">
       <span class="adv-ico" aria-hidden="true" data-icon="megaphone"></span>
-      <span class="adv-text">Beyond hurricanes, <b>Barbados Met Services</b> issues local advisories — small-craft, heavy-rain/flood, dust. Tap to check what's in effect now.</span>
+      <span class="adv-text">Beyond hurricanes, <b>Barbados Met Services</b> issues local advisories: small-craft, heavy-rain/flood, dust. Tap to check what's in effect now.</span>
       <span class="adv-arrow" aria-hidden="true">→</span>
     </a>
 
@@ -614,11 +624,11 @@
       </details>
 
       <details class="card" id="rainwind" data-page="home" open>
-        <summary><span class="sum-t"><span class="ico" data-icon="cloud-rain"></span> Rain &amp; wind — next 24 hours</span><span class="chev" aria-hidden="true">▾</span></summary>
+        <summary><span class="sum-t"><span class="ico" data-icon="cloud-rain"></span> Rain &amp; wind: next 24 hours</span><span class="chev" aria-hidden="true">▾</span></summary>
         <p class="summary" id="rainwind-summary">Loading outlook…</p>
         <p class="flood-note" id="flood-note" role="status" aria-live="polite" hidden></p>
-        <p class="strip-key">Hour by hour — <b>💧 chance of rain</b> and <b>wind speed</b> (scroll for all 24 hours):</p>
-        <div class="hours" id="hours" tabindex="0" role="group" aria-label="Hourly forecast for the next 24 hours — scroll sideways"></div>
+        <p class="strip-key">Hour by hour: <b>💧 chance of rain</b> and <b>wind speed</b> (scroll for all 24 hours):</p>
+        <div class="hours" id="hours" tabindex="0" role="group" aria-label="Hourly forecast for the next 24 hours, scroll sideways"></div>
       </details>
 
       <details class="card" id="todo" data-page="home" open>
@@ -654,18 +664,20 @@
         <div id="map" aria-label="Live rain radar and active storms near Barbados"></div>
         <div class="radar-bar">
           <button id="radar-toggle" type="button" aria-label="Play or pause radar animation">▶ Play radar</button>
-          <span id="radar-time">—</span>
+          <span id="radar-time">-</span>
           <span style="margin-left:auto">Rain radar: RainViewer</span>
         </div>
         <details class="explain">
           <summary>What am I looking at?</summary>
-          <div class="ex-body">This map shows <b>rain happening right now</b>, picked up by weather radar. The colours run from light to heavy:
-            <span class="rkey"><span class="rsw" style="background:#27aee2"></span><b>Blue</b> — light rain or drizzle</span>
-            <span class="rkey"><span class="rsw" style="background:#3bb143"></span><b>Green</b> — steady rain</span>
-            <span class="rkey"><span class="rsw" style="background:#f2c200"></span><b>Yellow/orange</b> — heavy rain</span>
-            <span class="rkey"><span class="rsw" style="background:#e53935"></span><b>Red</b> — a downpour or thunderstorm</span>
-            <span class="rkey"><span class="rsw" style="background:#fff;border:1px solid #888"></span><b>White dot</b> — Barbados (you)</span>
-            Press <b>▶ Play radar</b> to watch which way the rain is moving — that's where it's heading. When a storm is active, the <b>amber cone</b> shows where its centre could track over the next 5 days (the NHC forecast plus its average error) — the storm's winds and rain reach well beyond the thin line.</div>
+          <div class="ex-body">
+            <p>This map shows <b>rain happening right now</b>, picked up by weather radar. The colours run from light to heavy:</p>
+            <span class="rkey"><span class="rsw" style="background:#27aee2"></span><span><b>Blue:</b> light rain or drizzle</span></span>
+            <span class="rkey"><span class="rsw" style="background:#3bb143"></span><span><b>Green:</b> steady rain</span></span>
+            <span class="rkey"><span class="rsw" style="background:#f2c200"></span><span><b>Yellow/orange:</b> heavy rain</span></span>
+            <span class="rkey"><span class="rsw" style="background:#e53935"></span><span><b>Red:</b> a downpour or thunderstorm</span></span>
+            <span class="rkey"><span class="rsw" style="background:#fff;border:1px solid #888"></span><span><b>White dot:</b> Barbados (you)</span></span>
+            <p>Press <b>▶ Play radar</b> to watch which way the rain is moving (that's where it's heading). When a storm is active, the <b>amber cone</b> shows where its centre could track over the next 5 days: the NHC forecast plus its average error. The storm's winds and rain reach well beyond the thin line.</p>
+          </div>
         </details>
 
         <figure class="sat" id="sat" hidden>
@@ -682,7 +694,7 @@
           </div>
           <details class="explain">
             <summary>What am I looking at?</summary>
-            <div class="ex-body">A <b>live photo from a weather satellite</b> high above the Caribbean, zoomed in on us. White is cloud; bright white blobs are showers or storms building up. The hazy brown tint is <b>Saharan dust</b> blown across from Africa — normal in summer, and it actually helps keep hurricanes away. Barbados is the blue dot. Press <b>▶ Play loop</b> to watch the clouds move.</div>
+            <div class="ex-body">A <b>live photo from a weather satellite</b> high above the Caribbean, zoomed in on us. White is cloud; bright white blobs are showers or storms building up. The hazy brown tint is <b>Saharan dust</b> blown across from Africa. It's normal in summer, and it actually helps keep hurricanes away. Barbados is the blue dot. Press <b>▶ Play loop</b> to watch the clouds move.</div>
           </details>
         </figure>
       </details>
@@ -693,12 +705,12 @@
         <div id="briefing" class="briefing">Loading…</div>
         <p id="briefing-source" class="briefing-source"></p>
         <p class="arrival-note" id="arrival-note" role="status" aria-live="polite" hidden></p>
-        <div class="table-wrap" tabindex="0" role="group" aria-label="Active storms table — scroll sideways for more columns">
+        <div class="table-wrap" tabindex="0" role="group" aria-label="Active storms table, scroll sideways for more columns">
           <table>
             <thead>
               <tr><th scope="col">Storm</th><th scope="col">Class</th><th scope="col">Winds</th><th scope="col">Distance now</th><th scope="col">Closest approach</th><th scope="col">Level</th></tr>
             </thead>
-            <tbody id="storms-body"><tr><td colspan="6"><div class="empty"><span class="sun" aria-hidden="true">☀️</span>No active systems — enjoy the sunshine.</div></td></tr></tbody>
+            <tbody id="storms-body"><tr><td colspan="6"><div class="empty"><span class="sun" aria-hidden="true">☀️</span>No active systems. Enjoy the sunshine.</div></td></tr></tbody>
           </table>
         </div>
 
@@ -716,12 +728,12 @@
         <div class="legend">
           <div><b><i style="background:var(--all-clear)"></i>All clear</b>No storms threatening us.</div>
           <div><b><i style="background:var(--watch)"></i>Watch</b>System active in the basin. Check in daily.</div>
-          <div><b><i style="background:var(--warning)"></i>Warning</b>May pass near us — prepare now.</div>
-          <div><b><i style="background:var(--imminent)"></i>Imminent</b>Conditions expected — be ready to shelter.</div>
+          <div><b><i style="background:var(--warning)"></i>Warning</b>May pass near us. Prepare now.</div>
+          <div><b><i style="background:var(--imminent)"></i>Imminent</b>Conditions expected. Be ready to shelter.</div>
         </div>
 
         <h2><span class="ico" data-icon="history"></span> Level history</h2>
-        <div id="history" class="history">—</div>
+        <div id="history" class="history">Loading…</div>
       </details>
 
       <details class="card" id="shelters" data-page="shelters">
@@ -743,7 +755,7 @@
           </select>
         </div>
         <div class="shelter-list" id="shelter-list"></div>
-        <p class="tropical-src">Source: Barbados DEM Category&nbsp;1 shelter list (2026 booklet). Shelters and openings can change — always confirm with DEM before travelling. <a href="https://dem.gov.bb/public/downloads/SHELTERBOOKLET2026PUBLIC.pdf" target="_blank" rel="noopener">Official shelter booklet (PDF)</a> · ♿ = wheelchair access.</p>
+        <p class="tropical-src">Source: Barbados DEM Category&nbsp;1 shelter list (2026 booklet). Shelters and openings can change, so always confirm with DEM before travelling. <a href="https://dem.gov.bb/public/downloads/SHELTERBOOKLET2026PUBLIC.pdf" target="_blank" rel="noopener">Official shelter booklet (PDF)</a> · ♿ = wheelchair access.</p>
       </details>
 
       <details class="card" id="prep" data-page="prep">
@@ -757,14 +769,14 @@
               <li>Keep ID, insurance and house papers in a sealed waterproof bag.</li>
               <li>Know your nearest hurricane shelter and how you'll get there.</li>
               <li>Trim trees and clear gutters and drains around the house.</li>
-              <li>Save emergency numbers in your phone — and write them down too.</li>
+              <li>Save emergency numbers in your phone, and write them down too.</li>
             </ul>
           </div>
           <div class="prep-col">
             <h3><span class="prep-dot" style="background:var(--watch)"></span>When a watch is issued</h3>
             <ul>
               <li>Top up fuel, cash, drinking water and phone charge.</li>
-              <li>Bring in or tie down anything loose outside — bins, furniture, galvanise.</li>
+              <li>Bring in or tie down anything loose outside: bins, furniture, galvanise.</li>
               <li>Check on elderly neighbours and relatives.</li>
               <li>Charge devices and download offline maps.</li>
               <li>Follow Barbados Met Services and DEM updates daily.</li>
@@ -773,7 +785,7 @@
           <div class="prep-col">
             <h3><span class="prep-dot" style="background:var(--warning)"></span>When a warning is issued</h3>
             <ul>
-              <li>Finish every preparation now — weather can arrive before the storm's centre.</li>
+              <li>Finish every preparation now; weather can arrive before the storm's centre.</li>
               <li>Fill containers and the bath with water; freeze ice and bottles.</li>
               <li>Shutter or board up windows and stay away from glass.</li>
               <li>If you're in a flood- or surge-prone area, move to shelter early.</li>
