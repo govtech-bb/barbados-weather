@@ -17,14 +17,12 @@ test("dashboard renders every section with real data", async ({ page }) => {
 
   await page.goto(BASE, { waitUntil: "load" });
 
-  // Gov.bb masthead and clean footer.
-  await expect(page.locator(".gov-header")).toContainText("Government of Barbados");
+  // Gov.bb official banner, logo header, footer.
+  await expect(page.locator(".gov-official")).toContainText("Official government website");
+  await expect(page.locator(".gov-header img.gov-logo")).toBeVisible();
+  await expect(page.locator(".gov-footer")).toContainText("© 2026 Government of Barbados");
   await expect(page.locator("h1")).toContainText("Barbados Weather & Storm Watch");
   expect(await page.content()).not.toMatch(/christophercorbin/i);
-
-  // Gov.bb top strip and navy footer.
-  await expect(page.locator(".gov-strip")).toContainText("Official government website");
-  await expect(page.locator(".gov-footer")).toContainText("Government of Barbados");
 
   // wait for the first /api/status render to land
   await expect(page.locator("#banner-title")).not.toHaveText("Checking the skies…", { timeout: 15000 });
