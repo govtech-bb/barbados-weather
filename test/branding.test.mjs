@@ -5,22 +5,19 @@ import { readFileSync } from "node:fs";
 const read = (p) => readFileSync(new URL(p, import.meta.url), "utf8");
 const html = read("../web/index.html");
 
-test("gov design tokens are defined", () => {
-  assert.match(html, /--gov-link:/, "missing --gov-link token");
-  assert.match(html, /--gov-focus:\s*#ffdd00/i, "missing GDS yellow focus token");
+test("official banner present (blue, gov copy)", () => {
+  assert.match(html, /class="gov-official"/, "missing gov-official");
+  assert.match(html, /Official government website/, "missing official banner text");
 });
-
-test("global GDS yellow focus ring is present", () => {
-  assert.match(
-    html,
-    /:focus-visible\s*\{[^}]*var\(--gov-focus\)/,
-    "missing global :focus-visible rule using --gov-focus",
-  );
+test("alpha stage banner present", () => {
+  assert.match(html, /This page is in/, "missing alpha stage prefix");
+  assert.match(html, /\/what-we-mean-by-alpha/, "missing alpha explainer link");
+  assert.match(html, />\s*Alpha\s*</, "missing Alpha link text");
 });
-
-test("masthead shows Government of Barbados crest bar", () => {
-  assert.match(html, /Government of Barbados/, "missing gov wordmark");
-  assert.match(html, /class="gov-header"/, "missing gov-header element");
+test("yellow header has gov logo and Services nav", () => {
+  assert.match(html, /class="gov-header"/, "missing gov-header");
+  assert.match(html, /gov-logo\.svg/, "missing gov logo");
+  assert.match(html, /href="\/services"/, "missing Services nav link");
 });
 
 test("service title is the approved name", () => {
@@ -74,20 +71,8 @@ test("no stale Bim Weather brand in src/web shipped files", () => {
   }
 });
 
-test("near-black top utility strip is present", () => {
-  assert.match(html, /class="gov-strip"/, "missing gov-strip");
-  assert.match(html, /Official government website/, "missing official-website strip text");
-});
-
 test("full-bleed inner helper exists", () => {
   assert.match(html, /\.gov-bleed__inner\s*\{/, "missing .gov-bleed__inner helper");
-});
-
-test("white header has brand and Home/Services nav", () => {
-  assert.match(html, /class="gov-nav"/, "missing gov-nav");
-  assert.match(html, />\s*Home\s*</, "missing Home link");
-  assert.match(html, />\s*Services\s*</, "missing Services link");
-  assert.match(html, /Government of Barbados/, "missing wordmark");
 });
 
 test("full-bleed navy footer with gov links", () => {
