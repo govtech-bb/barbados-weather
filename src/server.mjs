@@ -293,7 +293,7 @@ async function tick() {
             title: `${config.island.name}: ${LEVEL_LABEL[assessment.overall]}`,
             body: rising
               ? (status.briefing || "").split("\n")[0]
-              : "Conditions have eased — back to all clear.",
+              : "Conditions have eased. Back to all clear.",
             level: assessment.overall,
             url: "/",
           });
