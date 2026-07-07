@@ -3,7 +3,7 @@
 // bump, the activate handler below keeps the old cache and viewers see
 // stale shell HTML until they clear storage. The matching client flow in
 // index.html shows an "Update available" toast when a new SW is waiting.
-const CACHE = "hr-cache-v3-gov5";
+const CACHE = "hr-cache-v3-gov6";
 const SHELL = [
   "/",
   "/index.html",
@@ -14,10 +14,11 @@ const SHELL = [
 ];
 
 self.addEventListener("install", (e) => {
-  // No skipWaiting here (#50): a new SW now waits until the client opts in
-  // via the update toast (postMessage SKIP_WAITING), so mid-session users
-  // are not forced onto a fresh controller without warning.
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)));
+  // Self-heal: take over immediately. The prior "wait for an update toast"
+  // design left clients stranded on a stale controller — a fresh index.html
+  // paired with an out-of-date cached app.js broke render entirely. Freshness
+  // of the app shell wins over avoiding a mid-session controller swap.
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
 
 // Client-driven activation. The client posts SKIP_WAITING after the user
@@ -50,6 +51,13 @@ self.addEventListener("fetch", (e) => {
 
   // Live data: network-first so it's fresh online, last-saved when offline.
   if (url.pathname === "/api/status") {
+    e.respondWith(fetch(req).then((r) => cacheCopy(req, r)).catch(() => caches.match(req)));
+    return;
+  }
+  // App script: network-first so it can never drift out of sync with a
+  // network-first index.html (a stale cached app.js against fresh markup is
+  // what broke render). Falls back to cache offline.
+  if (url.pathname === "/app.js") {
     e.respondWith(fetch(req).then((r) => cacheCopy(req, r)).catch(() => caches.match(req)));
     return;
   }

@@ -21,6 +21,9 @@ const TYPES = {
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".webmanifest": "application/manifest+json; charset=utf-8",
+  ".woff2": "font/woff2",
+  ".woff": "font/woff",
+  ".css": "text/css; charset=utf-8",
 };
 
 // Service worker and manifest must update promptly; everything else caches a day.
@@ -33,20 +36,25 @@ function etagOf(buffer) {
 
 export function loadAssets(dir) {
   const out = new Map();
-  for (const name of readdirSync(dir)) {
-    const ext = path.extname(name);
-    const type = TYPES[ext];
-    if (!type) continue;
-    const file = path.join(dir, name);
-    if (!statSync(file).isFile()) continue;
-    const buffer = readFileSync(file);
-    out.set(`/${name}`, {
-      buffer,
-      contentType: type,
-      cacheControl: VOLATILE.has(name) ? "no-cache" : "public, max-age=86400",
-      etag: etagOf(buffer),
-    });
-  }
+  // Walk web/ recursively so nested assets (e.g. web/fonts/*.woff2) are served
+  // too. Keys are the URL pathname relative to web/ ("/fonts/x.woff2"); still
+  // extension-allowlisted, so only known static types are exposed.
+  const walk = (cur, prefix) => {
+    for (const name of readdirSync(cur)) {
+      const file = path.join(cur, name);
+      if (statSync(file).isDirectory()) { walk(file, `${prefix}${name}/`); continue; }
+      const type = TYPES[path.extname(name)];
+      if (!type) continue;
+      const buffer = readFileSync(file);
+      out.set(`${prefix}${name}`, {
+        buffer,
+        contentType: type,
+        cacheControl: VOLATILE.has(name) ? "no-cache" : "public, max-age=86400",
+        etag: etagOf(buffer),
+      });
+    }
+  };
+  walk(dir, "/");
   return out;
 }
 
